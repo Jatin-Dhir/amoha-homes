@@ -604,16 +604,29 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 }
 @media (max-width: 991px) { .hero__photo [data-hero-reveal] { height: 152%; } }
 
-/* the toggle: a quiet pair of labels at the foot of the first screen, over the picture they change */
-.hero__tabs { display: flex; align-items: center; justify-content: center; gap: var(--sp-16);
-  pointer-events: auto; }
-.hero__tabs .nav-item { padding: var(--sp-8) var(--sp-4); color: var(--c-chalk); opacity: .62;
-  transition: opacity var(--dur-m) var(--ease-out); }
-.hero__tabs .nav-item.is-active { opacity: 1; }
+/* The day/dusk toggle, at the foot of the first screen, over the picture it changes. It began as a
+   quiet pair of labels, which read as a caption rather than a control — so most visitors would never
+   discover that a dusk frame exists at all. It is now a segmented pill: the frame groups the two
+   options as one control, and the filled capsule says which one you are looking at. width:max-content
+   matters — it is a flex CHILD of .hero__bottom, so left to itself it stretched the whole viewport. */
+.hero__tabs { display: flex; align-items: center; justify-content: center; gap: 0;
+  width: max-content; margin-inline: auto; pointer-events: auto;
+  padding: var(--sp-4); border: 1px solid rgba(247, 245, 238, .3); border-radius: 999px;
+  background: rgba(16, 32, 26, .26); backdrop-filter: blur(6px); }
+.hero__tabs .nav-item { padding: var(--sp-8) var(--sp-16); color: var(--c-chalk); opacity: .72;
+  border-radius: 999px;
+  transition: opacity var(--dur-m) var(--ease-out), background var(--dur-m) var(--ease-out); }
+.hero__tabs .nav-item.is-active { opacity: 1; background: rgba(247, 245, 238, .24); }
 .hero__tabs .nav-item:hover { opacity: 1; }
 .hero__tabs .l2 { letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
-.hero__tabs-divider { width: 1px; height: var(--u-16); background: var(--c-chalk); opacity: .34; }
+.hero__tabs-divider { display: none; }   /* the capsule marks the active side; a rule as well is noise */
 @media (max-width: 991px) { .hero__tabs .nav-item { min-height: 44px; display: flex; align-items: center; } }
+/* One pulse a few seconds in if nobody has touched it, so the second frame is discoverable without
+   nagging. js/components.js arms this once and never repeats it. */
+@keyframes amoha-tab-hint { 0%, 100% { box-shadow: 0 0 0 0 rgba(247, 245, 238, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(247, 245, 238, .16); } }
+.hero__tabs.is-hinting { animation: amoha-tab-hint 2.4s var(--ease-out) 2; }
+@media (prefers-reduced-motion: reduce) { .hero__tabs.is-hinting { animation: none; } }
 
 /* The clip sits exactly over its own still, in the same frame, with the same reveal treatment
    (data-hero-reveal gives it the 170% height and the scroll tween). It starts invisible and only
@@ -643,3 +656,37 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    word the heading happened to finish on, at a different x for every row. Taking the label out of
    the positioning chain lets them resolve against the full-width row and line up on one edge. */
 .other-card__label { position: static; }
+
+/* The wordmark is chalk on an open sky, so on the bright day frame it was light-on-light. A thin
+   dark stroke gives it an edge without darkening the letterform: paint-order puts the stroke
+   behind the fill, so it outlines the glyph instead of eating into it. */
+.hero__name { -webkit-text-stroke: 1.1px rgba(16, 32, 26, .3); paint-order: stroke fill;
+  text-shadow: 0 calc(var(--u-2)) calc(var(--u-16)) rgba(16, 32, 26, .22); }
+@media (max-width: 991px) { .hero__name { -webkit-text-stroke-width: .7px; } }
+
+/* Everything else in the hero is chalk over a photograph too, and the renders are not uniformly
+   dark: the Gardens rooftops and the landing's cloud bank are both near-white behind white type.
+   The wordmark earns a stroke because it is display size; body copy at 15-18px would only look
+   muddy with one, so it gets the shadow alone — enough to hold an edge on a pale patch, invisible
+   against sky. .hero__accent is the italic locality line under the name. */
+.hero__sub, .hero__proof, .hero__tagline, .hero__accent {
+  text-shadow: 0 1px calc(var(--u-12)) rgba(16, 32, 26, .38);
+}
+
+/* The secondary CTA is a chalk hairline around chalk type, which disappears completely where the
+   hero photograph goes white — the cloud bank behind it on a phone, the pale rooftops on Gardens.
+   The same translucent ground the day/dusk pill uses gives the outline something to sit on. It
+   goes UNDER .btn_bg_fill, so the hover wipe still slides chalk over the top unchanged. */
+.hero__ctas .btn:not(.is-solid) .btn_bg {
+  background: rgba(16, 32, 26, .22); backdrop-filter: blur(4px);
+}
+
+/* The fixed nav is chalk while it sits over photography (initThemes gives it t-color over the hero, from the
+   section behind it) and the landing puts it directly on the bougainvillea, where white serif on
+   hot pink lost its edges and the rules under "Our projects" disappeared into the flowers. The
+   shadow is scoped by exclusion: every theme but t-light is chalk on imagery. Over cream it is dark on light and needs
+   nothing. Same reasoning as the wordmark's stroke — separation, not decoration. */
+.ui-nav:not(.t-light) .link_label_text .h6,
+.ui-nav:not(.t-light) .nav-item_label_text .l2 { text-shadow: 0 1px 10px rgba(16, 32, 26, .45); }
+.ui-nav:not(.t-light) .link_label_text .h6 { -webkit-text-stroke: .5px rgba(16, 32, 26, .22); paint-order: stroke fill; }
+

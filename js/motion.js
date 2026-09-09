@@ -30,7 +30,10 @@ window.ERA = window.ERA || {};
     if (ERA.reduced) return null;
     const lenis = new Lenis({
       wrapper: ERA.wrapper || window, content: ERA.content || document.documentElement,
-      duration: 1.2, smoothWheel: true, touchMultiplier: 2,
+      // Slower and longer-settling than the default. This page is a sequence of set pieces — a
+      // reveal, an arch, two horizontal chapters — and at 1.2/1.0 a single wheel flick threw you
+      // past them. Less distance per notch, a longer glide to rest.
+      duration: 1.6, smoothWheel: true, wheelMultiplier: 0.78, touchMultiplier: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
     });
     if (ERA.wrapper) ScrollTrigger.defaults({ scroller: ERA.wrapper });

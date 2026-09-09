@@ -114,12 +114,30 @@
       if (!v || v.dataset.heroLoaded) return;
       v.dataset.heroLoaded = '1';
       v.src = v.dataset.heroVideo;
-      v.addEventListener('canplay', () => { v.classList.add('is-ready'); v.play().catch(() => {}); }, { once: true });
+      // only the frame on screen plays; the warmed one is decoded and held, not run
+      v.addEventListener('canplay', () => { v.classList.add('is-ready'); if (visible(v)) v.play().catch(() => {}); }, { once: true });
       v.addEventListener('error', () => { v.remove(); }, { once: true });    // no clip served: the still stands
       v.load();
     };
     const visible = (v) => { const p = v.closest('[data-tab-content]'); return !p || getComputedStyle(p).display !== 'none'; };
     vids.filter(visible).forEach(load);
+
+    // Fetch the other frame once the visible one is running and the page has gone quiet. Waiting
+    // for the toggle meant pressing it dropped you onto a still while 3.9MB downloaded — which
+    // reads as "changing to dusk stopped the video". This way the swap is immediate.
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 2500));
+    const warm = () => idle(() => vids.filter((v) => !visible(v)).forEach(load));
+    const first = vids.find(visible);
+    if (first) first.addEventListener('canplay', () => setTimeout(warm, 1200), { once: true });
+    else warm();
+
+    // and point the control out once, quietly, so the second frame is actually discovered
+    const tabs = document.querySelector('.hero__tabs');
+    if (tabs && !ERA.reduced) {
+      let touched = false;
+      arr('[data-tab-trigger]').forEach((t) => t.addEventListener('click', () => { touched = true; tabs.classList.remove('is-hinting'); }, { once: true }));
+      setTimeout(() => { if (!touched) tabs.classList.add('is-hinting'); }, 6000);
+    }
 
     arr('[data-tab-trigger]').forEach((t) => t.addEventListener('click', () => {
       // A toggle means the reader has asked for the other view, so fetch it — load() is idempotent
@@ -127,6 +145,10 @@
       // finished, though: ERA.initHeroTabs only hides the outgoing panel at the end of it, so an
       // earlier check finds both visible and pauses neither.
       vids.forEach(load);
+      // The warmed clip's canplay already fired while it was hidden, so nothing would ever start
+      // it. Play whatever the swap has just put on screen, then pause the outgoing one once the
+      // cross-fade has finished (checking earlier finds both visible and pauses neither).
+      gsap.delayedCall(0.08, () => vids.forEach((v) => { if (visible(v) && v.dataset.heroLoaded) v.play().catch(() => {}); }));
       gsap.delayedCall(D.m + 0.2, () => {
         vids.filter((v) => !visible(v)).forEach((v) => v.pause());   // no decoding behind a hidden panel
       });
