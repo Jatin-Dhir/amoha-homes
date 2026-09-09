@@ -51,7 +51,9 @@
           // street are in view. 170% tall means 70% of the window's height is held in reserve,
           // which is 41.2% of the picture's own height — that is the whole travel.
           const reveal = bg.querySelectorAll('[data-hero-reveal]');
-          if (reveal.length) tl.fromTo(reveal, { yPercent: 0 }, { yPercent: -41.2, ease: 'none', duration: 0.6 }, 0);
+          // 0.27 of the 0.6 timeline, so the picture finishes revealing at 45% of the hero scroll and
+          // the building stands fully in view for a beat before the dome starts to rise over it.
+          if (reveal.length) tl.fromTo(reveal, { yPercent: 0 }, { yPercent: -41.2, ease: 'none', duration: 0.27 }, 0);
           const drifter = bg.querySelector('[data-hero-drift]');
           if (drifter) {                                                          // a photograph: let it drift
             gsap.set(drifter, { scale: 1.14, transformOrigin: '50% 50%' });      // headroom for the drift, set once

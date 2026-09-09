@@ -64,7 +64,7 @@ body { background: var(--c-paper); }
 .loc-path__map text.sub { font-weight: 400; }
 
 /* ---------- landing: a leaf-green field, the sprays in the corners, the name set with weight ---------- */
-.hero__area { height: calc(var(--vh) * 2.2 + var(--arch-r)); }   /* the arch below overlaps by its own radius, so the hero keeps its full run */           /* one viewport of scroll lifts the composition out; no dive-zoom to fill more */
+.hero__area { height: calc(var(--vh) * 3 + var(--arch-r)); }   /* the arch overlaps by its own radius (756px), so the hero needs room for the building to stand clear before the dome rises */   /* the arch below overlaps by its own radius, so the hero keeps its full run */           /* one viewport of scroll lifts the composition out; no dive-zoom to fill more */
 .hero__field { position: relative; height: var(--vh); min-height: 0; aspect-ratio: auto; background: var(--c-leaf); overflow: clip; }
 .hero__glow { position: absolute; inset: -12% 0 0; z-index: 0; pointer-events: none;                     /* a little light from below; it rises on scroll */
   background: radial-gradient(120% 80% at 50% 110%, rgba(207, 219, 196, var(--glow-a, .2)), transparent 60%); }
@@ -118,7 +118,7 @@ body { background: var(--c-paper); }
   .hero__proof { display: none; }
 }
 @media (max-width: 991px) {
-  .hero__area { height: calc(var(--vh) * 1.8); }
+  .hero__area { height: calc(var(--vh) * 2.3); }   /* same reasoning as desktop: the building needs a beat in view before the dome */
   .hero__content { padding-bottom: calc(var(--u-40) * 5); }
   .hero__brand { grid-area: 1 / 1 / 2 / 5; }
   .hero__name { font-size: calc(var(--fs-h1) * .74); }
