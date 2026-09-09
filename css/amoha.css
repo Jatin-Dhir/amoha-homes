@@ -579,17 +579,24 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    Day and night are two stacked panels, swapped by the toggle at the foot of the screen (never
    automatically — the reader asks for it). ERA.initHeroTabs cross-fades their .img-w. */
 .hero__photo { position: absolute; inset: 0; z-index: 0; overflow: clip; }
-.hero__photo .img-w, .hero__photo picture { display: block; width: 100%; height: 100%; }
-.hero__photo img { width: 100%; height: 100%; object-fit: cover; }
+.hero__photo .img-w { display: block; position: relative; width: 100%; height: 100%; overflow: clip; }
+.hero__photo picture { display: contents; }   /* so the img positions against .img-w, not the picture */
+/* Both the still and the clip are laid out identically — anchored to the top of the window, the
+   surplus hanging below it. The rule must NOT be scoped to img: the landing carries a <video> over
+   its still, and while js/scenes.js tweens every [data-hero-reveal], an `img[...]` selector left the
+   clip at window height. It was cover-cropped to a middle band with no sky, then translated 41% of
+   its own height straight up and out of frame — which is what wrecked the reveal. */
+.hero__photo img, .hero__photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 /* Only the square landing frame is taller than its window. The project heroes are wide renders;
    giving them 170% height would upscale them ~1.4x and crop their sides away. data-hero-reveal is
    the single marker: it drives this height and the scroll tween in js/scenes.js. */
-.hero__photo img[data-hero-reveal] {
+.hero__photo [data-hero-reveal] {
+  inset: 0 auto auto 0;                     /* top-anchored, so height is free to exceed the window */
   height: 170%;                             /* the surplus is what scrolling reveals */
   object-position: 50% 0%;                  /* start at the top of the frame — the sky */
   will-change: transform;
 }
-@media (max-width: 991px) { .hero__photo img[data-hero-reveal] { height: 152%; } }
+@media (max-width: 991px) { .hero__photo [data-hero-reveal] { height: 152%; } }
 
 /* the toggle: a quiet pair of labels at the foot of the first screen, over the picture they change */
 .hero__tabs { display: flex; align-items: center; justify-content: center; gap: var(--sp-16);
@@ -605,7 +612,9 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 /* The clip sits exactly over its own still, in the same frame, with the same reveal treatment
    (data-hero-reveal gives it the 170% height and the scroll tween). It starts invisible and only
    fades in once it can play, so the still is never replaced by a black box on a slow link. */
-.hero__video { position: absolute; inset: 0; z-index: 1; opacity: 0;
+/* position/size come from the shared [data-hero-reveal] rule above — setting inset:0 here would
+   pin the clip back to the window height and undo the tall frame it needs */
+.hero__video { z-index: 1; opacity: 0;
   transition: opacity 1.1s cubic-bezier(.16, 1, .3, 1); pointer-events: none; }
 .hero__video.is-ready { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .hero__video { display: none; } }
