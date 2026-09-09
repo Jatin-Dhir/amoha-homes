@@ -556,7 +556,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 /* The landing pair: the same corner at daylight and at golden hour, stacked. The dusk frame starts
    hidden and is cross-faded in by the hero scene as the page is scrolled, so the light turns as you
    descend. Each frame keeps its own scrim, so this blends two finished images rather than two veils. */
-.hero__photo.is-dusk { opacity: 0; }
+/* superseded: the hero is square and revealed by scroll, see the block at the end */
 
 /* The landing photograph is now a street corner, not a park pavilion, so its framing and its scrim
    both need re-tuning. The frame is 26% taller than the field (parallax headroom), so a 42% object
@@ -564,8 +564,40 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    sky. And the old veil was built for a golden-hour render: at .58-.74 it turned a bright blue
    daylight sky into flat grey. The daylight frame gets a lighter veil, weighted to the top where the
    wordmark sits and to the foot where the tagline crosses the sunlit facade. */
-.hero__photo img { object-position: 50% 62%; }
+/* superseded: the hero is square and revealed by scroll, see the block at the end */
 .hero__photo:not(.is-dusk)::after {
   background: radial-gradient(30% 40% at 50% 8%, rgba(16, 32, 26, .5), transparent),
     linear-gradient(180deg, rgba(18, 30, 24, .5) 0%, rgba(18, 30, 24, .26) 44%, rgba(16, 32, 26, .58) 100%);
 }
+
+/* ---------- the landing photograph: sky first, the building revealed by scrolling ----------
+   The frame is deliberately square, so it is taller than the viewport. At rest the visible window
+   sits at the TOP of it — sky, with the wordmark on it — and scrolling translates the picture up
+   until the building and the street are in view. That is the move the original site opens with, and
+   it is why these renders must not be cropped to a letterbox: a wide crop throws away the sky and
+   leaves the reveal nothing to reveal.
+   Day and night are two stacked panels, swapped by the toggle at the foot of the screen (never
+   automatically — the reader asks for it). ERA.initHeroTabs cross-fades their .img-w. */
+.hero__photo { position: absolute; inset: 0; z-index: 0; overflow: clip; }
+.hero__photo .img-w, .hero__photo picture { display: block; width: 100%; height: 100%; }
+.hero__photo img { width: 100%; height: 100%; object-fit: cover; }
+/* Only the square landing frame is taller than its window. The project heroes are wide renders;
+   giving them 170% height would upscale them ~1.4x and crop their sides away. data-hero-reveal is
+   the single marker: it drives this height and the scroll tween in js/scenes.js. */
+.hero__photo img[data-hero-reveal] {
+  height: 170%;                             /* the surplus is what scrolling reveals */
+  object-position: 50% 0%;                  /* start at the top of the frame — the sky */
+  will-change: transform;
+}
+@media (max-width: 991px) { .hero__photo img[data-hero-reveal] { height: 152%; } }
+
+/* the toggle: a quiet pair of labels at the foot of the first screen, over the picture they change */
+.hero__tabs { display: flex; align-items: center; justify-content: center; gap: var(--sp-16);
+  pointer-events: auto; }
+.hero__tabs .nav-item { padding: var(--sp-8) var(--sp-4); color: var(--c-chalk); opacity: .62;
+  transition: opacity var(--dur-m) var(--ease-out); }
+.hero__tabs .nav-item.is-active { opacity: 1; }
+.hero__tabs .nav-item:hover { opacity: 1; }
+.hero__tabs .l2 { letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
+.hero__tabs-divider { width: 1px; height: var(--u-16); background: var(--c-chalk); opacity: .34; }
+@media (max-width: 991px) { .hero__tabs .nav-item { min-height: 44px; display: flex; align-items: center; } }

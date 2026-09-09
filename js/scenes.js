@@ -46,11 +46,12 @@
           });
           const glow = bg.querySelector('[data-hero-glow]');
           if (glow) tl.fromTo(glow, { opacity: 0.55 }, { opacity: 1, ease: 'none', duration: 0.6 }, 0);
-          // the same corner twice, daylight and golden hour: the light turns as you descend into
-          // the page. Both frames carry their own scrim, so this cross-fades between two finished
-          // images rather than stacking two veils.
-          const dusk = bg.querySelector('[data-hero-dusk]');
-          if (dusk) tl.fromTo(dusk, { opacity: 0 }, { opacity: 1, ease: 'none', duration: 0.52 }, 0.04);
+          // The landing frame is square and taller than the window: the first screen is sky with
+          // the wordmark on it, and scrolling walks the picture up until the building and the
+          // street are in view. 170% tall means 70% of the window's height is held in reserve,
+          // which is 41.2% of the picture's own height — that is the whole travel.
+          const reveal = bg.querySelectorAll('[data-hero-reveal]');
+          if (reveal.length) tl.fromTo(reveal, { yPercent: 0 }, { yPercent: -41.2, ease: 'none', duration: 0.6 }, 0);
           const drifter = bg.querySelector('[data-hero-drift]');
           if (drifter) {                                                          // a photograph: let it drift
             gsap.set(drifter, { scale: 1.14, transformOrigin: '50% 50%' });      // headroom for the drift, set once
