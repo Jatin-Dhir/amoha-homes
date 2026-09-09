@@ -98,6 +98,46 @@
     });
   };
 
+  /* ---------- the living landing: the photograph, but with the weather in it ----------
+     The still is the base layer and stays the hero: it is what paints first, what a slow link
+     keeps, and what anyone with reduced motion sees. The clip is loaded only after the page is
+     built, and only fades in once it can actually play, so it can never delay or replace the
+     picture — it just brings the clouds, the foliage and the light to life behind the wordmark.
+     Only the panel on screen is fetched; the other is fetched the first time you ask for it. */
+  ERA.initHeroVideo = function () {
+    const vids = arr('[data-hero-video]'); if (!vids.length) return;
+    if (ERA.reduced) return;                                  // the still is the whole hero here
+    const c = navigator.connection;
+    if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;   // metered or slow: leave the still
+
+    const load = (v) => {
+      if (!v || v.dataset.heroLoaded) return;
+      v.dataset.heroLoaded = '1';
+      v.src = v.dataset.heroVideo;
+      v.addEventListener('canplay', () => { v.classList.add('is-ready'); v.play().catch(() => {}); }, { once: true });
+      v.addEventListener('error', () => { v.remove(); }, { once: true });    // no clip served: the still stands
+      v.load();
+    };
+    const visible = (v) => { const p = v.closest('[data-tab-content]'); return !p || getComputedStyle(p).display !== 'none'; };
+    vids.filter(visible).forEach(load);
+
+    arr('[data-tab-trigger]').forEach((t) => t.addEventListener('click', () => {
+      // A toggle means the reader has asked for the other view, so fetch it — load() is idempotent
+      // and this avoids depending on when gsap flips the panels. Pause after the cross-fade has
+      // finished, though: ERA.initHeroTabs only hides the outgoing panel at the end of it, so an
+      // earlier check finds both visible and pauses neither.
+      vids.forEach(load);
+      gsap.delayedCall(D.m + 0.2, () => {
+        vids.filter((v) => !visible(v)).forEach((v) => v.pause());   // no decoding behind a hidden panel
+      });
+    }));
+
+    document.addEventListener('visibilitychange', () => {
+      vids.forEach((v) => { if (!v.dataset.heroLoaded) return;
+        if (document.hidden) v.pause(); else if (visible(v)) v.play().catch(() => {}); });
+    });
+  };
+
   /* ---------- amenity tabs with sliding hairline highlight ---------- */
   ERA.initTabs = function () {
     arr('[data-tabs]').forEach((root) => {

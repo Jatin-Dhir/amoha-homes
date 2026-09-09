@@ -601,3 +601,11 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 .hero__tabs .l2 { letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
 .hero__tabs-divider { width: 1px; height: var(--u-16); background: var(--c-chalk); opacity: .34; }
 @media (max-width: 991px) { .hero__tabs .nav-item { min-height: 44px; display: flex; align-items: center; } }
+
+/* The clip sits exactly over its own still, in the same frame, with the same reveal treatment
+   (data-hero-reveal gives it the 170% height and the scroll tween). It starts invisible and only
+   fades in once it can play, so the still is never replaced by a black box on a slow link. */
+.hero__video { position: absolute; inset: 0; z-index: 1; opacity: 0;
+  transition: opacity 1.1s cubic-bezier(.16, 1, .3, 1); pointer-events: none; }
+.hero__video.is-ready { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hero__video { display: none; } }
