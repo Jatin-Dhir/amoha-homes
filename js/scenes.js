@@ -72,7 +72,11 @@
     if (concept) {
       const box = concept.querySelector('[data-scene-box]'), p = concept.querySelectorAll('[data-part="p"]'), ctn = concept.querySelectorAll('[data-part="ctn"]');
       ERA.animP(p, 'initial'); ERA.animCtn(ctn, 'initial');
-      gsap.timeline({ scrollTrigger: { trigger: concept, start: 'top 30%', end: 'bottom bottom', scrub: 0.5,
+      // 'top 30%' → 'bottom bottom' was written for the pinned desktop chapter, where the trigger is
+      // several screens tall. Unpinned below 992 it is only ~751px, so the two bounds collapse into
+      // a ~160px window and the block sat at opacity 0 while 81% of it was on screen.
+      const bounds = mob ? { start: 'top 85%', end: 'top 40%' } : { start: 'top 30%', end: 'bottom bottom' };
+      gsap.timeline({ scrollTrigger: { trigger: concept, start: bounds.start, end: bounds.end, scrub: 0.5,
         onEnter: () => { ERA.animP(p, 'reveal', 0.1); ERA.animCtn(ctn, 'reveal', 0.1); },
         onLeaveBack: () => { ERA.animP(p, 'hide', 0); ERA.animCtn(ctn, 'hide', 0); } } })
         .fromTo(box, { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, ease: 'none' }, 0);

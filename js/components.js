@@ -223,6 +223,7 @@
       const b = new SplitText(texts[1], { type: 'words,chars', tag: 'span', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true });
       const lines = a.lines.map((l) => { const s = document.createElement('span'); s.className = 'link_line'; l.appendChild(s); return s; });
       gsap.set(lines, { scaleX: 1, transformOrigin: 'right center' });
+      gsap.set(texts[1], { opacity: 1 });          // see the note in initNavHover
       gsap.set(b.chars, { opacity: 0, x: '-0.4em', yPercent: 25, rotateY: 90 });
       const enter = () => {
         gsap.fromTo(a.chars, { opacity: 1, x: '0em', yPercent: 0, rotateY: 0 }, { opacity: 0, x: '0.4em', yPercent: -25, rotateY: -90, duration: D.m, ease: 'eraOut', stagger: D.stagger / 4, overwrite: true, force3D: true });
@@ -246,6 +247,9 @@
       const texts = item.querySelectorAll('.nav-item_label_text'); if (texts.length < 2) return;
       const a = new SplitText(texts[0], { type: 'words,chars', tag: 'span', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true, mask: 'words' });
       const b = new SplitText(texts[1], { type: 'words,chars', tag: 'span', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true, mask: 'words' });
+      // css/amoha.css hides .is-2 outright, because this whole function returns early below 992
+      // and the twin was painting on top of the first copy. Reveal the container we now drive.
+      gsap.set(texts[1], { opacity: 1 });
       gsap.set(b.chars, { yPercent: 100, opacity: 0 });
       item.addEventListener('mouseenter', () => {
         gsap.fromTo(a.chars, { opacity: 1, yPercent: 0 }, { opacity: 0, yPercent: -100, duration: D.m, ease: 'eraEase', stagger: byX(2 * D.stagger), overwrite: true, force3D: true });
@@ -298,7 +302,11 @@
       } else {
         gsap.to(box, { scale: 1, rotateX: 90, yPercent: 200, rotate: 25, duration: D.m, ease: 'eraIn', overwrite: true, onComplete: () => gsap.set([m, over], { display: 'none' }) });
       }
-      ERA.unlockScroll();
+      // Only give scrolling back once nothing is open. "Enquire now" inside the menu carries both
+      // data-modal-open="cta" and data-modal-close="menu"; the open ran first and locked, then this
+      // unconditional unlock handed the page straight back — the sheet sat over a page that scrolled
+      // 1,599px behind it. The guard also covers any future modal-to-modal hop.
+      if (!Object.keys(state).some((k) => state[k])) ERA.unlockScroll();
     };
     ERA.openModal = open; ERA.closeModal = close;
     arr('[data-modal-open]').forEach((btn) => btn.addEventListener('click', (e) => { e.preventDefault(); const name = btn.dataset.modalOpen; if (name === 'menu' && state.menu) { close('menu'); return; } open(name); }));

@@ -392,3 +392,163 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
    rather than appearing once the motion engine has waited on the fonts */
 html.is-arriving .pt { display: block; }
 html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); }
+
+/* =========================================================
+   Audit fixes — mobile, tablet and the project pages.
+   Measured findings, each verified independently before it was acted on.
+   ========================================================= */
+
+/* 1. The menu button printed its own icon through the word "Menu". .btn-menu .ico.ia-2 is
+   position:absolute (sections.css:21) but its .ico-24 parent is static, so `inset:0` resolved
+   against the fixed nav and the duplicate glyph stretched across the whole 75x22.5 box — landing
+   on the label and silently widening the hit area to the entire nav. */
+.btn-menu .ico-24 { position: relative; }
+
+/* 2. Reading sizes had no floor. Every text step is a pure-vw calc off `1rem = 1vw`, and the
+   <=991 block remaps the display steps but never p1/p2/l1/l2. Result: 12.2px body on a phone and
+   8.1px body in a 1024px-wide desktop window (534 elements measured under 9px). Floors, not
+   rewrites — above the floor each step still scales with the viewport as designed.
+   .l1 chains off --fs-p1 (line 58 above), so it needs no floor of its own. */
+:root {
+  --fs-p1: max(15px, calc(13 * var(--px)));
+  --fs-p2: max(13px, calc(11 * var(--px)));
+  --fs-l2: max(11px, calc(9 * var(--px)));   /* the secondary nav links were the smallest type on the page */
+  --fs-h6: max(14px, calc(28 * var(--px)));
+}
+@media (max-width: 991px) {
+  :root {
+    --fs-p1: max(16px, calc(17 * var(--px)));
+    --fs-p2: max(14px, calc(15 * var(--px)));
+    --fs-l2: max(12px, calc(13 * var(--px)));
+  }
+  /* iOS zooms the page when a focused field is under 16px */
+  .field input, .field textarea { font-size: max(16px, var(--fs-p1)); }
+  /* the only nav control on a phone measured 48.7 x 22.5 */
+  .btn-menu { min-height: 44px; min-width: 44px; padding: 0 var(--sp-8); }
+  .btn, .btn-ico { min-height: 44px; }
+}
+
+/* 4. On a wide-but-short window the hero reserved its tagline strip twice — once via --hero-foot,
+   once via a mobile padding-bottom — and both derive from viewport WIDTH. At 991x800 the two
+   exceeded the viewport, the content box collapsed to zero usable height and the wordmark was
+   pushed off the top of the screen entirely. One reservation, expressed in height units. */
+:root { --hero-foot: clamp(96px, 18svh, 200px); }
+@media (max-width: 991px) {
+  .hero__content { padding-bottom: 0; }
+  .hero__brand { max-height: calc(100svh - var(--hero-foot)); }
+  .hero__accent { margin-top: var(--u-12); }   /* 0.0px gap under the name on all four project pages */
+}
+@media (max-height: 700px) { .hero__proof { display: none; } }   /* the guard was desktop-only */
+
+/* 5. The fixed chrome had no ground and stole taps. The logo is a 75x75 anchor around a 37px
+   mark, so its empty ring covered the top-left corner of all four project cards; the mark was a
+   fixed-colour raster, so the theme swap could not reach it and it vanished on pale sections. */
+.ui-logo { pointer-events: none; }
+.ui-logo__symbol, .ui-logo a { pointer-events: auto; }
+.logo { background: currentColor;                       /* masked, so the mark follows --fg */
+  -webkit-mask: url("../assets/img/amoha-mark.png") center / contain no-repeat;
+  mask: url("../assets/img/amoha-mark.png") center / contain no-repeat; }
+@media (max-width: 991px) {
+  .ui-logo { width: var(--u-48); height: var(--u-48); }
+  .hero__flower.is-l { top: calc(var(--u-40) * 1.5); left: calc(var(--u-40) * -3); }   /* was under the badge */
+}
+
+/* 6. The figures strip forced 5 fixed tracks for 6 children: 990px of tracks in an 847px column,
+   overflowing 144px and throwing the row 72px off centre, with captions on four baselines. */
+.apart-info .data-list.stats { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); align-content: start; }
+.apart-info .data-list.stats > div { min-width: 0; }
+.apart-info .data-list.stats .h5 { min-height: 2lh; }    /* a wrapping value no longer drags its caption down */
+.project-overview .apart-info__w .grid { position: relative; z-index: 2; }   /* text wins over the spray */
+@media (max-width: 991px) {
+  .apart-info .data-list.stats { grid-template-columns: repeat(2, 1fr); }
+  .apart-info .data-list.stats > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* 7. Accordion toggles were anchored to the end of each centred title, so they floated at four
+   different x positions and the last one hung outside the container; closed rows were 31px tall
+   with no padding, border or gap and read as one run-on paragraph. */
+.other-card__name { position: relative; }
+.other-card__ico { left: auto; right: 0; top: 50%; transform: translateY(-50%); width: var(--u-24); height: var(--u-24); }
+.other-card + .other-card { margin-top: var(--sp-32); }
+@media (min-width: 992px) { .other-card__desc { align-items: flex-start; } }
+@media (max-width: 991px) {
+  .other-card__name { padding-block: var(--sp-12); border-bottom: 1px solid var(--fg-line); }
+  .other-card__name, .other-card__label, .other-card .a-center { text-align: left; }
+}
+
+/* 8. The projects lede spanned columns 3-9 of a grid that collapses to 4 columns below 992, so it
+   forced four implicit tracks and landed 45px off optical centre, in four short lines. */
+@media (max-width: 991px) { .apart__lede { grid-area: 1 / 1 / 2 / 5; } }
+
+/* 9. The route map is a 250%-wide silent scroller: 60% of it was unreachable at every width below
+   992, with no scrollbar and, in a desktop window, no touch drag either. Sizing it to its own
+   content removes the scroll entirely above ~975px and leaves the phone behaviour intact. */
+.loc-path__map svg { width: max(100%, 975px); }
+.loc-path__map text { font-size: 14px; }
+@media (max-width: 991px) {
+  .loc-path__map { -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
+    mask-image: linear-gradient(to right, #000 88%, transparent); }
+}
+
+/* 10. Footer labels painted twice. The hover-roll's second copy is only ever hidden by JS, and
+   that JS returns early below 992 — so four lines rendered pixel-on-pixel and read as a font bug.
+   Hide the twin in CSS; the hover handlers reveal it when they take it over. */
+.nav-item_label_text.is-2, .link_label_text.is-2 { opacity: 0; }
+
+/* 11. The footer was two thirds empty on a phone, its largest element a placeholder phone number. */
+@media (max-width: 991px) {
+  .footer__s { height: auto; min-height: var(--vh); justify-content: flex-start;
+    gap: var(--u-64); padding-block: var(--u-64); }
+  .footer__t, .footer__b { flex: none; height: auto; }   /* both were flex:1, which reopened the gap the min-height had just closed */
+  .legal-list > * > *, .credits a { padding-block: var(--sp-12); }
+}
+
+/* 12. The project overview lede was typeset as display: 59.5px over 7 lines on desktop, 37.5px
+   over 14 lines on a phone — taller than the screen, so a whole viewport showed the middle of one
+   paragraph with neither its start nor its end in view. Its 26em cap never bound. */
+.project-overview .info-lead .h4 { font-size: calc(var(--fs-h5) * 1.05); max-width: 34ch;
+  line-height: 1.25; margin-inline: auto; }
+@media (max-width: 991px) { .project-overview .info-lead .h4 { margin-bottom: var(--u-24); } }
+
+/* 16. A dead-straight luminance step cut across the hero render: the glow layer's bottom edge is
+   still opaque, and its parallax drags that edge into frame. Give it bleed below the fold. */
+.hero__glow { inset: -12% 0 -40%; }
+
+/* 17. First paint showed the intro's END state — gold mark, full rule, address, no arch — for
+   ~350ms warm and 3.8s on a slow link, then wiped back and replayed. Every start state was set in
+   JS and none in CSS. Author them here so the first painted frame is already a closed door. */
+.pl__wall { clip-path: none; }                 /* a solid wall until js punches the opening */
+.pl__draw { visibility: hidden; }              /* revealed once its strokes have been dashed */
+.pl__ground, .pl__key { opacity: 0; }
+.pl__place { visibility: hidden; }   /* the js drives .pl__place, not the wrapper */
+.pl__rule { transform: scaleX(0); }
+
+/* 20. Dead vertical space: a 165px-tall box holding a 0.75px hairline is 19.6% of a phone screen. */
+@media (max-width: 991px) { .divider { height: calc(var(--cell-v) + var(--gap)); } }
+/* the arch crown to the first principle ran 215-302px of near-empty green */
+@media (min-width: 992px) { .benefits.arch > .container { padding-top: min(calc(var(--arch-r) * .42), 22svh); } }
+
+/* 21. Every spray is sized in pure-vw units, so on a short wide window they reached 143% of the
+   viewport height. Cap against the short axis as well. */
+.flower { width: min(calc(var(--u-40) * 10), 62svh); height: auto; }
+@media (min-width: 992px) { .other .flower, .loc-info .flower, .apart-info .flower { max-height: 78svh; } }
+
+/* 22. Focus was suppressed on fields by a rule more specific than the global :focus-visible. */
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--c-bloom); outline-offset: 2px; }
+@media (max-width: 991px) {
+  .modal__c { overflow-y: auto; overscroll-behavior: contain; padding-block: var(--sp-32); }
+  .modal-cta__desc { width: 100%; }
+  .modal-cta__form { gap: var(--sp-32); }
+}
+
+/* 3. The vision statement now renders below 992 (the b-desk wrapper is gone in the builder). Give
+   it room over the photograph, and a floor under the picture so the type has ground to sit on. */
+@media (max-width: 991px) {
+  .quote__bg { aspect-ratio: 3 / 4; }
+  .quote__s { padding: 0 var(--offset) var(--sp-32); }
+  .quote__c { grid-area: 1 / 1 / 2 / 5; }
+  .quote__ico, .quote__author { grid-column: 1 / -1; }   /* auto-placement gave them one 4th-width column, so both wrapped to two lines */
+  .quote__author { display: flex; gap: var(--sp-16); flex-flow: row wrap; }
+  .quote .red-line { display: none; }
+  .quote__s .h5 { text-wrap: pretty; }
+}

@@ -66,7 +66,10 @@ window.ERA = window.ERA || {};
   const splitLines = (el) => el._split || (el._split = new SplitText(el, { type: 'lines,words', tag: 'span', linesClass: 'split-line', wordsClass: 'split-word', mask: 'lines' }));
   const show = (els) => gsap.set(els, { visibility: 'visible' });
 
-  /* ---------- text & container animators: mode = initial | reveal | hide ---------- */
+  /* ---------- text & container animators: mode = initial | reveal | hide ----------
+     Character staggers are capped with gsap's `amount`: at a flat 0.05s each, a 47-character
+     heading took 3.8s and was read half-drawn. `amount` spreads the same stagger across a fixed
+     total however many characters there are. */
   // accent script: characters swing in around their baseline
   ERA.animA = function (els, mode, delay) {
     arr(els).forEach((el, i) => {
@@ -74,8 +77,8 @@ window.ERA = window.ERA || {};
       show(el);
       const chars = splitChars(el).chars, off = i * D.stagger;
       if (mode === 'reveal') gsap.fromTo(chars, { opacity: 0, rotateX: 90, x: '10rem', transformOrigin: 'center bottom' },
-        { opacity: 1, rotateX: 0, x: '0rem', duration: D.l, delay: (delay ?? D.delay) + off, stagger: D.stagger, ease: 'eraOut', overwrite: true });
-      else if (mode === 'hide') gsap.to(chars, { opacity: 0, rotateX: -90, x: '-10rem', transformOrigin: 'center top', duration: D.s, delay: delay ?? 0, stagger: D.stagger * 0.5, ease: 'eraIn', overwrite: true });
+        { opacity: 1, rotateX: 0, x: '0rem', duration: D.l, delay: (delay ?? D.delay) + off, stagger: { each: D.stagger, amount: 0.6 }, ease: 'eraOut', overwrite: true });
+      else if (mode === 'hide') gsap.to(chars, { opacity: 0, rotateX: -90, x: '-10rem', transformOrigin: 'center top', duration: D.s, delay: delay ?? 0, stagger: { each: D.stagger * 0.5, amount: 0.3 }, ease: 'eraIn', overwrite: true });
       else gsap.set(chars, { opacity: 0, rotateX: -90, x: '-10rem', transformOrigin: 'center top' });
     });
   };
@@ -86,8 +89,8 @@ window.ERA = window.ERA || {};
       show(el);
       const chars = splitWordsChars(el).chars, off = i * D.stagger;
       if (mode === 'reveal') gsap.fromTo(chars, { opacity: 0, yPercent: 50, rotateY: 90 },
-        { opacity: 1, yPercent: 0, rotateY: 0, duration: D.l, delay: (delay ?? D.delay) + off, stagger: D.stagger * 0.5, ease: 'eraOut', overwrite: true });
-      else if (mode === 'hide') gsap.to(chars, { opacity: 0, yPercent: -50, rotateY: -90, duration: D.s, delay: delay ?? 0, stagger: D.stagger * 0.25, ease: 'eraIn', overwrite: true });
+        { opacity: 1, yPercent: 0, rotateY: 0, duration: D.l, delay: (delay ?? D.delay) + off, stagger: { each: D.stagger * 0.5, amount: 0.5 }, ease: 'eraOut', overwrite: true });
+      else if (mode === 'hide') gsap.to(chars, { opacity: 0, yPercent: -50, rotateY: -90, duration: D.s, delay: delay ?? 0, stagger: { each: D.stagger * 0.25, amount: 0.25 }, ease: 'eraIn', overwrite: true });
       else gsap.set(chars, { opacity: 0, yPercent: 50, rotateY: 90 });
     });
   };
@@ -420,7 +423,9 @@ window.ERA = window.ERA || {};
     // reduced motion: show the finished composition, hold only as long as the boot takes
     if (ERA.reduced) {
       gsap.set(pre, { '--pl-veil': 0.3, '--pl-spill': 0.07 });
-      gsap.set([key, rule], { opacity: 1, scaleX: 1 });
+      gsap.set(svg, { visibility: 'visible' });
+      gsap.set(pre.querySelector('.pl__place'), { visibility: 'visible' });
+      gsap.set([key, rule, gl], { opacity: 1, scaleX: 1 });
       const m = ERA.milestones || {};
       Promise.race([Promise.all([m.fonts, m.hero, m.built].filter(Boolean)), new Promise((r) => setTimeout(r, 1200))])
         .then(() => { ready(); gsap.to(pre, { opacity: 0, duration: 0.2, onComplete: teardown }); });
@@ -429,6 +434,7 @@ window.ERA = window.ERA || {};
 
     const dash = (p) => { const L = p.getTotalLength(); gsap.set(p, { strokeDasharray: L, strokeDashoffset: L }); return L; };
     dash(jl); dash(jr); dash(head);
+    gsap.set(svg, { visibility: 'visible' });   // css hides it until here, so first paint never shows a drawn arch
     const plate = pre.querySelector('.pl__place');
     gsap.set([gl, key], { opacity: 0 });
     gsap.set(plate, { autoAlpha: 0, y: 10 });   // a plain fade: animA flies in every character,
