@@ -42,7 +42,11 @@ body { background: var(--c-paper); }
 .btn:hover .btn_label, .btn:focus-visible .btn_label, .btn:hover .btn_label .l1 { color: var(--c-chalk); }
 .btn-circle_bg .arc { stroke: var(--c-bloom); }
 .other-card__ico .ico { color: var(--c-bloom); }
-.amen__tabs-hilight, .ui-bar__fill { background: var(--c-bloom); }
+.amen__tabs-hilight { background: var(--c-bloom); }
+/* The progress rail reads the page, it is not something you can act on, so the bloom pink was
+   wrong twice over: it broke the rule that pink means interactive, and it fixed one colour over
+   sections that run from ivory to near-black. sections.css already sets it to var(--fg), which the
+   theme sensors keep in step with whatever is behind it — so simply stop overriding it. */
 .field input:focus, .field textarea:focus { border-color: var(--c-bloom); }
 
 /* ---------- type: sentence case, soft serif, no tracked caps ---------- */
@@ -625,3 +629,17 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    as the landing lifts away, the name eases lighter and softer — a depth cue that belongs to the
    typeface instead of a bolted-on effect. js/scenes.js scrubs these two custom properties. */
 .hero__name { font-variation-settings: "opsz" 144, "SOFT" var(--nm-soft, 50), "wght" var(--nm-wght, 500); }
+
+/* 2. The facts headings sat in grid column 1 — the container's own edge — which is exactly where
+   the fixed left rail lives (x 45-174). "Why Amoha", "Master planner" and "Next chapter" all ran
+   under the progress line and its percentage. Same fault, and same fix, as the Ring Road panel:
+   indent the column past the chrome instead of starting it at the page edge. */
+@media (min-width: 992px) {
+  .other__cms { padding-left: calc(var(--cell-h) + var(--gap)); }
+  .other__cms .other-card__name { padding-right: var(--u-32); }   /* keep the +/- toggle inside */
+}
+/* The toggles are absolutely positioned, and sections.css:241 makes .other-card__label their
+   containing block — a box shrink-wrapped to each heading. So they parked at the end of whatever
+   word the heading happened to finish on, at a different x for every row. Taking the label out of
+   the positioning chain lets them resolve against the full-width row and line up on one edge. */
+.other-card__label { position: static; }
