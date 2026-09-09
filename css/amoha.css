@@ -377,3 +377,18 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .benefits .benefit__desc p { max-width: 58ch; margin-inline: auto; }
   .benefits .benefit__cap { grid-area: 1 / 3 / 2 / 7; padding: 0; }
 }
+
+/* ---------- page transition: the layers wipe, adapted from the awwwards component ----------
+   Three panels deepening from sage to root green, wiped up from the bottom edge on a stagger to
+   cover the outgoing page, and lifted off the top of the incoming one. It sits under the tips
+   layer but over everything else; `display:none` until armed so it never eats a click. */
+.pt { position: fixed; inset: 0; z-index: 10500; display: none; pointer-events: none; }
+.pt.is-on { display: block; pointer-events: auto; }
+.pt__layer { position: absolute; inset: 0; display: block; will-change: clip-path; }
+.pt__layer:nth-child(1) { background: var(--c-sage); }
+.pt__layer:nth-child(2) { background: var(--c-leaf); }
+.pt__layer:nth-child(3) { background: var(--c-root); }
+/* armed by the head script from sessionStorage, so the cover is already down at the first paint
+   rather than appearing once the motion engine has waited on the fonts */
+html.is-arriving .pt { display: block; }
+html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); }

@@ -22,6 +22,8 @@
   // motion initial states only apply when scripts run (append ?nojs to preview the static page)
   if (!/nojs/.test(location.search)) document.documentElement.classList.add('has-js');
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('is-reduced');
+  try { if (sessionStorage.getItem('amoha-pt') === '1') { document.documentElement.classList.add('is-arriving');
+    setTimeout(function () { document.documentElement.classList.remove('is-arriving'); }, 6000); } } catch (e) {}   // never leave the page covered if the engine fails to boot
 </script>
 </head>
 <body class="t-light">
@@ -72,6 +74,9 @@
     </div>
   </div>
 </div>
+
+<!-- ===== page transition: layers wipe ===== -->
+<div class="pt" data-pt aria-hidden="true"><i class="pt__layer"></i><i class="pt__layer"></i><i class="pt__layer"></i></div>
 
 <!-- ===== landscape phone cover ===== -->
 <div class="landscape-cover"><p class="l1">Please rotate your device to portrait</p></div>

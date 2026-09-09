@@ -293,6 +293,55 @@ window.ERA = window.ERA || {};
       .add(ready, '<20%');
   };
 
+  /* ---------- page transition: the layers wipe ----------
+     Adapted from "Layers Animation with Clip-path" (assets/library/components/awwwards-300/
+     Page Transitions/3), the same mechanic that drives the facts rows. Three panels wipe up to
+     cover the page you are leaving; the page you arrive on lifts them off the top instead of
+     playing the door intro a second time. */
+  ERA.initPageTransition = function () {
+    const pt = document.querySelector('[data-pt]'); if (!pt) return;
+    const layers = arr(pt.querySelectorAll('.pt__layer')); if (!layers.length) return;
+    const HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)';
+    const SHOWN = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
+    const GONE = 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)';
+    const KEY = 'amoha-pt';
+
+    // arriving through a transition: the cover is already down, so lift it rather than re-running
+    // the whole first screen for someone who has only clicked to the next page
+    let arriving = false;
+    try { arriving = sessionStorage.getItem(KEY) === '1'; sessionStorage.removeItem(KEY); } catch (e) {}
+    if (arriving && !ERA.reduced) {
+      ERA.ptArriving = true;
+      pt.classList.add('is-on');
+      gsap.set(layers, { clipPath: SHOWN });                       // inline, so it outranks the class
+      document.documentElement.classList.remove('is-arriving');    // hand off from the pre-paint arming
+    }
+    ERA.ptReveal = function () {
+      if (!ERA.ptArriving) return;
+      ERA.ptArriving = false;
+      gsap.to(layers.slice().reverse(), {
+        clipPath: GONE, duration: 0.72, ease: 'eraInOut', stagger: 0.09,
+        onComplete: () => pt.classList.remove('is-on'),
+      });
+    };
+
+    if (ERA.reduced) return;
+    document.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+      const href = a.getAttribute('href') || '';
+      if (!/^[a-z0-9-]+\.html(\?|#|$)/i.test(href)) return;      // a sibling page, nothing else
+      e.preventDefault();
+      try { sessionStorage.setItem(KEY, '1'); } catch (err) {}
+      const go = () => { location.href = href; };
+      pt.classList.add('is-on');
+      gsap.fromTo(layers, { clipPath: HIDDEN },
+        { clipPath: SHOWN, duration: 0.62, ease: 'eraInOut', stagger: 0.085, onComplete: go });
+      setTimeout(go, 1500);        // a stalled tween must never strand the reader behind the cover
+    });
+  };
+
   /* ---------- Amoha's first screen: a doorway being made passable ----------
      The site's corner badge — two gold jambs, a semicircular head, a ground line — drawn at
      architectural scale, opening onto the real hero. Each stage is bound to a boot milestone
@@ -300,6 +349,16 @@ window.ERA = window.ERA || {};
      walks straight through and a cold one still reads as deliberate. Progress is legible as how
      much light comes through the opening; there is no bar to disbelieve. */
   ERA.initDoor = function (pre, onReady) {
+    // arrived through the layers wipe: the reader has already had the first screen, so build the
+    // page behind the cover and lift it, rather than making them watch the door open again
+    if (ERA.ptArriving) {
+      pre.remove();
+      ERA.unlockScroll(); window.scrollTo(0, 0);
+      onReady && onReady();
+      ScrollTrigger.refresh();
+      gsap.delayedCall(0.12, () => ERA.ptReveal && ERA.ptReveal());
+      return;
+    }
     const zoom = document.querySelector('[data-hero-zoom]');
     let readyDone = false, downDone = false;
     const ready = () => { if (readyDone) return; readyDone = true; onReady && onReady(); };

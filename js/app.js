@@ -31,6 +31,7 @@
       setTimeout(res, 6000);
     });
     ERA.milestones = { fonts: fonts, hero: hero, built: built };
+    ERA.initPageTransition();      // must run first: it decides whether the door plays at all
     ERA.initPreloader(function () {
       ERA.initParallax();
       // real transparent clips where the files exist (skipped on Safari); the rest get the
