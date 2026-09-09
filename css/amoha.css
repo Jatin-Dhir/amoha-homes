@@ -205,21 +205,23 @@ body { background: var(--c-paper); }
   background: rgba(16, 32, 26, var(--pl-veil, .88)); }
 .pl__draw { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; overflow: visible; }
 .pl__ground { stroke: var(--fg-line); stroke-width: 1; }
-.pl__jamb, .pl__head { fill: none; stroke: var(--c-gold); stroke-width: 1.4;
+.pl__jamb, .pl__head { fill: none; stroke: var(--c-gold); stroke-width: 2;
   vector-effect: non-scaling-stroke; stroke-linecap: round; }
 /* The mark reads as the logo, not as a keystone on the arch. It takes the corner badge's exact
    box — same offset, same cell, same 48-unit symbol — so when the door dives away the logo is
    already standing where the page's own fixed badge lives, and appears simply to stay put. */
 .pl__key { position: absolute; z-index: 4; left: var(--offset); top: var(--offset);
   width: var(--cell-h); height: var(--cell-h); display: flex; align-items: center; justify-content: center; }
-.pl__key img { width: var(--u-48); }
-.pl__key img { display: block; width: 100%; height: auto; }
+/* one rule, not two: a second declaration was overriding this with width:100% and blowing the
+   mark up to the full 129px cell. It matches the corner badge exactly, so the logo appears to
+   stay put when the door opens onto the page. */
+.pl__key img { display: block; width: var(--u-48); height: auto; }
 .pl__set { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 /* a block, not a flex box: the wordmark carries a <br>, and a line break inside a flex container
    is ignored because its children are blockified into anonymous items ("AmohaHomes") */
 .pl__name { position: absolute; left: 0; right: 0; top: calc(var(--pl-crown, 22vh) * .5);
   transform: translateY(-58%); padding: 0 var(--offset); color: var(--c-chalk);
-  font-size: calc(var(--fs-h3) * .82); }   /* full h3 crowded the keystone on the crown */
+  font-size: calc(var(--fs-h3) * .64); }   /* smaller, so the doorway can carry the screen */
 .pl__plate { position: absolute; left: 0; right: 0; top: var(--pl-ground, 80vh);
   display: flex; flex-flow: column; align-items: center; padding-top: var(--u-32); }
 .pl__rule { display: block; width: var(--u-96); height: 1px; background: var(--c-gold); opacity: .55; }
@@ -618,3 +620,8 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   transition: opacity 1.1s cubic-bezier(.16, 1, .3, 1); pointer-events: none; }
 .hero__video.is-ready { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .hero__video { display: none; } }
+
+/* The wordmark is set on Fraunces's own axes, so it can be animated as type rather than as a box:
+   as the landing lifts away, the name eases lighter and softer — a depth cue that belongs to the
+   typeface instead of a bolted-on effect. js/scenes.js scrubs these two custom properties. */
+.hero__name { font-variation-settings: "opsz" 144, "SOFT" var(--nm-soft, 50), "wght" var(--nm-wght, 500); }

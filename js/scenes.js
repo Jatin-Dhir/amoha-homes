@@ -54,6 +54,12 @@
           // 0.27 of the 0.6 timeline, so the picture finishes revealing at 45% of the hero scroll and
           // the building stands fully in view for a beat before the dome starts to rise over it.
           if (reveal.length) tl.fromTo(reveal, { yPercent: 0 }, { yPercent: -41.2, ease: 'none', duration: 0.27 }, 0);
+          // The wordmark relaxes on the typeface's own axes as it departs — lighter and softer,
+          // which reads as distance rather than as a fade. Fraunces carries wght and SOFT, so this
+          // is the type responding, not an effect laid over it.
+          const nameEl = content.querySelector('.hero__name');
+          if (nameEl) tl.fromTo(nameEl, { '--nm-wght': 500, '--nm-soft': 50 },
+            { '--nm-wght': 330, '--nm-soft': 100, ease: 'none', duration: 0.6 }, 0);
           const drifter = bg.querySelector('[data-hero-drift]');
           if (drifter) {                                                          // a photograph: let it drift
             gsap.set(drifter, { scale: 1.14, transformOrigin: '50% 50%' });      // headroom for the drift, set once

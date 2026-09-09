@@ -363,6 +363,19 @@ window.ERA = window.ERA || {};
      walks straight through and a cold one still reads as deliberate. Progress is legible as how
      much light comes through the opening; there is no bar to disbelieve. */
   ERA.initDoor = function (pre, onReady) {
+    // Already seen the door this session? Then never show it again — not on a back navigation, not
+    // on a re-entry. Era's own preloader had this guard and the rewrite lost it, so coming back
+    // from a project page meant six seconds of intro and a scroll reset every single time.
+    let seen = false;
+    try { seen = sessionStorage.getItem('amoha-seen') === '1'; sessionStorage.setItem('amoha-seen', '1'); } catch (e) {}
+    if (seen && !ERA.ptArriving) {
+      pre.remove();
+      ERA.unlockScroll();
+      onReady && onReady();
+      ScrollTrigger.refresh();
+      return;
+    }
+
     // arrived through the layers wipe: the reader has already had the first screen, so build the
     // page behind the cover and lift it, rather than making them watch the door open again
     if (ERA.ptArriving) {
@@ -392,7 +405,9 @@ window.ERA = window.ERA || {};
     const mob = ERA.isMobile(), heroScale = mob ? 1.12 : 0.88;
     const W = () => window.innerWidth, H = () => window.innerHeight;
     const GROUND = () => H() * 0.78;
-    const r0 = () => (mob ? Math.min(H() * 0.13, W() * 0.32) : Math.min(W() * 0.098, H() * 0.15));
+    // the opening was 17% of the frame width and read as thin; this gives it real presence while
+    // still leaving the wordmark room above the crown
+    const r0 = () => (mob ? Math.min(H() * 0.15, W() * 0.36) : Math.min(W() * 0.118, H() * 0.178));
 
     const g = { r: r0(), spring: GROUND() - r0() * 2.05 };
     let drawing = true;
@@ -479,13 +494,20 @@ window.ERA = window.ERA || {};
       // 4. the opening dives past the viewport with the springing line pinned, so the door grows
       //    rather than the panel sliding away
       const cover = Math.hypot(W() / 2, Math.max(g.spring, H() - g.spring)) * 1.25;
-      document.documentElement.classList.remove('is-door');   // the hero's type rises with the door
+      // Hold the hero's type back until the opening is genuinely wide. Releasing it at the start of
+      // the dive meant the wordmark, sub, buttons and proof row all faded up inside a narrow arch —
+      // the page's own text crammed through a letterbox for the best part of a second.
+      let opened = false;
+      const release = () => { if (opened) return; opened = true; document.documentElement.classList.remove('is-door'); };
       gsap.to([svg, key, pre.querySelector('[data-pl-set]')], { opacity: 0, duration: 0.55, ease: 'eraOut' });
       gsap.to(pre, { '--pl-veil': 0, duration: 0.5, ease: 'eraOut' });
       gsap.delayedCall(0.3, () => { drawing = false; });
       zoom && gsap.fromTo(zoom, { scale: heroScale }, { scale: 1, duration: 1.6, ease: 'eraInOut' });
       gsap.delayedCall(0.31, ready);
-      gsap.to(g, { r: cover, duration: 1.55, ease: 'eraDive', onUpdate: apply, onComplete: teardown });
+      gsap.to(g, { r: cover, duration: 1.55, ease: 'eraDive', onComplete: teardown,
+        // tie the release to the door's real width, not to a guessed delay: eraDive is slow off the
+        // mark, so a fixed timeout would fire while the opening was still narrow
+        onUpdate: () => { apply(); if (g.r > W() * 0.42) release(); } });
     });
   };
 
