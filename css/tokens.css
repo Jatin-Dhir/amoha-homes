@@ -1,0 +1,175 @@
+/* =========================================================
+   ERA RESIDENCE — design tokens
+   Fluid system: 1rem = 1vw. The design reference is 1600px wide,
+   so one "design pixel" is 1rem/16. Every size below is expressed
+   in design pixels via --px so the whole page scales like a poster.
+   ========================================================= */
+:root {
+  --scale: 16;
+  --px: calc(1rem / var(--scale));
+
+  /* unit scale (design px) */
+  --u-0: 0px;
+  --u-1: calc(1 * var(--px));
+  --u-2: calc(2 * var(--px));
+  --u-4: calc(4 * var(--px));
+  --u-6: calc(6 * var(--px));
+  --u-8: calc(8 * var(--px));
+  --u-10: calc(10 * var(--px));
+  --u-12: calc(12 * var(--px));
+  --u-16: calc(16 * var(--px));
+  --u-20: calc(20 * var(--px));
+  --u-24: calc(24 * var(--px));
+  --u-28: calc(28 * var(--px));
+  --u-32: calc(32 * var(--px));
+  --u-40: calc(40 * var(--px));
+  --u-48: calc(48 * var(--px));
+  --u-56: calc(56 * var(--px));
+  --u-60: calc(60 * var(--px));
+  --u-64: calc(64 * var(--px));
+  --u-72: calc(72 * var(--px));
+  --u-80: calc(80 * var(--px));
+  --u-96: calc(96 * var(--px));
+  --u-112: calc(112 * var(--px));
+  --u-120: calc(120 * var(--px));
+  --u-136: calc(136 * var(--px));
+  --u-144: calc(144 * var(--px));
+  --u-160: calc(160 * var(--px));
+  --u-192: calc(192 * var(--px));
+  --u-240: calc(240 * var(--px));
+  --u-272: calc(272 * var(--px));
+
+  /* spacing aliases (remapped on mobile) */
+  --sp-4: var(--u-4);
+  --sp-8: var(--u-8);
+  --sp-12: var(--u-12);
+  --sp-16: var(--u-16);
+  --sp-24: var(--u-24);
+  --sp-32: var(--u-32);
+  --sp-48: var(--u-48);
+  --sp-64: var(--u-64);
+  --sp-96: var(--u-96);
+  --sp-160: var(--u-160);
+  --sp-272: var(--u-272);
+
+  /* layout */
+  --offset: var(--u-48);          /* page side padding */
+  --gap: var(--u-16);             /* grid gutter */
+  --cell-h: var(--u-136);         /* one column width  (10 cols) */
+  --cell-v: var(--u-96);          /* one vertical cell */
+  --vh: 100vh;
+  --arch-r: 50rem;                /* semicircle top radius of "arch" sections */
+
+  /* palette */
+  --c-cream: #f3f3ec;
+  --c-navy: #17233b;
+  --c-sky: #b5cedb;
+  --c-blush: #f8bbcb;
+  --c-plum: #340c24;
+  --c-white: #ffffff;
+  --c-success: #1ba64b;
+  --c-alert: #ffa800;
+  --c-error: #e23d3d;
+
+  /* type families (open substitutes for the site's commercial faces) */
+  --font-display: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-accent: "Pinyon Script", "Snell Roundhand", cursive;
+  --accent-scale: 1.12;           /* Pinyon renders smaller on the em box than the original script */
+
+  /* type scale (design px) */
+  --fs-h1: calc(192 * var(--px)); --lh-h1: 0.875;   --ls-h1: -0.024em;
+  --fs-h2: calc(136 * var(--px)); --lh-h2: 0.88235; --ls-h2: -0.024em;
+  --fs-h3: calc(96 * var(--px));  --lh-h3: 0.91667; --ls-h3: -0.024em;
+  --fs-h4: calc(63 * var(--px));  --lh-h4: 0.88889; --ls-h4: -0.016em;
+  --fs-h5: calc(40 * var(--px));  --lh-h5: 1;       --ls-h5: -0.008em;
+  --fs-h6: calc(28 * var(--px));  --lh-h6: 1;       --ls-h6: 0em;
+  --fs-p1: calc(13 * var(--px));  --lh-p1: 1.38462; --ls-p1: -0.024em;
+  --fs-p2: calc(11 * var(--px));  --lh-p2: 1.45455; --ls-p2: -0.024em;
+  --fs-l1: calc(11 * var(--px));  --lh-l1: 1.45455; --ls-l1: 0.048em;
+  --fs-l2: calc(9 * var(--px));   --lh-l2: 1.33333; --ls-l2: 0.32em;
+  --fs-c1: calc(25 * var(--px));  --lh-c1: 1.12;    --ls-c1: 0.8em;
+  --fs-a1: calc(192 * var(--px) * var(--accent-scale));
+  --fs-a2: calc(120 * var(--px) * var(--accent-scale));
+  --fs-a3: calc(64 * var(--px) * var(--accent-scale));
+
+  /* motion */
+  --dur-s: 0.4s;
+  --dur-m: 0.8s;
+  --dur-l: 1.2s;
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  --shadow-card: 0 224px 63px 0 rgba(0,0,0,0), 0 143px 57px 0 rgba(0,0,0,.01), 0 81px 48px 0 rgba(0,0,0,.04), 0 36px 36px 0 rgba(0,0,0,.07), 0 9px 20px 0 rgba(0,0,0,.08);
+}
+
+/* ---------- themes: every section (and each fixed UI piece) carries one ----------
+   --fg  primary text / lines      --bg  surface
+   --inv the opposite pole of the pair (used for inverted fills, cards, pin icons) */
+:root, .t-light {
+  --fg: var(--c-navy);
+  --bg: var(--c-cream);
+  --inv: var(--c-cream);
+  --fg-80: rgba(23, 35, 59, 0.6);
+  --fg-40: rgba(23, 35, 59, 0.3);
+  --fg-line: rgba(23, 35, 59, 0.1);
+  --fg-tint: rgba(23, 35, 59, 0.05);
+}
+.t-brand {
+  --fg: var(--c-navy);
+  --bg: var(--c-sky);
+  --inv: var(--c-cream);
+  --fg-80: rgba(23, 35, 59, 0.6);
+  --fg-40: rgba(23, 35, 59, 0.3);
+  --fg-line: rgba(23, 35, 59, 0.1);
+  --fg-tint: rgba(23, 35, 59, 0.05);
+}
+.t-color {
+  --fg: var(--c-white);
+  --bg: var(--c-plum);
+  --inv: var(--c-navy);
+  --fg-80: rgba(255, 255, 255, 0.8);
+  --fg-40: rgba(255, 255, 255, 0.4);
+  --fg-line: rgba(255, 255, 255, 0.2);
+  --fg-tint: rgba(255, 255, 255, 0.1);
+}
+.t-dark {
+  --fg: var(--c-cream);
+  --bg: var(--c-plum);
+  --inv: var(--c-navy);
+  --fg-80: rgba(243, 243, 236, 0.6);
+  --fg-40: rgba(243, 243, 236, 0.3);
+  --fg-line: rgba(243, 243, 236, 0.1);
+  --fg-tint: rgba(243, 243, 236, 0.05);
+}
+
+/* ---------- tablet / mobile: same system, coarser scale ---------- */
+@media (max-width: 991px) {
+  :root {
+    --scale: 4.16;
+    --offset: var(--u-24);
+    --cell-h: var(--u-80);
+    --cell-v: var(--u-80);
+    --vh: 100svh;
+    --sp-24: var(--u-16);
+    --sp-32: var(--u-24);
+    --sp-48: var(--u-32);
+    --sp-64: var(--u-48);
+    --sp-96: var(--u-64);
+    --sp-160: var(--u-96);
+    --sp-272: var(--u-120);
+
+    --fs-h1: calc(96 * var(--px)); --lh-h1: 0.91667;
+    --fs-h2: calc(73 * var(--px)); --lh-h2: 0.87671;
+    --fs-h3: calc(56 * var(--px)); --lh-h3: 0.92857;
+    --fs-h4: calc(40 * var(--px)); --lh-h4: 1;
+    --fs-h5: calc(28 * var(--px));
+    --fs-h6: calc(28 * var(--px));
+    --fs-c1: calc(19 * var(--px)); --lh-c1: 1.26316;
+    --fs-a1: calc(96 * var(--px) * var(--accent-scale));
+    --fs-a2: calc(72 * var(--px) * var(--accent-scale));
+    --fs-a3: calc(48 * var(--px) * var(--accent-scale));
+  }
+}

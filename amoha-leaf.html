@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' fill='%2317233b'/><g fill='%23f3f3ec'><ellipse cx='20' cy='20' rx='3' ry='14'/><ellipse cx='20' cy='20' rx='3' ry='14' transform='rotate(45 20 20)'/><ellipse cx='20' cy='20' rx='3' ry='14' transform='rotate(90 20 20)'/><ellipse cx='20' cy='20' rx='3' ry='14' transform='rotate(135 20 20)'/></g></svg>">
+<title>Amoha Leaf — Amoha Homes, Bathinda</title>
+<meta name="description" content="A 115-acre residential and commercial landmark on Ring Road, Bathinda, planned by Studio Symbiosis, Germany.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,50;1,9..144,300..600,50&family=Manrope:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.21/dist/lenis.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/amoha.css">
+<link rel="preload" as="image" href="assets/img/amoha-mark.png">
+<script>
+  // motion initial states only apply when scripts run (append ?nojs to preview the static page)
+  if (!/nojs/.test(location.search)) document.documentElement.classList.add('has-js');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('is-reduced');
+</script>
+</head>
+<body class="t-light">
+
+<!-- ===== inline SVG library: brand mark, ring, icons, clouds ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- brand mark: eight-petal rosette -->
+    <symbol id="mark" viewBox="0 0 40 40">
+      <g fill="currentColor">
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(45 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(90 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(135 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(180 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(225 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(270 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(315 20 20)"/>
+        <circle cx="20" cy="20" r="1.6"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 48 12"><path d="M45 6H4M8 1.5 3.2 6 8 10.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 16 16"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- ===== preloader ===== -->
+<div class="preloader t-dark" data-preloader>
+  <div class="pl__wall" data-pl-wall></div>
+  <div class="pl__spill" data-pl-spill></div>
+  <div class="pl__veil" data-pl-veil></div>
+  <svg class="pl__draw" data-pl-svg aria-hidden="true" focusable="false">
+    <line class="pl__ground" data-pl-ground/>
+    <path class="pl__jamb" data-pl-jamb-l/>
+    <path class="pl__jamb" data-pl-jamb-r/>
+    <path class="pl__head" data-pl-head/>
+  </svg>
+  <div class="pl__key" data-pl-key><img src="assets/img/amoha-mark.png" width="317" height="308" alt=""></div>
+  <div class="pl__set" data-pl-set>
+    <div class="h3 a-center pl__name" data-part="h">Amoha<br>Homes</div>
+    <div class="pl__plate">
+      <i class="pl__rule" data-pl-rule></i>
+      <div class="c1 a-center pl__place">Bathinda, Punjab</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== landscape phone cover ===== -->
+<div class="landscape-cover"><p class="l1">Please rotate your device to portrait</p></div>
+
+<!-- ===== cookies ===== -->
+<main class="page">
+
+  <!-- ===== fixed UI: logo, nav, scroll bar, scroll cue ===== -->
+  <a class="ui-logo t-dark" href="#hero" data-theme aria-label="Amoha Homes — back to top">
+    <div class="ui-logo__ring"></div>
+    <div class="ui-logo__symbol logo_symbol" data-modal-close="menu"><div class="logo"><svg><use href="#mark"/></svg></div></div>
+  </a>
+
+  <nav class="ui-nav t-dark" data-theme aria-label="Primary">
+    <div class="ui-nav__list f-mob">
+      <button class="btn-menu" data-modal-open="menu" aria-label="Menu">
+        <div class="btn-menu_label is-active"><span class="l2">Menu</span></div>
+        <div class="btn-menu_label"><span class="l2">Close</span></div>
+        <div class="ico-24"><div class="ico" data-ico-menu="1"><svg><use href="#i-dots"/></svg></div><div class="ico ia-2" data-ico-menu="2"><svg><use href="#i-dots"/></svg></div></div>
+      </button>
+    </div>
+    <div class="ui-nav__list f-desk">
+      <a class="link" href="amoha.html#projects" data-hover="link">
+        <div class="link_label">
+          <div class="link_label_text"><div class="h6">All<br>projects</div></div>
+          <div class="link_label_text is-2"><div class="h6">All<br>projects</div></div>
+        </div>
+      </a>
+      <div class="u-24"></div>
+      <a class="nav-item" href="#book" data-modal-open="cta" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">Enquire now</div></div><div class="nav-item_label_text is-2"><div class="l2">Enquire now</div></div></div></a>
+      <div class="u-4"></div>
+      <a class="nav-item" href="#footer" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">Contact</div></div><div class="nav-item_label_text is-2"><div class="l2">Contact</div></div></div></a>
+    </div>
+  </nav>
+
+  <div class="ui-bar-w t-dark" data-theme>
+    <div class="ui-bar" data-bar>
+      <div class="ui-bar__thumb" data-bar-thumb><div class="l1 a-center" data-bar-label>00</div></div>
+      <div class="ui-bar__fill"></div>
+      <div class="ui-bar__track"></div>
+    </div>
+  </div>
+
+  <div class="ui-scroll t-dark" data-theme data-scroll-cue>
+    <div class="ui-arrow"><svg><use href="#i-arrow"/></svg></div>
+    <div class="l2">Scroll</div>
+  </div>
+
+  <!-- ===== 1. hero ===== -->
+  <section id="hero" class="section clip t-color hero" data-hero="parallax">
+    <div class="container">
+      <div class="hero__area">
+        <div class="hero__stage">
+          <div class="hero__content" data-hero-content>
+            <div class="u-48"></div>
+            <div class="grid">
+              <div class="hero__brand">
+                <h1 class="h1 a-center hero__name" data-reveal="h">Amoha<br>Leaf</h1>
+                <div class="hero__accent"><div class="a2 a-center" data-reveal="a">Ring Road</div></div>
+                <div class="u-32"></div>
+                <p class="hero__sub a-center" data-reveal="p">A 115-acre residential and commercial landmark on Ring Road, Bathinda, planned by Studio Symbiosis, Germany.</p>
+                <div class="u-48"></div>
+                <div class="hero__ctas" data-reveal="ctn">
+                  <a class="btn is-solid" href="#book" data-modal-open="cta" data-hero-cta="1"><div class="btn_label"><div class="l1">Book a site visit</div></div><div class="btn_bg"><div class="btn_bg_fill"></div></div></a>
+                  <a class="btn" href="amoha.html#projects" data-hero-cta="2"><div class="btn_label"><div class="l1">All projects</div></div><div class="btn_bg"><div class="btn_bg_fill"></div></div></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero__bg" data-hero-bg>
+            <div class="hero__bg-master" data-hero-zoom>
+              <div class="hero__bg-img hero__field">
+                <div class="hero__glow" data-hero-layer="0.3" data-hero-glow></div>
+                <div class="flower hero__flower is-l" data-hero-layer="0.42" data-video="assets/video/bougainvillea-flowers_01.webm"><img src="assets/img/flower-poster-01.avif" width="1080" height="1080" alt=""></div>
+                <div class="flower hero__flower is-r" data-hero-layer="0.55" data-video="assets/video/bougainvillea-flowers_03.webm"><img src="assets/img/flower-poster-03.avif" width="1080" height="1080" alt=""></div>
+              </div>
+              <div class="hero__bottom">
+                <div class="hero__tagline"><p class="h5 a-center" data-reveal="h">Designed by nature, engineered for modern living</p></div>
+                <div class="u-48"></div>
+                <div class="u-32"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__themes"><div class="sensor" data-bg="color"></div><div class="sensor-light" data-bg="light"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== overview + quick facts ===== -->
+  <section class="section clip t-brand apart-info project-overview" data-bg="light">
+    <div class="container">
+      <div class="apart-info__w">
+        <div class="u-48"></div>
+        <div class="divider"><div class="line-v" data-reveal="line"></div></div>
+        <div class="u-48"></div>
+        <div class="grid"><div class="s-title"><p class="l1 a-center" data-reveal="p">Overview</p></div></div>
+        <div class="u-96"></div>
+        <div class="grid"><div class="info-lead"><h2 class="h4 a-center" data-reveal="p">Amoha Leaf is the group’s second and most ambitious project: a 115-acre integrated development with ten acres dedicated to commercial space and the rest residential. It stands among the most talked-about addresses in the city, planned end to end by Studio Symbiosis, Germany, with every element — from the entry gate to the street-light poles and park walkways — inspired by the form of a leaf.</h2></div></div>
+        <div class="u-96"></div>
+        <div class="grid"><div class="info-lead"><div class="data-list stats" data-reveal="ctn">
+          <div><h5 class="h5" data-reveal="p">115 acres</h5><div class="u-8"></div><h4 class="l1 reg" data-reveal="p">project size</h4></div>
+          <div><h5 class="h5" data-reveal="p">10 acres</h5><div class="u-8"></div><h4 class="l1 reg" data-reveal="p">commercial area</h4></div>
+          <div><h5 class="h5" data-reveal="p">150 – 700 sq yds</h5><div class="u-8"></div><h4 class="l1 reg" data-reveal="p">plot sizes</h4></div>
+          <div><h5 class="h5" data-reveal="p">Studio Symbiosis</h5><div class="u-8"></div><h4 class="l1 reg" data-reveal="p">master planner, Germany</h4></div>
+          <div><h5 class="h5" data-reveal="p">1 km</h5><div class="u-8"></div><h4 class="l1 reg" data-reveal="p">EPDM jogging track</h4></div>
+          <div><h5 class="h5" data-reveal="p">100%</h5><div class="u-8"></div><h4 class="l1 reg" data-reveal="p">CCTV coverage</h4></div>
+        </div></div></div>
+        <div class="u-160"></div>
+        <div class="flower" data-parallax="ctn-down" data-video="assets/video/bougainvillea-flowers_04.webm"><img src="assets/img/flower-poster-04.avif" width="1080" height="1080" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== highlights ===== -->
+  <section class="section clip other" data-bg="light">
+    <div class="container">
+      <div class="other__w">
+        <div class="other__s">
+          <div class="u-48"></div>
+          <div class="grid"><div class="s-title"><p class="l1 a-center" data-reveal="p">Key highlights</p></div></div>
+          <div class="u-48"></div>
+          <div class="divider"><div class="line-v" data-reveal="line"></div></div>
+          <div class="u-64"></div>
+          <div class="grid"><div class="other__cms">
+            <div class="other-card" data-accordion>
+              <div class="other-card__name"><div class="other-card__label"><h4 class="h3 a-center" data-reveal="h">Design and planning</h4><div class="other-card__ico" data-reveal="ctn"><div class="ico-16 ico" data-ico-plus><svg><use href="#i-plus"/></svg></div></div></div></div>
+              <div class="other-card__info" data-accordion="content"><div class="u-32"></div><div class="grid c6"><div class="other-card__desc"><p class="p1 a-center" data-accordion="p">Master-planned by Studio Symbiosis, Germany, around the motif of a leaf — gates, street lights, walkways and more. The first project in the region with full CCTV coverage.</p><div class="u-32"></div><div class="info-divider" data-accordion="ctn"><div class="line-h"></div></div><div class="u-48"></div></div></div></div>
+            </div>
+            <div class="other-card" data-accordion>
+              <div class="other-card__name"><div class="other-card__label"><h4 class="h3 a-center" data-reveal="h">Roads and connectivity</h4><div class="other-card__ico" data-reveal="ctn"><div class="ico-16 ico" data-ico-plus><svg><use href="#i-plus"/></svg></div></div></div></div>
+              <div class="other-card__info" data-accordion="content"><div class="u-32"></div><div class="grid c6"><div class="other-card__desc"><p class="p1 a-center" data-accordion="p">A 100 ft commercial main entry, an 80 ft residential main road, internal roads of 50 and 60 ft, 20 ft park-to-park walkways and a 35 ft periphery road, running parallel to Canal Road.</p><div class="u-32"></div><div class="info-divider" data-accordion="ctn"><div class="line-h"></div></div><div class="u-48"></div></div></div></div>
+            </div>
+            <div class="other-card" data-accordion>
+              <div class="other-card__name"><div class="other-card__label"><h4 class="h3 a-center" data-reveal="h">Green spaces</h4><div class="other-card__ico" data-reveal="ctn"><div class="ico-16 ico" data-ico-plus><svg><use href="#i-plus"/></svg></div></div></div></div>
+              <div class="other-card__info" data-accordion="content"><div class="u-32"></div><div class="grid c6"><div class="other-card__desc"><p class="p1 a-center" data-accordion="p">Among the largest parks in any project in the region — two acres, one and a half acres and one acre — landscaped for gathering, recreation and daily wellness.</p><div class="u-32"></div><div class="info-divider" data-accordion="ctn"><div class="line-h"></div></div><div class="u-48"></div></div></div></div>
+            </div>
+            <div class="other-card" data-accordion>
+              <div class="other-card__name"><div class="other-card__label"><h4 class="h3 a-center" data-reveal="h">Lifestyle and recreation</h4><div class="other-card__ico" data-reveal="ctn"><div class="ico-16 ico" data-ico-plus><svg><use href="#i-plus"/></svg></div></div></div></div>
+              <div class="other-card__info" data-accordion="content"><div class="u-32"></div><div class="grid c6"><div class="other-card__desc"><p class="p1 a-center" data-accordion="p">One of the biggest clubhouses in the region: badminton, table tennis and snooker indoors; cricket and football outdoors; two pickleball courts, a first for the region; kids’ play area, banquet hall, spa, gym, restaurant, guest rooms and an infinity pool.</p><div class="u-32"></div><div class="info-divider" data-accordion="ctn"><div class="line-h"></div></div><div class="u-48"></div></div></div></div>
+            </div>
+            <div class="other-card" data-accordion>
+              <div class="other-card__name"><div class="other-card__label"><h4 class="h3 a-center" data-reveal="h">Commercial</h4><div class="other-card__ico" data-reveal="ctn"><div class="ico-16 ico" data-ico-plus><svg><use href="#i-plus"/></svg></div></div></div></div>
+              <div class="other-card__info" data-accordion="content"><div class="u-32"></div><div class="grid c6"><div class="other-card__desc"><p class="p1 a-center" data-accordion="p">Ultra-modern architectural elevations behind a 100 ft grand commercial entrance.</p><div class="u-32"></div><div class="info-divider" data-accordion="ctn"><div class="line-h"></div></div><div class="u-48"></div></div></div></div>
+            </div>
+          </div></div>
+          <div class="u-160"></div>
+        </div>
+        <div class="flower" data-parallax="ctn-down" data-video="assets/video/bougainvillea-flowers_07.webm"><img src="assets/img/flower-poster-07.avif" width="1080" height="1080" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== location ===== -->
+  <section class="section clip t-brand project-location" data-bg="light">
+    <div class="container">
+      <div class="project-location__s">
+        <div class="u-96"></div>
+        <div class="grid"><div class="s-title"><p class="l1 a-center" data-reveal="p">Location advantage</p></div></div>
+        <div class="u-48"></div>
+        <div class="grid">
+          <div class="loc-path__title">
+            <h2 class="h3 a-center">
+              <span class="loc-path__line" data-reveal="h">Minutes from</span>
+              <span class="loc-path__accent a2" data-reveal="a">everything</span>
+              <span class="loc-path__line" data-reveal="h">that matters</span>
+            </h2>
+          </div>
+        </div>
+        <div class="u-64"></div>
+        <div class="grid">
+          <div class="loc-path__map" data-route>
+            <svg viewBox="0 0 1072 208" aria-label="Where the project sits on Bathinda’s Ring Road">
+                <path class="route" data-route-line d="M50 174 C 120 163, 170 152, 205 138 S 240 118, 285 118 S 330 122, 340 135 S 430 128, 465 125 S 490 141, 520 138 S 610 141, 660 139 S 700 125, 720 128 S 780 165, 800 167 S 830 124, 860 117 S 940 123, 1020 134"/>
+                <g data-route-stop><circle class="stop" cx="60" cy="173" r="3"/><text x="60" y="199">City centre</text><text class="sub" x="60" y="155">Ring Road</text></g>
+                <g data-route-stop><circle class="stop" cx="440" cy="126.5" r="3"/><text x="440" y="108" text-anchor="middle">Canal Road</text><text class="sub" x="440" y="152" text-anchor="middle">runs parallel</text></g>
+                <g data-route-stop><circle class="stop" cx="760" cy="151.5" r="3"/><text x="760" y="180" text-anchor="middle">Amoha Roots</text><text class="sub" x="760" y="135" text-anchor="middle">directly opposite</text></g>
+                <g data-route-stop><circle class="halo" cx="1000" cy="131" r="10"/><circle class="stop" cx="1000" cy="131" r="3"/><text x="1012" y="112" text-anchor="end">Amoha Leaf</text><text class="sub" x="1012" y="158" text-anchor="end">Ring Road, Bathinda</text></g>
+              </svg>
+          </div>
+        </div>
+        <div class="u-160"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== call to action ===== -->
+  <section class="section t-color cta" data-bg="color">
+    <div class="container" data-footer-clip>
+      <div class="cta__w">
+        <div class="cta__s">
+          <div class="u-48"></div>
+          <div class="grid"><div class="cta__desc"><p class="l1 a-center" data-reveal="p">Speak to our team, walk the site, and see the roads and parks for yourself.</p></div></div>
+          <div class="u-272"></div>
+          <div class="grid"><div class="cta__title">
+            <h2 class="h1 a-center" data-fit-text data-reveal="h">An address designed<br>to last generations</h2>
+            <div class="u-160"></div>
+            <div class="cta__btn" data-reveal="ctn">
+              <div class="btn-circle" data-magnetic data-circle-btn data-modal-open="cta">
+                <div class="btn-circle_label" data-magnetic-inner><a class="nav-item" href="#book"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">Book a site visit to Amoha Leaf</div></div></div></a></div>
+                <div class="btn-circle_bg"><svg viewBox="0 0 208 208"><circle class="arc" data-arc cx="104" cy="104" r="103.5" transform="rotate(-150 104 104)"/><circle class="arc" data-arc cx="104" cy="104" r="103.5" transform="rotate(30 104 104)"/><circle class="ring" cx="104" cy="104" r="103.5"/></svg></div>
+                <a class="btn-circle_link" href="#book" aria-label="Book a site visit to Amoha Leaf"></a>
+              </div>
+            </div>
+          </div></div>
+        </div>
+        <div class="w-bg"><div class="img-w" data-parallax="w"><img class="img-p" src="assets/img/amoha-cta.jpg" alt="Aerial render of the Amoha township at golden hour" loading="lazy" data-parallax="img"><div class="img-over-grad from-top x4"></div><div class="img-over-grad"></div><div class="img-over-grad"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 14. footer ===== -->
+  <footer id="footer" class="section t-dark footer" data-bg="dark">
+    <div class="container">
+      <div class="footer__w" data-footer>
+        <a class="footer__totop" href="#hero" data-hover="nav"><div class="l2">To top</div><div class="ui-arrow"><svg><use href="#i-arrow"/></svg></div></a>
+        <div class="footer__s" data-footer-s>
+          <div class="footer__t"></div>
+          <div>
+            <div class="grid">
+              <div class="footer__contact">
+                <div class="s-logo"><div class="logo_symbol ico-48" data-text="ctn"><div class="logo"><svg><use href="#mark"/></svg></div></div></div>
+                <div class="u-32"></div>
+                <div class="contact-list"><div><a class="nav-item" href="tel:+910000000000"><div class="h2 a-center" data-fit-text data-text="h">+91 (000) 000-0000</div></a></div></div>
+                <div class="u-48"></div>
+              </div>
+              <div class="footer__address"><div class="loc-list"><div data-text="ctn">
+                <h3 class="l1 reg a-center">Amoha Homes office</h3><div class="u-4"></div>
+                <a class="nav-item" href="#footer" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1 a-center">Ring Road, Bathinda, Punjab, India</div></div><div class="nav-item_label_text is-2"><div class="l1 a-center">Ring Road, Bathinda, Punjab, India</div></div></div></a>
+              </div></div></div>
+            </div>
+          </div>
+          <div class="footer__b">
+            <div class="grid">
+              <div class="footer__info">
+                <div class="l1" data-text="p">Amoha Homes.</div>
+                <div class="l1 reg no-wrap" data-text="p">©<span data-year>2026</span> all rights reserved</div>
+                <div class="u-12"></div>
+                <div class="legal-list" data-text="p">
+                  <div><a class="nav-item" href="#" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">Privacy policy</div></div><div class="nav-item_label_text is-2"><div class="l1">Privacy policy</div></div></div></a></div>
+                  <div><a class="nav-item" href="#" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">Terms of use</div></div><div class="nav-item_label_text is-2"><div class="l1">Terms of use</div></div></div></a></div>
+                </div>
+              </div>
+              <div class="footer__credits"><div class="credits">
+                <div class="credits__mark" data-text="ctn"><div class="logo"><svg><use href="#mark"/></svg></div></div>
+                <div class="u-12"></div>
+                <div class="l1 reg a-right" data-text="p">Made as</div>
+                <div data-text="p"><a class="nav-item" href="#" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">a design study</div></div><div class="nav-item_label_text is-2"><div class="l1">a design study</div></div></div></a></div>
+              </div></div>
+            </div>
+            <div class="u-48"></div>
+          </div>
+        </div>
+        <div class="footer__bg"></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== modal: book a call ===== -->
+  <div class="modal" data-modal="cta" role="dialog" aria-modal="true" aria-label="Enquire now">
+    <div class="modal__c">
+      <div class="modal-cta t-brand">
+        <div class="grid">
+          <div class="modal-cta__box" data-modal-box>
+            <div class="modal-cta__close"><button class="btn-ico" data-modal-close aria-label="Close"><div class="ico-16 ico"><svg><use href="#i-close"/></svg></div></button></div>
+            <form class="modal-cta__form" data-form novalidate>
+              <div class="modal-cta__l">
+                <div>
+                  <div class="a3" data-part="a">Enquire</div>
+                  <div class="h3" data-part="h">now</div>
+                </div>
+                <div class="modal-cta__desc"><p class="p1" data-part="p">Leave your details and our team will reach out with the right project for you, or to schedule a site visit.</p></div>
+              </div>
+              <div class="modal-cta__cc"><div class="modal-cta__line"></div><div class="modal-cta__logo logo_symbol"><div class="logo"><svg><use href="#mark"/></svg></div></div><div class="modal-cta__line"></div></div>
+              <div class="modal-cta__r"><div class="modal-cta__fields">
+                <label class="field"><span class="l1 reg">Name</span><input class="p1" type="text" name="name" autocomplete="name" required></label>
+                <label class="field"><span class="l1 reg">Email</span><input class="p1" type="email" name="email" autocomplete="email" required></label>
+                <label class="field"><span class="l1 reg">Phone</span><input class="p1" type="tel" name="phone" autocomplete="tel"></label>
+                <label class="field"><span class="l1 reg">Message</span><textarea class="p1" name="message" rows="2"></textarea></label>
+                <button class="btn" type="submit"><div class="btn_label"><div class="l1">Send request</div></div><div class="btn_bg"><div class="btn_bg_fill"></div></div></button>
+              </div></div>
+            </form>
+            <div class="form-success" data-form-success>
+              <div class="a3">Thank you</div>
+              <div class="h4 a-center">We have your request</div>
+              <div class="u-32"></div>
+              <p class="p1 a-center" style="max-width:var(--u-272)">Someone from the Amoha team will reach out, normally within a working day.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal__over" data-modal-over data-modal-close></div>
+  </div>
+
+  <!-- ===== modal: mobile menu ===== -->
+  <div class="modal menu t-dark" data-modal="menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="modal__c">
+      <div class="modal-menu" data-modal-box>
+        <div><div class="u-48 b-desk"></div><div class="u-272 b-mob"></div>
+          <div class="grid"><div class="modal-menu__title"><div class="modal-menu__a"><div class="a1 a-center" data-part="a">The</div></div><div class="h1 a-center" data-part="h">Menu</div></div></div>
+        </div>
+        <div class="grid"><div class="modal-menu__list">
+          <a class="link" href="amoha.html" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">Home</div></div></a>
+          <a class="link" href="amoha.html#projects" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">Our projects</div></div></a>
+          <a class="link" href="amoha-gardens.html" data-part="ctn"><div class="link_label"><div class="h6">Amoha Gardens</div></div></a>
+          <a class="link" href="amoha-leaf.html" data-part="ctn"><div class="link_label"><div class="h6">Amoha Leaf</div></div></a>
+          <a class="link" href="amoha-roots.html" data-part="ctn"><div class="link_label"><div class="h6">Amoha Roots</div></div></a>
+          <a class="link" href="amoha-next.html" data-part="ctn"><div class="link_label"><div class="h6">Next chapter</div></div></a>
+          <a class="link" href="#book" data-part="ctn" data-modal-open="cta" data-modal-close="menu"><div class="link_label"><div class="h6">Enquire now</div></div></a>
+          <a class="link" href="#footer" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">Contact</div></div></a>
+        </div></div>
+        <div><div class="s-logo"><div class="logo_symbol ico-48" data-part="ctn"><div class="logo"><svg><use href="#mark"/></svg></div></div></div><div class="u-48"></div></div>
+      </div>
+    </div>
+    <div class="modal__bg" data-modal-over data-modal-close></div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.21/dist/lenis.min.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/components.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/wind.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

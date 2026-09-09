@@ -1,0 +1,67 @@
+/* =========================================================
+   ERA RESIDENCE — motion foundation
+   Initial states are applied only when JS is present (html.has-js),
+   so the page stays fully readable without scripts.
+   ========================================================= */
+html.has-js [data-reveal], html.has-js [data-part], html.has-js [data-text] { visibility: hidden; }
+html.has-js.is-reduced [data-reveal], html.has-js.is-reduced [data-part], html.has-js.is-reduced [data-text] { visibility: visible; }
+
+/* split-text wrappers (GSAP SplitText output) */
+.split-line, .split-word, .split-char { display: inline-block; will-change: transform; }
+.split-line-mask, .split-word-mask, .split-char-mask { display: inline-block; line-height: inherit; vertical-align: top; overflow: clip; }
+/* line masks must be blocks: as inline-blocks, two short centred lines that fit one row sat side by side
+   with no space between them and read as one word ("move" + "south." → "MOVESOUTH") — every phone width hit it */
+.split-line-mask { display: block; }
+/* same for unmasked line splits (nav/link hover labels): "Our" + "projects" fit one row as inline-blocks */
+.split-line { display: block; }
+/* give swashy script glyphs room inside their masks */
+.a1 .split-char, .a2 .split-char, .a3 .split-char {
+  padding: var(--sp-32) var(--sp-160); margin: calc(var(--sp-32) * -1) calc(var(--sp-160) * -1);
+}
+[data-parallax="img"], [data-parallax="img-out"], [data-parallax="img-in"], [data-reveal="h"], [data-reveal="a"], [data-reveal="p"], [data-reveal="slide"], [data-reveal="ctn"] { will-change: transform; }
+
+/* fixed UI colour transitions when the theme sensors flip */
+[data-theme] .l1, [data-theme] .l2, [data-theme] .h6, [data-theme] .logo, [data-theme] .ui-logo__ring,
+[data-theme] .ui-arrow, [data-theme] .ui-bar__track, [data-theme] .ui-bar__fill, [data-theme] .link_line {
+  transition: color var(--dur-s) var(--ease-out), background-color var(--dur-s) var(--ease-out);
+}
+
+/* hero day/night divider: a light sweep travels across on toggle */
+.hero__tabs-divider { width: var(--u-64); height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, #fff 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%; background-position: 100% 0; transition: var(--dur-m) var(--ease-in-out); }
+.hero__tabs-divider.is-night { background-position: 0% 0; }
+
+/* left scroll bar driven by --progress */
+.ui-bar { --progress: 0%; }
+.ui-bar__thumb { top: var(--progress); }
+.ui-bar__fill { clip-path: inset(0 0 calc(100% - var(--progress) + var(--u-24)) 0); }
+.ui-bar__track { clip-path: inset(calc(var(--progress) + var(--u-24)) 0 0 0); }
+
+/* floating tip cards follow the pointer */
+.tip { visibility: hidden; }
+.tip__card { --tip-x: var(--u-32); scale: .75; opacity: 0; transform: translateX(var(--tip-x)) translateY(-50%); transition: var(--dur-s) var(--ease-in); }
+.tip.is-active { visibility: visible; }
+.tip.is-active .tip__card { scale: 1; opacity: 1; transition: var(--dur-m) var(--ease-out); }
+.tip.is-left .tip__card { --tip-x: calc(-100% - var(--u-16)); }
+
+/* amenity tabs */
+.amen-tab { opacity: .4; transition: var(--dur-s) var(--ease-out); }
+.amen-tab:hover, .amen-tab.is-active { opacity: 1; }
+.amen-tab.is-active { pointer-events: none; }
+
+/* map clouds: mirror every other cloud so the loop never reads as a repeat */
+
+/* preloader arch outlines follow --arch-w / --arch-y */
+.preloader { --arch-w: 24vw; --arch-y: 104vh; --arch-h: calc(var(--arch-w) / (560 / 2592)); }
+.preloader__arch { position: absolute; left: 50%; top: var(--arch-y); width: var(--arch-w); height: var(--arch-h); translate: -50% 0;
+  border: 1px solid var(--fg-line); border-bottom: 0; border-radius: calc(var(--arch-w) / 2) calc(var(--arch-w) / 2) 0 0; pointer-events: none; }
+.preloader__arch.is-2 { width: calc(var(--arch-w) * 1.1); top: calc(var(--arch-y) - var(--arch-h) * .015); border-radius: calc(var(--arch-w) * .55) calc(var(--arch-w) * .55) 0 0; }
+.preloader__arch.is-1 { width: calc(var(--arch-w) * 1.02); top: calc(var(--arch-y) - var(--arch-h) * .005); border-radius: calc(var(--arch-w) * .51) calc(var(--arch-w) * .51) 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tip__card, .hero__tabs-divider { transition: none; }
+}
+
+/* preloader is visible from the first paint when scripts run */
+html.has-js .preloader { display: block; }

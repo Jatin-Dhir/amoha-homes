@@ -1,0 +1,375 @@
+/* =========================================================
+   AMOHA HOMES — theme on top of the Era engine (amoha*.html). Loaded after motion.css.
+   Direction: plants before buildings. Ivory paper, sage, deep leaf, root green; Fraunces in
+   sentence case with its italic as the accent; Manrope for text. The bougainvillea pink is the
+   one accent, and it means exactly one thing: something you can act on (buttons, links, progress).
+   ========================================================= */
+
+/* ---------- primitives ---------- */
+:root {
+  --c-paper: #f4f1e8;   /* page                     */
+  --c-sage:  #cfdbc4;   /* light green surface      */
+  --c-leaf:  #1f4d33;   /* deep leaf, brand surface */
+  --c-root:  #10201a;   /* near-black green, text   */
+  --c-chalk: #f7f5ee;   /* text on green            */
+  --c-bloom: #c2307a;   /* bougainvillea, interactive only */
+  --c-gold:  #c39a5e;   /* the gold the client’s own mark is drawn in */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-accent:  "Fraunces", Georgia, serif;
+  --font-body:    "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --accent-scale: 0.82;
+}
+/* ---------- roles (the engine's four themes) ---------- */
+:root, .t-light { --fg: var(--c-root); --bg: var(--c-paper); --inv: var(--c-paper);
+  --fg-80: rgba(16, 32, 26, .7); --fg-40: rgba(16, 32, 26, .36); --fg-line: rgba(16, 32, 26, .14); --fg-tint: rgba(16, 32, 26, .06); }
+.t-brand { --fg: var(--c-root); --bg: var(--c-sage); --inv: var(--c-paper);
+  --fg-80: rgba(16, 32, 26, .7); --fg-40: rgba(16, 32, 26, .36); --fg-line: rgba(16, 32, 26, .14); --fg-tint: rgba(16, 32, 26, .06); }
+.t-color { --fg: var(--c-chalk); --bg: var(--c-leaf); --inv: var(--c-root);
+  --fg-80: rgba(247, 245, 238, .78); --fg-40: rgba(247, 245, 238, .42); --fg-line: rgba(247, 245, 238, .22); --fg-tint: rgba(247, 245, 238, .1); }
+.t-dark { --fg: var(--c-chalk); --bg: var(--c-root); --inv: var(--c-root);
+  --fg-80: rgba(247, 245, 238, .66); --fg-40: rgba(247, 245, 238, .34); --fg-line: rgba(247, 245, 238, .14); --fg-tint: rgba(247, 245, 238, .06); }
+body { background: var(--c-paper); }
+
+/* ---------- the accent: interactive and progress only ---------- */
+.link_line { background: var(--c-bloom); height: 1px; }
+/* The corner link sets over two lines and .link_line is appended inside each one, so at the
+   display line-height the rule under "Our" landed on top of "projects" and read as a divider
+   struck through the label. Give the lines room and the rules sit under their own words. */
+.ui-nav__list .link_label .h6 { line-height: 1.32; }
+.ui-nav__list .link_label .split-line { padding-bottom: .06em; }
+.pag_progress_fill { background: var(--c-bloom); }
+.btn_bg_fill { background: var(--c-bloom); }
+.btn:hover .btn_label, .btn:focus-visible .btn_label, .btn:hover .btn_label .l1 { color: var(--c-chalk); }
+.btn-circle_bg .arc { stroke: var(--c-bloom); }
+.other-card__ico .ico { color: var(--c-bloom); }
+.amen__tabs-hilight, .ui-bar__fill { background: var(--c-bloom); }
+.field input:focus, .field textarea:focus { border-color: var(--c-bloom); }
+
+/* ---------- type: sentence case, soft serif, no tracked caps ---------- */
+.h1, .h2, .h3, .h4, .h5, .h6, .c1 { text-transform: none; font-weight: 400; font-optical-sizing: auto; font-variation-settings: "SOFT" 50; }
+.h1 { letter-spacing: -0.03em; line-height: 0.95; }
+.h2 { letter-spacing: -0.025em; line-height: 0.98; }
+.h3 { letter-spacing: -0.02em; line-height: 1.02; }
+.h4 { letter-spacing: -0.015em; line-height: 1.08; }
+.h5, .h6 { letter-spacing: -0.005em; line-height: 1.15; }
+.c1 { font-style: italic; letter-spacing: 0; }
+.a1, .a2, .a3 { font-style: italic; font-weight: 300; margin-top: 0; margin-bottom: 0; }
+.l1, .l2 { text-transform: none; letter-spacing: 0; font-weight: 600; }
+.l1 { font-size: calc(var(--fs-p1) * 0.92); }
+.p1, .p2 { line-height: 1.55; letter-spacing: 0; }
+.h1, .h2, .h3 { text-wrap: balance; }
+.p1 { text-wrap: pretty; }
+.ui-logo__ring text { letter-spacing: .22em; text-transform: uppercase; }   /* the ring stays a ring */
+.loc-path__map text, .loc-path__map text.sub { text-transform: none; letter-spacing: 0; font-weight: 600; }
+.loc-path__map text.sub { font-weight: 400; }
+
+/* ---------- landing: a leaf-green field, the sprays in the corners, the name set with weight ---------- */
+.hero__area { height: calc(var(--vh) * 2.2 + var(--arch-r)); }   /* the arch below overlaps by its own radius, so the hero keeps its full run */           /* one viewport of scroll lifts the composition out; no dive-zoom to fill more */
+.hero__field { position: relative; height: var(--vh); min-height: 0; aspect-ratio: auto; background: var(--c-leaf); overflow: clip; }
+.hero__glow { position: absolute; inset: -12% 0 0; z-index: 0; pointer-events: none;                     /* a little light from below; it rises on scroll */
+  background: radial-gradient(120% 80% at 50% 110%, rgba(207, 219, 196, var(--glow-a, .2)), transparent 60%); }
+.hero__photo { position: absolute; inset: 0 0 -26%; z-index: 0; overflow: clip; }              /* the photograph: the farthest layer, with headroom to drift */
+.hero__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+.hero__photo::after { content: ""; position: absolute; inset: 0;                                /* leaf-green scrim so the chalk type reads on the foliage */
+  background: radial-gradient(26% 44% at 50% 0%, rgba(16, 32, 26, .6), transparent),                 /* the sky gap at the vanishing point sits behind the kicker */
+    linear-gradient(180deg, rgba(28, 25, 20, .62) 0%, rgba(22, 29, 23, .58) 45%, rgba(16, 32, 26, .74) 100%); }  /* warm at the top so the golden hour survives, leaf green at the foot; measured, the sub-headline holds 4.8:1 over the brightest pixels */
+.hero__photo ~ .hero__glow { --glow-a: .1; }
+.hero.has-photo .hero__kicker, .hero.has-photo .hero__sub { color: var(--c-chalk); }
+.hero__field::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;      /* the corners fall into shade, so the logo and nav read */
+  background: radial-gradient(34% 44% at 0% 0%, rgba(16, 32, 26, .5), transparent), radial-gradient(34% 44% at 100% 0%, rgba(16, 32, 26, .5), transparent); }
+.hero__flower { position: absolute; z-index: 1; width: calc(var(--u-40) * 10); height: auto; pointer-events: none; }
+.hero__flower.is-l { top: calc(var(--u-80) * -1); left: calc(var(--u-96) * -1); }
+.hero__flower.is-r { top: calc(var(--u-64) * -1); right: calc(var(--u-120) * -1); }
+.hero__flower.is-r > * { transform: scaleX(-1); }        /* mirrored on the media, so the box itself can drift */
+@media (min-width: 992px) { .hero__flower { width: var(--fl); } }
+.hero__content { justify-content: center; height: calc(100% - var(--hero-foot)); }   /* the column stops above the tagline, so the block centres in the room that is left */
+:root { --hero-foot: calc(var(--u-40) * 4); }
+.hero__brand { grid-area: 1 / 2 / 2 / 10; align-items: center; text-align: center; }
+/* the eyebrow speaks in the brand’s italic accent voice, so it reads as a label and pairs with the serif below, instead of sitting there as a stray line of body text */
+.hero__kicker { font-family: var(--font-accent); font-style: italic; font-weight: 400;
+  font-size: calc(var(--fs-p1) * 1.16); line-height: 1.2; letter-spacing: 0.005em; color: var(--fg-80); }
+.hero__name { font-weight: 500; font-size: calc(var(--fs-h1) * .92); line-height: .92;
+  letter-spacing: -0.026em; }   /* two lines, as the original set its own name */
+/* upright, not tilted. Without the rotation the sideways offset has nothing to answer to either,
+   so the place name sits square under the wordmark instead of leaning off its corner. */
+.hero__accent { margin-top: calc(var(--u-40) * -0.72); margin-left: 0; transform: none; pointer-events: none; }
+.hero__accent .a2 { color: var(--c-chalk); }
+.hero__sub { max-width: 27em; margin: 0 auto; font-family: var(--font-body);   /* ~50 characters: a hero reads better short of the 65 a paragraph wants */
+  font-size: calc(var(--fs-p1) * 1.45); line-height: 1.5; letter-spacing: 0;
+  color: var(--fg-80); text-wrap: balance; }   /* balance, not pretty: two or three lines should be even, not merely orphan-free */
+.hero__ctas { display: flex; justify-content: center; gap: var(--sp-16); pointer-events: auto; }
+.hero__ctas .l1 { font-size: calc(var(--fs-p1) * 1.02); letter-spacing: 0.008em; }   /* the labels were the smallest type on the page, under the largest */
+.btn.is-solid .btn_bg { background: var(--c-bloom); border-color: var(--c-bloom); }
+.btn.is-solid .btn_label { color: var(--c-chalk); }
+.btn.is-solid .btn_bg_fill { background: var(--c-chalk); }
+.btn.is-solid:hover .btn_label, .btn.is-solid:hover .btn_label .l1, .btn.is-solid:focus-visible .btn_label { color: var(--c-root); }
+.hero__tagline { display: flex; justify-content: center; pointer-events: auto; }
+.hero__tagline .h5 { max-width: 20em; color: var(--c-chalk); }
+@media (min-width: 992px) and (max-height: 860px) {   /* short laptop screens: the two-line wordmark plus the proof line overran the tagline */
+  :root { --hero-foot: calc(var(--u-40) * 5); }
+  .hero__name { font-size: calc(var(--fs-h1) * .68); }
+  .hero__accent .a2 { font-size: calc(var(--fs-a2) * .78); }
+  .hero__accent { margin-top: calc(var(--u-32) * -1); }
+  .hero__sub { font-size: calc(var(--fs-p1) * 1.2); }
+  .hero__proof li { font-size: calc(var(--fs-p1) * .88); }
+}
+@media (min-width: 992px) and (max-height: 700px) {   /* below this the proof line has nowhere left to go */
+  .hero__proof { display: none; }
+}
+@media (max-width: 991px) {
+  .hero__area { height: calc(var(--vh) * 1.8); }
+  .hero__content { padding-bottom: calc(var(--u-40) * 5); }
+  .hero__brand { grid-area: 1 / 1 / 2 / 5; }
+  .hero__name { font-size: calc(var(--fs-h1) * .78); }
+  .hero__accent { margin-top: calc(var(--u-16) * -1); margin-left: 0; }   /* the desktop offset put the accent straight through the second line here */
+  .hero__accent .a2 { font-size: calc(var(--fs-a2) * .62); }
+  .hero__flower.is-l { width: calc(var(--u-40) * 8); top: calc(var(--u-40) * -1); left: calc(var(--u-80) * -1); }
+  .hero__flower.is-r { display: none; }
+  .hero__field::after { background: radial-gradient(60% 40% at 0% 0%, rgba(16, 32, 26, .5), transparent); }
+  .hero__ctas { flex-flow: column; align-items: center; gap: var(--sp-12); }
+}
+
+/* ---------- numbers strip ---------- */
+.apart-info .data-list.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--sp-32) var(--sp-24); text-align: center; align-items: start; }   /* five figures wrapped 3 + 2 as a flex row; a five-column grid keeps them on one line, evenly */
+.apart-info .data-list.stats > div { min-width: calc(var(--cell-h) * 1.4); }
+.apart-info .data-list.stats .h5 { font-size: calc(var(--fs-h4) * 0.9); }
+.apart-info .data-list.stats .l1 { color: var(--fg-80); }
+@media (max-width: 991px) {
+  .apart-info .data-list.stats { grid-template-columns: repeat(2, 1fr); gap: var(--sp-32) var(--sp-16); }
+  .apart-info .data-list.stats > div { min-width: 42%; }
+}
+
+/* ---------- project pages ---------- */
+.project-overview .info-lead .h4 { max-width: 26em; margin: 0 auto; }
+.project-location__s { position: relative; }
+.project-location .loc-path__title { grid-area: 1 / 3 / 2 / 9; }
+.project-location .loc-path__map { grid-area: 1 / 2 / 2 / 10; }
+@media (max-width: 991px) {
+  .project-location .loc-path__title, .project-location .loc-path__map { grid-area: 1 / 1 / 2 / 5; }
+  .project-location .loc-path__map { overflow: auto; margin: 0 calc(var(--offset) * -1); scrollbar-width: none; }
+  .project-location .loc-path__map svg { max-width: none; width: 250%; }
+}
+
+/* ---------- the mark: Amoha’s own gold ribbon, in place of the rosette drawn for Era ---------- */
+.logo { background: url("../assets/img/amoha-mark.png") center / contain no-repeat; }
+.logo svg { visibility: hidden; }                        /* the symbol stays in the sprite; only this brand hides it */
+.ui-logo__ring text { letter-spacing: .2em; }
+
+/* ---------- the doorway: the arch the original opened with, back in the same place ---------- */
+.benefits.arch { margin-top: calc(var(--arch-r) * -1); }        /* the dome rises through the last of the hero */
+.benefits.arch > .container { padding-top: calc(var(--arch-r) * .42); }   /* a full radius put a screen of empty green between the dome and the first word */
+@media (max-width: 991px) {
+  .benefits.arch > .container { padding-top: calc(var(--arch-r) * .3); }
+}
+
+/* ---------- the three principles travel sideways with the scroll ---------- */
+.benefits .benefits__s { height: auto; }                 /* the area sets the height now, not the viewport */
+.benefits__cms { position: relative; overflow: clip; justify-content: flex-start; }   /* the area: its height is the track's width, set in scenes.js.
+   flex-start matters: the inherited centring parked the sticky screen half the area down, so the dome was followed by a screen and a half of empty green before any word arrived. */
+.benefits__screen { position: sticky; top: 0; display: flex; flex-flow: column; justify-content: center; height: var(--vh); overflow: clip; }
+.benefits .slides { display: flex; flex: none; height: 100%; }
+.benefits .slide, .benefits .slide:first-child { position: relative; display: block; flex: none; width: 100%; height: 100%; }
+.benefits .benefit { box-sizing: border-box; padding: 0 var(--sp-64); }   /* panels sit edge to edge, so their content has to be inset or one heading runs into the next */
+@media (max-width: 991px) {                               /* no pin on phones: the panels simply stack */
+  .benefits__cms { height: auto !important; overflow: visible; }
+  .benefits__screen { position: static; height: auto; overflow: visible; }
+  .benefits .slides { flex-flow: column; height: auto; }
+  .benefits .slide, .benefits .slide:first-child { height: auto; }
+  .benefits .benefit { padding: 0; }   /* stacked here, so nothing is alongside it */
+}
+
+/* ---------- the project name clears its photograph instead of crossing it ---------- */
+.apart .apart-slide__img-w { top: 45%; }   /* Era composed its photographs for the name to sit over them; these are not */
+
+/* ---------- the closing headline gets a ground of its own, whatever the photograph does ---------- */
+.cta .img-over-grad.from-top { height: 100%;   /* the stock overlay is a fixed height and the headline can run past its bottom edge */
+  background: linear-gradient(to bottom, rgba(16, 32, 26, .74) 0%, rgba(16, 32, 26, .66) 34%, rgba(16, 32, 26, .34) 62%, rgba(16, 32, 26, .22) 100%); }
+
+/* ---------- the corner badge: the mark stands in the page’s own arch ---------- */
+/* (the corner badge's drawn arch is gone — the mark stands on its own; the doorway on the first
+   screen keeps that geometry, at .pl__jamb / .pl__head below) */
+
+/* ---------- the first screen: the badge above, at architectural scale ----------
+   The wall is a dark room with a door cut out of it (js sets an evenodd clip, so the real hero
+   shows through the opening from the first frame). The veil dims what is beyond, the spill is the
+   light falling back onto the wall, and both lift as the boot milestones land — so the load is
+   read as the door being made passable rather than as a bar filling. Stroke weight, colour and
+   the 1.4 hairline are the corner badge's, deliberately, so the two read as one mark. */
+.pl__wall { position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, .3)), var(--bg); }
+.pl__spill { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(calc(58% * var(--pl-spill-w, 1)) 42% at 50% var(--pl-spring, 60vh),
+    rgba(247, 245, 238, var(--pl-spill, 0)), transparent 70%); }
+.pl__veil { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: rgba(16, 32, 26, var(--pl-veil, .88)); }
+.pl__draw { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; overflow: visible; }
+.pl__ground { stroke: var(--fg-line); stroke-width: 1; }
+.pl__jamb, .pl__head { fill: none; stroke: var(--c-gold); stroke-width: 1.4;
+  vector-effect: non-scaling-stroke; stroke-linecap: round; }
+/* The mark reads as the logo, not as a keystone on the arch. It takes the corner badge's exact
+   box — same offset, same cell, same 48-unit symbol — so when the door dives away the logo is
+   already standing where the page's own fixed badge lives, and appears simply to stay put. */
+.pl__key { position: absolute; z-index: 4; left: var(--offset); top: var(--offset);
+  width: var(--cell-h); height: var(--cell-h); display: flex; align-items: center; justify-content: center; }
+.pl__key img { width: var(--u-48); }
+.pl__key img { display: block; width: 100%; height: auto; }
+.pl__set { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+/* a block, not a flex box: the wordmark carries a <br>, and a line break inside a flex container
+   is ignored because its children are blockified into anonymous items ("AmohaHomes") */
+.pl__name { position: absolute; left: 0; right: 0; top: calc(var(--pl-crown, 22vh) * .5);
+  transform: translateY(-58%); padding: 0 var(--offset); color: var(--c-chalk);
+  font-size: calc(var(--fs-h3) * .82); }   /* full h3 crowded the keystone on the crown */
+.pl__plate { position: absolute; left: 0; right: 0; top: var(--pl-ground, 80vh);
+  display: flex; flex-flow: column; align-items: center; padding-top: var(--u-32); }
+.pl__rule { display: block; width: var(--u-96); height: 1px; background: var(--c-gold); opacity: .55; }
+.pl__place { margin-top: var(--u-16); color: var(--fg-80); }
+/* The page is built behind the door — that is the point of the third milestone — but the doorway
+   must frame the photograph, not the hero's own headline and buttons seen through a small
+   opening. Hold the hero's type back until the door starts to dive, then let it come up with it. */
+.hero__brand, .hero__bottom { transition: opacity .8s cubic-bezier(.16, 1, .3, 1); }
+html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
+@media (max-width: 991px) {
+  .pl__name { padding-bottom: var(--u-32); }
+  .pl__key { width: var(--u-48); }
+}
+.ui-logo__symbol { width: calc(var(--u-48) * .82); height: calc(var(--u-48) * .82); margin-top: calc(var(--u-8) * .5); }
+
+/* ---------- the Ring Road panel: 13 columns wide for content that fills nine ---------- */
+@media (min-width: 992px) {
+  .loc-info { width: calc(var(--cell-h) * 8 + var(--gap) * 7); }   /* was 10: its content spans about six, so two columns rode along as dead panel */
+  .loc-info .info-desc { grid-area: 1 / 4 / 2 / 8; }   /* was two columns of ten: 35 characters a line, a column too narrow to read */
+  .loc-intro { width: calc(var(--cell-h) * 10 + var(--gap) * 9); }   /* was 13: the surplus travelled past as empty page */
+  .loc-intro__cap { grid-area: 1 / 1 / 2 / 3; }
+  .loc-intro__title { grid-area: 1 / 2 / 2 / 7; }
+  .loc-intro__img { grid-area: 1 / 6 / 2 / 10; }
+  .loc-intro__desc { grid-area: 1 / 10 / 2 / 14; }
+  .loc-intro__btn { grid-area: 1 / 11 / 2 / 14; }
+}
+
+/* ---------- proof in the first viewport: quiet, factual, the site's own figures ---------- */
+.hero__proof { display: flex; flex-flow: row wrap; justify-content: center; align-items: center;
+  gap: var(--sp-8) var(--sp-32); margin: 0; padding: 0; list-style: none; pointer-events: auto; }
+.hero__proof li { position: relative; font-family: var(--font-body); font-size: calc(var(--fs-p1) * .95);
+  line-height: 1.4; letter-spacing: .012em; color: var(--fg-80); white-space: nowrap; }
+.hero__proof li + li::before { content: ""; position: absolute; left: calc(var(--sp-32) / -2);
+  top: 50%; width: 1px; height: .95em; margin-top: -.475em; background: currentColor; opacity: .38; }
+.hero.has-photo .hero__proof li { color: var(--c-chalk); }
+@media (max-width: 991px) {
+  .hero__proof { gap: var(--sp-8) var(--sp-16); }
+  .hero__proof li { font-size: calc(var(--fs-p1) * .92); }
+  .hero__proof li + li::before { display: none; }   /* the row wraps here, and a rule leading a new line reads as a stray mark */
+}
+
+/* ---------- project slides: the name is the largest thing here and had the least air ---------- */
+@media (min-width: 992px) {
+  .apart .apart-slide__data { grid-area: 1 / 1 / 2 / 3; }   /* same width, shifted off the photograph it was sitting on */
+  .apart .apart-slide__b { padding-bottom: var(--sp-16); }  /* 15px between the display name and the pager read as a collision */
+}
+
+/* ---------- the facts rows: a line of substance with the accordion shut ---------- */
+.other-card__lede { max-width: 24em; margin: var(--sp-8) auto 0; font-family: var(--font-body);
+  font-size: calc(var(--fs-p1) * .98); line-height: 1.45; letter-spacing: 0; color: var(--fg-80);
+  text-align: center; text-wrap: balance; }
+.other-card.is-active .other-card__lede { opacity: .45; }   /* the full paragraph is open below it, so the summary steps back */
+
+/* ---------- projects: all four on one screen, comparable at a glance ---------- */
+.apart__s { height: auto; }
+.apart__lede { grid-area: 1 / 3 / 2 / 9; }
+.apart__lede .h4 { max-width: 22em; margin: 0 auto; }
+.apart__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); align-items: start; }
+.proj-card { display: flex; flex-flow: column; color: var(--fg); text-decoration: none; }
+.proj-card__img { position: relative; aspect-ratio: 3 / 4; overflow: clip; }
+.proj-card__img .img-w, .proj-card__img img { width: 100%; height: 100%; object-fit: cover; }
+.proj-card__name { letter-spacing: -0.015em; }
+.proj-card__facts { font-family: var(--font-accent); font-style: italic; font-size: calc(var(--fs-p1) * 1.05); color: var(--fg-80); }
+.proj-card__desc { color: var(--fg-80); text-wrap: pretty; }
+.proj-card__go { margin-top: auto; font-family: var(--font-body); font-weight: 600; font-size: calc(var(--fs-p1) * .95);
+  letter-spacing: .01em; color: var(--c-bloom); border-bottom: 1px solid currentColor; align-self: flex-start; padding-bottom: 2px; }
+.proj-card:hover .proj-card__go { color: var(--fg); }
+.proj-card:hover .proj-card__img img { transform: scale(1.04); }
+.proj-card__img img { transition: transform .7s cubic-bezier(.16,1,.3,1); }
+.proj-card:focus-visible { outline: 2px solid var(--c-bloom); outline-offset: var(--sp-8); }
+@media (max-width: 991px) {
+  .apart__grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-24) var(--gap); }
+}
+@media (max-width: 560px) {
+  .apart__grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- the Ring Road panel: one left edge for the copy, one gutter in from the panel ---------- */
+@media (min-width: 992px) {
+  /* Caption, headline and paragraph all start in column 1 — but base.css:95 gives a centred
+     .s-title 48px of its own padding, so the caption alone sat 45px further in: a block flush on
+     the panel edge with a ragged first line. Zero that padding and indent the whole column once
+     instead, so the three share one left edge.
+     One column plus a gutter, not one --offset: the fixed left rail (logo, progress, scroll cue)
+     occupies x 45-174, and a single gutter put the copy at 91 — right underneath it. This starts
+     the block at ~189, clear of the rail, and reads as a deliberate indent rather than text
+     pinned to the panel edge. The copy also has to ride above the spray: .flower is z-index 1 and
+     the last child of .loc-info, while gsap's transform on .loc-info__s makes it a stacking
+     context painted below that, so petals were landing on the words. */
+  .loc-info__s { position: relative; z-index: 2; padding-left: calc(var(--cell-h) + var(--gap)); }
+  .loc-info .s-title { grid-area: 1 / 1 / 2 / 4; padding-left: 0; padding-right: 0; }
+  .loc-info .info-lead { grid-area: 1 / 1 / 2 / 9; }   /* the indent costs a column; buy it back */
+  .loc-info .info-desc { grid-area: 1 / 1 / 2 / 7; }
+  .loc-info .a-center { text-align: left; }
+  /* the spray keeps its corner, at the size an 8-column panel asks for — it was still placed for
+     the 10 columns line 189 narrowed. At the bottom of its ctn-down drift it covered the caption
+     completely. */
+  .loc-info .flower { width: calc(var(--fl) * .76); top: calc(var(--u-160) * -1); }
+}
+
+/* ---------- facts: the layer stack the rows wipe through ----------
+   Adapted from awwwards-300 Page Transitions/3, "Layers Animation with Clip-path". */
+@media (min-width: 992px) {
+  .other__cms { grid-area: 1 / 1 / 2 / 7; }
+  .other__layers { grid-area: 1 / 8 / 2 / 11; position: relative; aspect-ratio: 3 / 4; align-self: center; overflow: clip; }
+  .other .other-card__label, .other .other-card__name { text-align: left; }
+  .other-card__name { justify-content: flex-start; }
+  .other-card__lede { margin-left: 0; text-align: left; }
+  .other-card__desc .a-center { text-align: left; }
+}
+/* This spray hangs in the top-right corner and is 919px across, so it passes behind the fixed
+   nav at every scroll position — moving it only changes when they meet. At full strength the
+   dark-green nav type sat on saturated magenta and "Enquire now" disappeared entirely. Softening
+   the bloom in this one section keeps the motif and gives the corner back its contrast.
+   (Applied to the media, not to .flower itself, which gsap animates.) */
+@media (min-width: 992px) {
+  .other .flower > * { opacity: .55; }
+}
+
+.other__layer, .other__layer-img { position: absolute; inset: 0; }
+.other__layer { overflow: hidden; opacity: 0; will-change: clip-path; }
+.other__layer-img { background-size: cover; background-position: 50% 50%; will-change: transform, filter; }
+@media (max-width: 991px) { .other__layers { display: none; } }
+
+/* ---------- principles: the picture is the panel, not a stamp inside it ----------
+   sections.css sizes .benefit__img to two grid cells and gives .benefit__t / .benefit__b
+   flex:1 each. That was right for Era's short carousel; these panels are a full viewport
+   tall, so the two type bands swallowed 604px of the 830 and left the render at 197px
+   floating in green. Let the type bands take only what they need and give the rest to
+   the picture. */
+@media (min-width: 992px) {
+  /* One constant lintel, sized to the longest of the three fitted headings, so the photograph's
+     top edge lands on the same line as the track slides. Left to itself each panel's heading set
+     its own height and the pictures stepped 371 / 395 / 386. The --vh term stops a short window
+     from spending the whole panel on type. */
+  .benefits .benefit__t { flex: none; display: flex; flex-flow: column; justify-content: center;
+    min-height: min(calc(var(--u-160) + var(--sp-48)), calc(var(--vh) * .24)); }
+  .benefits .benefit__b { flex: none; }
+  .benefits .benefit__c { flex: 1 1 auto; min-height: 0; align-self: stretch; }
+  /* the spacers were drawn for a card a third of this size */
+  .benefits .benefit__t > .u-48:last-child  { height: min(var(--sp-24), calc(var(--vh) * .028)); }
+  .benefits .benefit__b > .u-48:first-child { height: min(var(--sp-32), calc(var(--vh) * .038)); }
+  .benefits .benefit__b > .u-48:last-child  { height: min(var(--sp-48), calc(var(--vh) * .055)); }
+  /* width-driven now, not height-driven: the frame takes the heading's own measure and whatever
+     height the type does not need */
+  .benefits .benefit__img { flex: 1 1 auto; min-height: 0; width: 100%; height: auto;
+    aspect-ratio: auto; border-radius: calc(var(--u-8) * .75); overflow: clip; }
+  .benefits .benefit__img .img-w { border-radius: inherit;
+    /* the render sits on the sage ground, so it needs its own edge to read as a photograph */
+    box-shadow: 0 calc(var(--u-8) * .5) calc(var(--u-32)) rgba(16, 32, 26, .16); }
+  /* at panel scale the paragraph ran to ~80 characters a line and the tagline broke over three */
+  .benefits .benefit__desc p { max-width: 58ch; margin-inline: auto; }
+  .benefits .benefit__cap { grid-area: 1 / 3 / 2 / 7; padding: 0; }
+}
