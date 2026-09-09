@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="css/sections.css">
 <link rel="stylesheet" href="css/motion.css">
 <link rel="stylesheet" href="css/amoha.css">
+<link rel="preload" as="image" href="assets/img/amoha-h-roots.jpg" media="(min-width: 992px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/amoha-h-roots-p.jpg" media="(max-width: 991px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/amoha-mark.png">
 <script>
   // motion initial states only apply when scripts run (append ?nojs to preview the static page)
@@ -124,7 +126,7 @@
   </div>
 
   <!-- ===== 1. hero ===== -->
-  <section id="hero" class="section clip t-color hero" data-hero="parallax">
+  <section id="hero" class="section clip t-color hero has-photo" data-hero="parallax">
     <div class="container">
       <div class="hero__area">
         <div class="hero__stage">
@@ -147,6 +149,10 @@
           <div class="hero__bg" data-hero-bg>
             <div class="hero__bg-master" data-hero-zoom>
               <div class="hero__bg-img hero__field">
+                <div class="hero__photo" data-hero-layer="0.2"><picture>
+                  <source media="(max-width: 991px)" srcset="assets/img/amoha-h-roots-p.jpg">
+                  <img src="assets/img/amoha-h-roots.jpg" alt="Aerial render of the plots at Amoha Roots on Ring Road" fetchpriority="high">
+                </picture></div>
                 <div class="hero__glow" data-hero-layer="0.3" data-hero-glow></div>
                 <div class="flower hero__flower is-l" data-hero-layer="0.42" data-video="assets/video/bougainvillea-flowers_01.webm"><img src="assets/img/flower-poster-01.avif" width="1080" height="1080" alt=""></div>
                 <div class="flower hero__flower is-r" data-hero-layer="0.55" data-video="assets/video/bougainvillea-flowers_03.webm"><img src="assets/img/flower-poster-03.avif" width="1080" height="1080" alt=""></div>

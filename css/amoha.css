@@ -122,7 +122,7 @@ body { background: var(--c-paper); }
   .hero__content { padding-bottom: calc(var(--u-40) * 5); }
   .hero__brand { grid-area: 1 / 1 / 2 / 5; }
   .hero__name { font-size: calc(var(--fs-h1) * .74); }
-  .hero__accent { margin-top: calc(var(--u-16) * -1); margin-left: 0; }   /* the desktop offset put the accent straight through the second line here */
+  .hero__accent { margin-top: 0; margin-left: 0; }   /* -16 drove the place line into the descenders of the name, as it did on desktop */
   .hero__accent .a2 { font-size: calc(var(--fs-a2) * .46); }
   .hero__flower.is-l { width: calc(var(--u-40) * 8); top: calc(var(--u-40) * -1); left: calc(var(--u-80) * -1); }
   .hero__flower.is-r { display: none; }

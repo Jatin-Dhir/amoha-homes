@@ -313,7 +313,7 @@ window.ERA = window.ERA || {};
     if (arriving && !ERA.reduced) {
       ERA.ptArriving = true;
       pt.classList.add('is-on');
-      gsap.set(layers, { clipPath: SHOWN });                       // inline, so it outranks the class
+      gsap.set(layers, { clipPath: SHOWN, opacity: 1 });            // inline, so it outranks the class
       document.documentElement.classList.remove('is-arriving');    // hand off from the pre-paint arming
     }
     ERA.ptReveal = function () {
@@ -336,8 +336,19 @@ window.ERA = window.ERA || {};
       try { sessionStorage.setItem(KEY, '1'); } catch (err) {}
       const go = () => { location.href = href; };
       pt.classList.add('is-on');
-      gsap.fromTo(layers, { clipPath: HIDDEN },
-        { clipPath: SHOWN, duration: 0.62, ease: 'eraInOut', stagger: 0.085, onComplete: go });
+      gsap.set(layers, { opacity: 1 });
+      gsap.fromTo(layers, { clipPath: HIDDEN }, {
+        clipPath: SHOWN, duration: 0.62, ease: 'eraInOut', onComplete: go,
+        stagger: {
+          each: 0.085,
+          // the component's own economy: once a panel has covered the one beneath it, drop that one
+          // instead of leaving three full-viewport layers compositing — it costs real frames on a phone
+          onComplete: function () {
+            const i = layers.indexOf(this.targets()[0]);
+            if (i > 0) gsap.set(layers[i - 1], { opacity: 0 });
+          },
+        },
+      });
       setTimeout(go, 1500);        // a stalled tween must never strand the reader behind the cover
     });
   };
