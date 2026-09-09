@@ -151,7 +151,7 @@
               <div class="hero__bg-img hero__field">
                 <div class="hero__photo" data-tab-content="day"><div class="img-w"><picture>
                   <source media="(max-width: 991px)" srcset="assets/img/amoha-h-roots-p.jpg">
-                  <img class="img" src="assets/img/amoha-h-roots.jpg" alt="The Amoha corner at midday: a four-storey residence with planted terraces, seen from the street" fetchpriority="high">
+                  <img class="img" data-hero-reveal src="assets/img/amoha-h-roots.jpg" alt="The Amoha corner at midday: a four-storey residence with planted terraces, seen from the street" fetchpriority="high">
                 </picture></div></div>
                 <div class="hero__glow" data-hero-layer="0.3" data-hero-glow></div>
                 <div class="flower hero__flower is-l" data-hero-layer="0.42" data-video="assets/video/bougainvillea-flowers_01.webm"><img src="assets/img/flower-poster-01.avif" width="1080" height="1080" alt=""></div>
@@ -242,11 +242,17 @@
         <div class="u-64"></div>
         <div class="grid">
           <div class="loc-path__map" data-route>
-            <svg viewBox="0 0 1072 208" aria-label="Where the project sits on Bathinda’s Ring Road">
+            <svg class="b-desk" viewBox="0 0 1072 208" aria-label="Where the project sits on Bathinda’s Ring Road">
                 <path class="route" data-route-line d="M50 174 C 120 163, 170 152, 205 138 S 240 118, 285 118 S 330 122, 340 135 S 430 128, 465 125 S 490 141, 520 138 S 610 141, 660 139 S 700 125, 720 128 S 780 165, 800 167 S 830 124, 860 117 S 940 123, 1020 134"/>
                 <g data-route-stop><circle class="stop" cx="60" cy="173" r="3"/><text x="60" y="199">City centre</text><text class="sub" x="60" y="155">Ring Road</text></g>
                 <g data-route-stop><circle class="stop" cx="760" cy="151.5" r="3"/><text x="760" y="180" text-anchor="middle">Amoha Leaf</text><text class="sub" x="760" y="135" text-anchor="middle">directly opposite</text></g>
                 <g data-route-stop><circle class="halo" cx="1000" cy="131" r="10"/><circle class="stop" cx="1000" cy="131" r="3"/><text x="1012" y="112" text-anchor="end">Amoha Roots</text><text class="sub" x="1012" y="158" text-anchor="end">Ring Road, Bathinda</text></g>
+              </svg>
+              <svg class="b-mob" viewBox="0 0 340 640" aria-label="Where the project sits on Bathinda’s Ring Road">
+                <path class="route" d="M60 20 L 60 52 C 60 92, 36 108, 36 148 S 60 194, 60 234 C 60 274, 84 290, 84 330 S 60 376, 60 416 C 60 456, 36 472, 36 512 S 60 558, 60 598 L 60 624"/>
+                <g data-route-stop><circle class="stop" cx="60" cy="36" r="3.5"/><text x="88" y="32">City centre</text><text class="sub" x="88" y="54">Ring Road</text></g>
+                <g data-route-stop><circle class="stop" cx="60" cy="416" r="3.5"/><text x="88" y="412">Amoha Leaf</text><text class="sub" x="88" y="434">directly opposite</text></g>
+                <g data-route-stop><circle class="halo" cx="60" cy="598" r="12"/><circle class="stop" cx="60" cy="598" r="3.5"/><text x="88" y="594">Amoha Roots</text><text class="sub" x="88" y="616">Ring Road, Bathinda</text></g>
               </svg>
           </div>
         </div>

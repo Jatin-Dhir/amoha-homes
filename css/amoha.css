@@ -122,7 +122,7 @@ body { background: var(--c-paper); }
   .hero__proof { display: none; }
 }
 @media (max-width: 991px) {
-  .hero__area { height: calc(var(--vh) * 2.3); }   /* same reasoning as desktop: the building needs a beat in view before the dome */
+  .hero__area { height: calc(var(--vh) * 3.7 + var(--arch-r)); }   /* matched to desktop's 2.9vh of scroll range: at 2.3vh the same 1.15vh content lift outran the finger and the hero was gone in a third of a screen */
   .hero__content { padding-bottom: calc(var(--u-40) * 5); }
   .hero__brand { grid-area: 1 / 1 / 2 / 5; }
   .hero__name { font-size: calc(var(--fs-h1) * .74); }
@@ -131,6 +131,7 @@ body { background: var(--c-paper); }
   .hero__flower.is-l { width: calc(var(--u-40) * 8); top: calc(var(--u-40) * -1); left: calc(var(--u-80) * -1); }
   .hero__flower.is-r { display: none; }
   .hero__field::after { background: radial-gradient(60% 40% at 0% 0%, rgba(16, 32, 26, .5), transparent); }
+  .hero__sub { font-size: calc(var(--fs-p1) * 1.12); }   /* --fs-p1 is already at its 16px floor here, so the sub was the same size as body copy */
   .hero__ctas { flex-flow: column; align-items: center; gap: var(--sp-12); }
 }
 
@@ -178,7 +179,7 @@ body { background: var(--c-paper); }
 @media (max-width: 991px) {                               /* no pin on phones: the panels simply stack */
   .benefits__cms { height: auto !important; overflow: visible; }
   .benefits__screen { position: static; height: auto; overflow: visible; }
-  .benefits .slides { flex-flow: column; height: auto; }
+  .benefits .slides { flex-flow: column; height: auto; gap: var(--sp-160); }   /* panels were 15px apart — the same as the spacing inside one — so three read as one block */
   .benefits .slide, .benefits .slide:first-child { height: auto; }
   .benefits .benefit { padding: 0; }   /* stacked here, so nothing is alongside it */
 }
@@ -303,7 +304,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .apart__grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-24) var(--gap); }
 }
 @media (max-width: 560px) {
-  .apart__grid { grid-template-columns: 1fr; }
+  .apart__grid { grid-template-columns: 1fr; row-gap: var(--sp-96); }   /* 4x the in-card image-to-name spacer, so a card reads as one thing */
 }
 
 /* ---------- the Ring Road panel: one left edge for the copy, one gutter in from the panel ---------- */
@@ -457,16 +458,23 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 @media (max-width: 991px) {
   .ui-logo { width: var(--u-48); height: var(--u-48); }
   .hero__flower.is-l { top: calc(var(--u-40) * 1.5); left: calc(var(--u-40) * -3); }   /* was under the badge */
+  /* ...but a positive top puts the asset's own straight edges inside the frame, so the spray read
+     as a hard-edged pink rectangle with a seam through the logo. sections.css nulls .flower img's
+     mask globally (correct where the box is off-frame); this puts it back for this one spray. */
+  .hero__flower.is-l img {
+    -webkit-mask-image: radial-gradient(closest-side, #000 34%, rgba(0,0,0,.5) 56%, transparent 76%);
+    mask-image: radial-gradient(closest-side, #000 34%, rgba(0,0,0,.5) 56%, transparent 76%);
+  }
 }
 
 /* 6. The figures strip forced 5 fixed tracks for 6 children: 990px of tracks in an 847px column,
    overflowing 144px and throwing the row 72px off centre, with captions on four baselines. */
 .apart-info .data-list.stats { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); align-content: start; }
 .apart-info .data-list.stats > div { min-width: 0; }
-.apart-info .data-list.stats .h5 { min-height: 2lh; }    /* a wrapping value no longer drags its caption down */
+.apart-info .data-list.stats .h5 { min-height: 2lh; align-content: end; }    /* a wrapping value no longer drags its caption down; align-content keeps a ONE-line value at the foot of that reserved box, next to its own caption instead of floating above it */
 .project-overview .apart-info__w .grid { position: relative; z-index: 2; }   /* text wins over the spray */
 @media (max-width: 991px) {
-  .apart-info .data-list.stats { grid-template-columns: repeat(2, 1fr); }
+  .apart-info .data-list.stats { grid-template-columns: repeat(2, 1fr); row-gap: var(--sp-48); }   /* once it multi-rows, the gap between figures must beat the gap inside one */
   .apart-info .data-list.stats > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 
@@ -503,7 +511,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 
 /* 11. The footer was two thirds empty on a phone, its largest element a placeholder phone number. */
 @media (max-width: 991px) {
-  .footer__s { height: auto; min-height: var(--vh); justify-content: flex-start;
+  .footer__s { height: auto; min-height: var(--vh); justify-content: space-between;   /* flex-start left ~330px of dead screen under the last line of the closing frame */
     gap: var(--u-64); padding-block: var(--u-64); }
   .footer__t, .footer__b { flex: none; height: auto; }   /* both were flex:1, which reopened the gap the min-height had just closed */
   .legal-list > * > *, .credits a { padding-block: var(--sp-12); }
@@ -542,6 +550,16 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 /* 22. Focus was suppressed on fields by a rule more specific than the global :focus-visible. */
 .field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--c-bloom); outline-offset: 2px; }
 @media (max-width: 991px) {
+  /* object-position: the phone's narrow crop takes the centre of a wide frame, which is empty
+     road; the figure the composition is built around sits at ~30%. */
+  .cta .img-p { object-position: 30% 50%; }
+  /* NOT a min-height here: .cta__s carries aspect-ratio: 2/6 on phones, and a definite height
+     makes the ratio compute the WIDTH instead of the height — 1308 x 2/6 = 436px in a 390px
+     window, which pushed the whole closing frame off the right edge. Measured: the ratio alone
+     already gives 1032px (1.22 screens), so there was nothing to fix. */
+  /* the enquire sheet is centred in a scroll container that also carries block padding, so its
+     own bottom padding stacked with the container's and the form's last field sat off-sheet */
+  .modal[data-modal="cta"] .modal__c { padding-bottom: 0; }
   .modal__c { overflow-y: auto; overscroll-behavior: contain; padding-block: var(--sp-32); }
   .modal-cta__desc { width: 100%; }
   .modal-cta__form { gap: var(--sp-32); }
@@ -556,6 +574,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .quote__ico, .quote__author { grid-column: 1 / -1; }   /* auto-placement gave them one 4th-width column, so both wrapped to two lines */
   .quote__author { display: flex; gap: var(--sp-16); flex-flow: row wrap; }
   .quote .red-line { display: none; }
+  .quote__ico { text-shadow: 0 1px calc(var(--u-16)) rgba(16, 32, 26, .5); }   /* the phone crop puts the glyph on open sky, where chalk-on-pale lost its edge */
   .quote__s .h5 { text-wrap: pretty; }
 }
 
@@ -649,13 +668,39 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    indent the column past the chrome instead of starting it at the page edge. */
 @media (min-width: 992px) {
   .other__cms { padding-left: calc(var(--cell-h) + var(--gap)); }
-  .other__cms .other-card__name { padding-right: var(--u-32); }   /* keep the +/- toggle inside */
+  .other__cms .other-card__name { padding-right: var(--u-56); }   /* real air around the +/- toggle */
 }
 /* The toggles are absolutely positioned, and sections.css:241 makes .other-card__label their
    containing block — a box shrink-wrapped to each heading. So they parked at the end of whatever
    word the heading happened to finish on, at a different x for every row. Taking the label out of
    the positioning chain lets them resolve against the full-width row and line up on one edge. */
 .other-card__label { position: static; }
+/* sections.css:456 deliberately keeps these accordion headings on ONE line (white-space: nowrap)
+   and sizes them for the original site's longest label, "Sales & marketing" (17 characters). The
+   Amoha project pages carry "Lifestyle and recreation" and "Roads and connectivity" — 24 and 22
+   characters — which at that size measure 673px inside a 673px column, ending 7px short of the
+   +/- toggle pinned to the column's right edge. The boxes never actually overlapped; they simply
+   left no air, and a serif's overhang closed the rest, so the last letter read as sitting on the
+   toggle. With nowrap as the design rule, the type has to be sized for the longest string we
+   actually set, and the reserved band has to be wide enough to see. */
+@media (min-width: 992px) { .other-card .h3 { font-size: calc(var(--fs-h3) * .74); } }
+
+/* The phone cannot win this on size. A 390px screen leaves a ~346px column, and "Lifestyle and
+   recreation" only fits on one line there at about 24px — small enough to stop reading as a
+   heading at all. So the phone drops the one-line rule instead of the type size: a two-line
+   accordion label is completely ordinary on a phone, and the toggle keeps its own reserved band
+   at the row's right edge, which is what nowrap was protecting in the first place. */
+@media (max-width: 991px) {
+  .other-card .h3 { white-space: normal; }
+  /* sections.css centres this flex row and only the min-width:992 block ever set it back to
+     flex-start, so on a phone a short label sat centred while a wrapped one filled the row and
+     read as left-aligned — two alignments in one list. Let the label fill and start at the edge. */
+  .other-card__name { justify-content: flex-start; padding-right: var(--u-40); }
+  .other-card__label { flex: 1 1 auto; min-width: 0; }
+  /* the sub-label under each heading was realigned only above 992px, so on a phone it sat
+     centred beneath a left-aligned heading — two edges in one row. */
+  .other-card__lede { margin-left: 0; text-align: left; }
+}
 
 /* The wordmark is chalk on an open sky, so on the bright day frame it was light-on-light. A thin
    dark stroke gives it an edge without darkening the letterform: paint-order puts the stroke
@@ -689,4 +734,60 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 .ui-nav:not(.t-light) .link_label_text .h6,
 .ui-nav:not(.t-light) .nav-item_label_text .l2 { text-shadow: 0 1px 10px rgba(16, 32, 26, .45); }
 .ui-nav:not(.t-light) .link_label_text .h6 { -webkit-text-stroke: .5px rgba(16, 32, 26, .22); paint-order: stroke fill; }
+/* The mirror case: over the facts section the nav is t-light — dark type — and the layer stack
+   parks a bright aerial directly under it, so "Our projects" sat on white rooftops and parked
+   cars. A cream halo is the light-theme equivalent of the shadow above: on the cream sections it
+   is cream on cream and therefore invisible, and it only does work where an image is behind. */
+.ui-nav.t-light .link_label_text .h6,
+.ui-nav.t-light .nav-item_label_text .l2 {
+  text-shadow: 0 0 6px var(--c-cream), 0 0 14px var(--c-cream), 0 0 24px var(--c-cream);
+}
 
+/* On a phone the fixed marks sit --offset (24 design px) from the edges, which is exactly where
+   body copy starts, so every section's text slid under the logo glyph and the Menu button on its
+   way past — "on 40 ft roads" with a wave mark through it, "opposite the Textile Market" running
+   under "Menu". Desktop never shows this because its content is inset past the left rail by whole
+   grid columns; the phone has no such inset to give.
+   A masked backdrop blur is the only treatment that works over both a photograph and flat cream:
+   it carries no colour of its own, so it is imperceptible against the smooth hero sky, and it
+   throws body copy out of focus exactly where the chrome sits while leaving everything below it
+   sharp. Hung off .ui-nav's own stacking context (z-index 1200) so it needs no extra markup and
+   still paints above the page but beneath the marks themselves. */
+@media (max-width: 991px) {
+  .ui-nav::before {
+    content: ''; position: fixed; top: 0; left: 0; right: 0; z-index: -1; pointer-events: none;
+    height: calc(var(--offset) * 2 + var(--u-40));
+    -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+    -webkit-mask-image: linear-gradient(to bottom, #000 42%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 42%, transparent 100%);
+  }
+}
+
+
+/* The upright route (built in tools/build-amoha.mjs) replaces the horizontal one below 992px.
+   sections.css put the wide map in a 250%-wide overflow:auto box bled to the screen edges, which
+   is the right idea for a 5:1 drawing and the wrong result on a phone: no affordance, so three of
+   the four stops were simply invisible. The b-mob/b-desk pair swaps the drawing instead of
+   shrinking it, so the map fits the column at full size and every label stays legible.
+   Three earlier rules all governed this one element and every one of them has to be answered
+   here, which is why the selectors below are longer than they look like they need to be:
+     .project-location .loc-path__map     (0,2,0) outranks a bare .loc-path__map, so the project
+                                          pages kept the scroll box until it was named explicitly;
+     .loc-path__map svg { width: max(100%, 975px) }  holds the WIDE map above its legibility floor
+                                          in a narrow desktop window — it must keep doing that, so
+                                          only the upright variant is exempted, by class;
+     the right-edge mask fade              was the affordance for a scroll that no longer exists
+                                          below 992px, and would now just fade the route away. */
+@media (max-width: 991px) {
+  .loc-path__map,
+  .project-location .loc-path__map {
+    overflow: visible; margin: 0;
+    -webkit-mask-image: none; mask-image: none;
+  }
+  .loc-path__map svg.b-mob,
+  .project-location .loc-path__map svg.b-mob { width: 100%; max-width: 100%; }
+  /* the upright viewBox is 340 wide against the wide one's 1072, so its type needs its own size
+     in user units to land at the same rendered size on the glass */
+  .loc-path__map svg.b-mob text { font-size: 13px; }
+  .loc-path__map svg.b-mob text.sub { font-size: 12px; }
+}

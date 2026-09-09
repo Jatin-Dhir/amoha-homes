@@ -124,7 +124,11 @@
         start: ca ? 'left 72%' : 'top 82%',
         end: ca ? 'left 18%' : 'top 32%',
         scrub: 1 } });
-      rt.fromTo(route, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', duration: 0.8 });
+      // Below 992px the container holds the UPRIGHT route instead (see tools/build-amoha.mjs), so
+      // the wipe has to travel down it. A left-to-right inset over a tall drawing uncovers every
+      // stop in the first few pixels of travel and then has nothing left to do.
+      const wipeFrom = ERA.isMobile() ? 'inset(0% 0% 100% 0%)' : 'inset(0% 100% 0% 0%)';
+      rt.fromTo(route, { clipPath: wipeFrom }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', duration: 0.8 });
       labels && rt.fromTo(labels, { opacity: 0, y: 8 }, { opacity: 1, y: 0, ease: 'none', duration: 0.35 }, 0.62);
     }
 

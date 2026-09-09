@@ -30,11 +30,14 @@ window.ERA = window.ERA || {};
     if (ERA.reduced) return null;
     const lenis = new Lenis({
       wrapper: ERA.wrapper || window, content: ERA.content || document.documentElement,
-      // Slower and longer-settling than the default. This page is a sequence of set pieces — a
-      // reveal, an arch, two horizontal chapters — and at 1.2/1.0 a single wheel flick threw you
-      // past them. Less distance per notch, a longer glide to rest.
-      duration: 1.6, smoothWheel: true, wheelMultiplier: 0.78, touchMultiplier: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+      // This page is a sequence of set pieces — a reveal, an arch, two horizontal chapters — and
+      // at the 1.2/1.0 default a single wheel flick threw you past them. 1.6/0.78 fixed that and
+      // overshot: an exponential ease has covered ~98% of its distance by 60% of its duration, so
+      // 1.6s left well over half a second of sub-pixel drift after the page had visually stopped.
+      // Steeper exponent collapses that tail, a shorter duration ends it sooner, and giving back
+      // distance per notch makes the page answer the wheel instead of absorbing it.
+      duration: 1.1, smoothWheel: true, wheelMultiplier: 0.95, touchMultiplier: 1.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -12 * t))
     });
     if (ERA.wrapper) ScrollTrigger.defaults({ scroller: ERA.wrapper });
     lenis.on('scroll', ScrollTrigger.update);
@@ -132,7 +135,7 @@ window.ERA = window.ERA || {};
     const inner = list.map((e) => e.firstElementChild).filter(Boolean);
     if (mode === 'reveal') {
       gsap.fromTo(list, { clipPath: 'polygon(100% 0%, 100% 0%, 101% 100%, 125% 100%)' }, { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: D.l, delay: delay ?? D.delay, ease: 'eraInOut', overwrite: true });
-      gsap.fromTo(inner, { scale: 1.5, xPercent: 25 }, { scale: 1, xPercent: 0, duration: D.l, delay: delay ?? D.delay, ease: 'eraInOut', overwrite: true });
+      gsap.fromTo(inner, { scale: 1.5, xPercent: 25 }, { scale: 1, xPercent: 0, duration: D.l, delay: delay ?? D.delay, ease: 'eraInOut', overwrite: 'auto' });   /* true let a later tween kill this one mid-flight, so phone card photos never reached scale 1 and sat cropped inside their frames */
     } else if (mode === 'hide') {
       gsap.fromTo(list, { clipPath: 'polygon(0% 0%, 100% 0%, 125% 100%, 0% 100%)' }, { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)', duration: D.l, delay: delay ?? 0, ease: 'eraInOut', overwrite: true });
       gsap.to(inner, { scale: 1.5, xPercent: -25, duration: D.l, delay: delay ?? 0, ease: 'eraInOut', overwrite: true });

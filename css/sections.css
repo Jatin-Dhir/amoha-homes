@@ -355,7 +355,7 @@
   .intro__s { height: auto; }
   .intro__ring { position: relative; aspect-ratio: 1; left: 0; right: 0; }
   .benefits__cms, .apart__cms { grid-area: 1 / 1 / 2 / 5; }
-  .benefit__cap { grid-area: 1 / 2 / 2 / 4; padding: 0; margin: 0 calc(var(--gap) * -1); }
+  .benefit__cap { grid-area: 1 / 1 / 2 / 5; padding: 0; margin: 0; }   /* had half the measure of the paragraph under it, so it broke mid-phrase while that ran full width */
   .benefit__desc { grid-area: 1 / 1 / 2 / 5; }
   .benefit__img { width: 100%; height: auto; }
   .quote__bg { aspect-ratio: 1; }
@@ -549,13 +549,13 @@
 
   /* flowers: the site's own phone size (--u-40*10 ≈ 96vw) and corner offsets */
   .loc-info .flower, .loc-intro .flower, .apart-info .flower, .other .flower { width: calc(var(--u-40) * 10); height: auto; }
-  .loc-info .flower { width: calc(var(--u-40) * 11.5); top: calc(var(--u-48) * -1); left: calc(var(--u-32) * -1); }   /* wider than the screen so the clip's straight right edge stays off-frame */
+  .loc-info .flower { width: calc(var(--u-40) * 11.5); top: var(--u-32); left: calc(var(--u-32) * -1); }   /* a negative top pushed the dense canopy into the fixed logo's band and swallowed the mark */   /* wider than the screen so the clip's straight right edge stays off-frame */
   .loc-info__t { min-height: calc(var(--u-40) * 6.5); }                                                                  /* title starts under the spray's dense part */
   .loc-intro .flower { left: calc(var(--u-96) * -1); bottom: 0; top: auto; transform: rotate(180deg); }
   .loc-intro__s { padding-bottom: calc(var(--u-40) * 7); }
   .apart-info .flower { left: calc(var(--u-32) * -1 - var(--offset)); bottom: calc(var(--u-32) * -1); transform: scaleY(-1); }
-  .apart-info__s { padding-bottom: calc(var(--u-40) * 6); }
-  .other .flower { width: calc(var(--u-40) * 8.5); top: 0; right: calc(var(--u-96) * -1 - var(--offset)); transform: rotate(45deg); }
+  .apart-info__w { padding-bottom: calc(var(--u-40) * 6); }   /* was .apart-info__s, which this markup has never had: the rule never applied */
+  .other .flower { width: calc(var(--u-40) * 6.5); top: 0; right: calc(var(--u-64) * -1 - var(--offset)); transform: rotate(45deg); }   /* at 8.5 the rotated bbox reached the centred title and petals painted over its last word */
 
   /* location chapter (stacked on phones): caption on its own row, full-width title, no clipped words */
   .loc-intro__cap { grid-area: 1 / 1 / 2 / 5; align-self: start; margin-bottom: var(--u-16); }
