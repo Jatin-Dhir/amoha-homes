@@ -552,3 +552,20 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .quote .red-line { display: none; }
   .quote__s .h5 { text-wrap: pretty; }
 }
+
+/* The landing pair: the same corner at daylight and at golden hour, stacked. The dusk frame starts
+   hidden and is cross-faded in by the hero scene as the page is scrolled, so the light turns as you
+   descend. Each frame keeps its own scrim, so this blends two finished images rather than two veils. */
+.hero__photo.is-dusk { opacity: 0; }
+
+/* The landing photograph is now a street corner, not a park pavilion, so its framing and its scrim
+   both need re-tuning. The frame is 26% taller than the field (parallax headroom), so a 42% object
+   position put the building's roofline at the bottom of the visible area and filled the screen with
+   sky. And the old veil was built for a golden-hour render: at .58-.74 it turned a bright blue
+   daylight sky into flat grey. The daylight frame gets a lighter veil, weighted to the top where the
+   wordmark sits and to the foot where the tagline crosses the sunlit facade. */
+.hero__photo img { object-position: 50% 62%; }
+.hero__photo:not(.is-dusk)::after {
+  background: radial-gradient(30% 40% at 50% 8%, rgba(16, 32, 26, .5), transparent),
+    linear-gradient(180deg, rgba(18, 30, 24, .5) 0%, rgba(18, 30, 24, .26) 44%, rgba(16, 32, 26, .58) 100%);
+}
