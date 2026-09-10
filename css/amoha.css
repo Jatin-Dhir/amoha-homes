@@ -800,3 +800,19 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .loc-path__map svg.b-mob text { font-size: 13px; }
   .loc-path__map svg.b-mob text.sub { font-size: 12px; }
 }
+
+/* ---------- sprays cross the seam between sections ----------
+   .section.clip is overflow:clip, so a spray hanging off the bottom of one section was cut dead
+   on the boundary — a straight horizontal line through the flowers with the next section's cream
+   starting under it. Lifting the clip outright is not an option: these sprays are positioned to
+   bleed sideways (this one starts at x -60), and an unclipped horizontal axis grows the document's
+   scrollWidth and hands the whole page a horizontal scrollbar.
+   So split the axes. `overflow-x: clip` keeps the sideways bleed contained; `overflow-y: visible`
+   lets the spray fall into the section below. This pairing is deliberately legal — `visible`
+   computes to `auto` when the other axis is not visible, EXCEPT when that other axis is `clip`,
+   which is precisely the case this property was added for.
+   No z-index is needed with it: .section sets none, so nothing in the chain makes a stacking
+   context, and a positioned z-index:1 child already paints above a later section's z-index:auto
+   background. Only the two cream sections whose sprays sit on a seam get this — .loc keeps its
+   clip on both axes, because its horizontal track is ~4000px wide and pinned. */
+.section.apart-info, .section.other { overflow-x: clip; overflow-y: visible; }
