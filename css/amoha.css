@@ -128,7 +128,7 @@ body { background: var(--c-paper); }
   .hero__name { font-size: calc(var(--fs-h1) * .74); }
   .hero__accent { margin-top: 0; margin-left: 0; }   /* -16 drove the place line into the descenders of the name, as it did on desktop */
   .hero__accent .a2 { font-size: calc(var(--fs-a2) * .46); }
-  .hero__flower.is-l { width: calc(var(--u-40) * 8); top: calc(var(--u-40) * -1); left: calc(var(--u-80) * -1); }
+  .hero__flower.is-l { width: calc(var(--u-40) * 10.5); top: calc(var(--u-40) * -1); left: calc(var(--u-80) * -1); }   /* larger than it was: hanging it off the top edge takes visible mass off-screen with it, so at the old width the corner was left with a thin clump */
   .hero__flower.is-r { display: none; }
   .hero__field::after { background: radial-gradient(60% 40% at 0% 0%, rgba(16, 32, 26, .5), transparent); }
   .hero__sub { font-size: calc(var(--fs-p1) * 1.12); }   /* --fs-p1 is already at its 16px floor here, so the sub was the same size as body copy */
@@ -319,7 +319,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
      pinned to the panel edge. The copy also has to ride above the spray: .flower is z-index 1 and
      the last child of .loc-info, while gsap's transform on .loc-info__s makes it a stacking
      context painted below that, so petals were landing on the words. */
-  .loc-info__s { position: relative; z-index: 2; padding-left: var(--u-112); }   /* was --cell-h + --gap = a full column; the rail's real ink is only x 87-132, so that reserved far more than it needed */
+  .loc-info__s { position: relative; z-index: 2; padding-left: var(--u-160); }   /* the container used to add --offset in front of this; now that it does not, this value carries the whole distance and still lands the copy at ~150, clear of the rail ink at 87-132 */   /* was --cell-h + --gap = a full column; the rail's real ink is only x 87-132, so that reserved far more than it needed */
   .loc-info .s-title { grid-area: 1 / 1 / 2 / 4; padding-left: 0; padding-right: 0; }
   .loc-info .info-lead { grid-area: 1 / 1 / 2 / 9; }   /* the indent costs a column; buy it back */
   .loc-info .info-desc { grid-area: 1 / 1 / 2 / 7; }
@@ -457,7 +457,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   mask: url("../assets/img/amoha-mark.png") center / contain no-repeat; }
 @media (max-width: 991px) {
   .ui-logo { width: var(--u-48); height: var(--u-48); }
-  .hero__flower.is-l { top: calc(var(--u-40) * 1.5); left: calc(var(--u-40) * -3); }   /* was under the badge */
+  .hero__flower.is-l { left: calc(var(--u-40) * -3); }   /* top intentionally NOT set: the rule above hangs it off the top edge, and the phone nav bar is what keeps the logo clear now */
   /* ...but a positive top puts the asset's own straight edges inside the frame, so the spray read
      as a hard-edged pink rectangle with a seam through the logo. sections.css nulls .flower img's
      mask globally (correct where the box is off-frame); this puts it back for this one spray. */
@@ -631,7 +631,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 .hero__tabs { display: flex; align-items: center; justify-content: center; gap: 0;
   width: max-content; margin-inline: auto; pointer-events: auto;
   padding: var(--sp-4); border: 1px solid rgba(247, 245, 238, .3); border-radius: 999px;
-  background: rgba(16, 32, 26, .26); backdrop-filter: blur(6px); }
+  background: rgba(16, 32, 26, .32); }   /* no backdrop blur: a touch more ground instead, so the control still separates from the picture without the soft-focus patch */
 .hero__tabs .nav-item { padding: var(--sp-8) var(--sp-16); color: var(--c-chalk); opacity: .72;
   border-radius: 999px;
   transition: opacity var(--dur-m) var(--ease-out), background var(--dur-m) var(--ease-out); }
@@ -723,7 +723,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    The same translucent ground the day/dusk pill uses gives the outline something to sit on. It
    goes UNDER .btn_bg_fill, so the hover wipe still slides chalk over the top unchanged. */
 .hero__ctas .btn:not(.is-solid) .btn_bg {
-  background: rgba(16, 32, 26, .22); backdrop-filter: blur(4px);
+  background: rgba(16, 32, 26, .28);
 }
 
 /* The fixed nav is chalk while it sits over photography (initThemes gives it t-color over the hero, from the
@@ -760,7 +760,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
        both run to y=68 on a phone, and at the old height the bar went translucent at y=48, so the
        lower half of the wave mark sat over whatever was behind it. */
     height: calc(var(--offset) * 2 + var(--u-64));
-    background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 68%, transparent 100%);
+    background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 86%, transparent 100%);
     opacity: 0; transition: opacity var(--dur-m) var(--ease-out);
   }
   /* on past the first screen, and never over a photographic section (t-color), where a flat

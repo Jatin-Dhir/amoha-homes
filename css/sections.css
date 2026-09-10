@@ -92,7 +92,7 @@
 .quote__author { grid-area: 1 / 1 / 2 / 4; }
 
 /* ---------- 5. location: horizontal chapter ---------- */
-.container.loc { padding-right: 0; }
+.container.loc { padding-left: 0; padding-right: 0; }   /* panels and sprays reach the true edge; the copy carries its own inset instead (see .loc-*__s below) */
 /* clip the flowers to the horizontal chapter so the concept spray can't ride up into the quote
    section above it: the section's own overflow:clip is escaped by the flowers' will-change layers,
    so clip on this clean block instead. overflow:clip (not hidden) does not create a scroll
@@ -101,12 +101,12 @@
 .loc__screen { position: sticky; top: 0; display: flex; overflow: visible; }
 .loc__track { display: flex; flex: none; }
 .loc-info { position: relative; flex: none; width: calc(var(--cell-h) * 10 + var(--gap) * 9); }
-.loc-info__s { display: flex; flex-flow: column; justify-content: space-between; height: var(--vh); }
+.loc-info__s { display: flex; flex-flow: column; justify-content: space-between; height: var(--vh); padding-inline: var(--offset); }
 .loc-info__t { flex: 1; }
 .loc-info__b { flex: 1; display: flex; flex-flow: column; justify-content: flex-end; }
 .loc-info .flower { top: calc(var(--u-96) * -1); left: calc(var(--u-64) * -1 - var(--offset)); }
 .loc-intro { position: relative; flex: none; width: calc(var(--cell-h) * 13 + var(--gap) * 12); }
-.loc-intro__s { display: flex; flex-flow: column; height: var(--vh); }
+.loc-intro__s { display: flex; flex-flow: column; height: var(--vh); padding-inline: var(--offset); }
 .loc-intro__cap { grid-area: 1 / 2 / 2 / 4; align-self: center; }
 .loc-intro__title { position: relative; z-index: 1; grid-area: 1 / 3 / 2 / 8; display: flex; flex-flow: column; justify-content: center; align-self: center; }
 .loc-intro__line { display: block; }
@@ -117,7 +117,7 @@
 .loc-intro__btn { grid-area: 1 / 12 / 2 / 14; align-self: center; display: flex; flex-flow: column; align-items: center; justify-content: center; }
 .loc-intro .flower { bottom: calc(var(--u-144) * -1); left: calc(var(--u-240) * -1); transform: rotate(90deg); }
 .loc-path { position: relative; flex: none; width: calc(var(--cell-h) * 10 + var(--gap) * 9); }
-.loc-path__s { display: flex; flex-flow: column; justify-content: space-between; height: var(--vh); }
+.loc-path__s { display: flex; flex-flow: column; justify-content: space-between; height: var(--vh); padding-inline: var(--offset); }
 .loc-path__title { grid-area: 1 / 3 / 2 / 9; }
 .loc-path__line { display: block; }
 .loc-path__accent { display: block; margin-top: calc(var(--u-32) * -1); transform: rotate(-12deg); }
@@ -360,7 +360,7 @@
   .benefit__img { width: 100%; height: auto; }
   .quote__bg { aspect-ratio: 1; }
   .quote__c { grid-area: 1 / 1 / 2 / 5; }
-  .container.loc { padding-right: var(--offset); }
+  .container.loc { padding-left: 0; padding-right: 0; }
   .loc__screen { position: static; flex-flow: column; }
   .loc__track { flex-flow: column; }
   .loc-info, .loc-intro, .loc-path { width: auto; }
