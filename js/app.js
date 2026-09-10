@@ -45,6 +45,7 @@
       ERA.initLogoRing();
       ERA.initHeroTabs();
       ERA.initHeroVideo();
+      ERA.initNavBar();
       ERA.initPins();
       ERA.initTips();
       ERA.initSliders();

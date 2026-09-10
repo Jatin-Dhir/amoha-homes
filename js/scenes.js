@@ -96,6 +96,18 @@
         .fromTo(box, { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, ease: 'none' }, 0);
     }
 
+    /* Benefit panels, phones only. On desktop these are a pinned carousel that cross-fades; below
+       992 they simply stack, so each one arrived already at rest and only its characters moved —
+       the panel itself popped into place under a heading that was still drawing. A short
+       scroll-linked lift underneath gives the whole panel somewhere to arrive from, so the type
+       lands on something already in motion instead of on a static block. */
+    if (mob) {
+      gsap.utils.toArray('.benefits .slide').forEach((panel) => {
+        gsap.fromTo(panel, { y: 26, opacity: 0.6 }, { y: 0, opacity: 1, ease: 'none',
+          scrollTrigger: { trigger: panel, start: 'top 92%', end: 'top 52%', scrub: 0.6 } });
+      });
+    }
+
     /* horizontal chapter (desktop): vertical scroll drives the track sideways */
     (mob ? [] : Array.prototype.slice.call(document.querySelectorAll('[data-horizontal]'))).forEach((area) => {
       const track = area.querySelector('[data-horizontal-track]');

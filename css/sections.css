@@ -478,7 +478,18 @@
 .loc-info .flower { width: calc(var(--u-160) * 3); top: calc(var(--u-272) * -0.95); left: calc(var(--u-96) * -1 - var(--offset)); }
 
 /* ---------- real cut-outs: flowers keep their own aspect, no disc mask; placements follow the original ---------- */
-.flower { height: auto; }
+.flower { height: auto;
+  /* A narrow fade on all four edges, intersected. Deliberately only 5%: where a spray already bleeds
+     past the screen edge, a wider band would ramp back INTO view and paint a soft vertical wall
+     inside the frame. At 5% it stays off-screen there, and still softens the sprays whose frame
+     boundary genuinely lands mid-screen. All-edge survives the rotate/flip several sprays use. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 95%, transparent 100%),
+                      linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 95%, transparent 100%),
+              linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  mask-composite: intersect;
+}
 .flower img { height: auto; object-fit: contain; -webkit-mask-image: none; mask-image: none; will-change: transform; transform-origin: 50% 0; }
 .interior__box .flower img { -webkit-mask-image: none; mask-image: none; }
 .loc-info .flower { width: calc(var(--u-160) * 3); top: calc(var(--u-272) * -0.95); left: calc(var(--u-96) * -1 - var(--offset)); }
@@ -549,7 +560,7 @@
 
   /* flowers: the site's own phone size (--u-40*10 ≈ 96vw) and corner offsets */
   .loc-info .flower, .loc-intro .flower, .apart-info .flower, .other .flower { width: calc(var(--u-40) * 10); height: auto; }
-  .loc-info .flower { width: calc(var(--u-40) * 11.5); top: var(--u-32); left: calc(var(--u-32) * -1); }   /* a negative top pushed the dense canopy into the fixed logo's band and swallowed the mark */   /* wider than the screen so the clip's straight right edge stays off-frame */
+  .loc-info .flower { width: calc(var(--u-40) * 12.5); top: calc(var(--u-48) * -1); left: calc(var(--u-64) * -1); }   /* both straight edges off-frame: hangs from the top like foliage instead of floating as a block. The phone nav bar keeps the logo legible under it. */   /* wider than the screen so the clip's straight right edge stays off-frame */
   .loc-info__t { min-height: calc(var(--u-40) * 6.5); }                                                                  /* title starts under the spray's dense part */
   .loc-intro .flower { left: calc(var(--u-96) * -1); bottom: 0; top: auto; transform: rotate(180deg); }
   .loc-intro__s { padding-bottom: calc(var(--u-40) * 7); }

@@ -104,6 +104,21 @@
      built, and only fades in once it can actually play, so it can never delay or replace the
      picture — it just brings the clouds, the foliage and the light to life behind the wordmark.
      Only the panel on screen is fetched; the other is fetched the first time you ask for it. */
+  /* The phone nav sits on a flat bar rather than a blur, and the bar has to stay out of the way
+     of the first screen — the hero is a photograph with the spray hanging into it, and a band
+     across the top of that would be the first thing anyone saw. It arrives once the hero is
+     mostly past. Desktop ignores this entirely; the bar only exists below 992px. */
+  ERA.initNavBar = function () {
+    const nav = document.querySelector('.ui-nav'); if (!nav) return;
+    const set = () => {
+      const y = ERA.lenis ? ERA.lenis.scroll : window.scrollY;
+      nav.classList.toggle('is-solid', y > window.innerHeight * 0.55);
+    };
+    set();
+    if (ERA.lenis) ERA.lenis.on('scroll', set);
+    else window.addEventListener('scroll', set, { passive: true });
+  };
+
   ERA.initHeroVideo = function () {
     const vids = arr('[data-hero-video]'); if (!vids.length) return;
     if (ERA.reduced) return;                                  // the still is the whole hero here

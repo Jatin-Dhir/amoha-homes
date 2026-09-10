@@ -319,7 +319,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
      pinned to the panel edge. The copy also has to ride above the spray: .flower is z-index 1 and
      the last child of .loc-info, while gsap's transform on .loc-info__s makes it a stacking
      context painted below that, so petals were landing on the words. */
-  .loc-info__s { position: relative; z-index: 2; padding-left: calc(var(--cell-h) + var(--gap)); }
+  .loc-info__s { position: relative; z-index: 2; padding-left: var(--u-112); }   /* was --cell-h + --gap = a full column; the rail's real ink is only x 87-132, so that reserved far more than it needed */
   .loc-info .s-title { grid-area: 1 / 1 / 2 / 4; padding-left: 0; padding-right: 0; }
   .loc-info .info-lead { grid-area: 1 / 1 / 2 / 9; }   /* the indent costs a column; buy it back */
   .loc-info .info-desc { grid-area: 1 / 1 / 2 / 7; }
@@ -756,11 +756,20 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 @media (max-width: 991px) {
   .ui-nav::before {
     content: ''; position: fixed; top: 0; left: 0; right: 0; z-index: -1; pointer-events: none;
-    height: calc(var(--offset) * 2 + var(--u-40));
-    -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
-    -webkit-mask-image: linear-gradient(to bottom, #000 42%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 42%, transparent 100%);
+    /* tall enough that the solid part actually contains the marks: the logo and the Menu button
+       both run to y=68 on a phone, and at the old height the bar went translucent at y=48, so the
+       lower half of the wave mark sat over whatever was behind it. */
+    height: calc(var(--offset) * 2 + var(--u-64));
+    background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 68%, transparent 100%);
+    opacity: 0; transition: opacity var(--dur-m) var(--ease-out);
   }
+  /* on past the first screen, and never over a photographic section (t-color), where a flat
+     colour has nothing to match and the type's own shadow already does the work */
+  .ui-nav.is-solid:not(.t-color)::before { opacity: 1; }
+  /* .ui-logo and .ui-nav are both z-index 1200, and the bar lives inside .ui-nav's stacking
+     context — so at equal z-index the later element in the DOM wins and the bar painted straight
+     over the wave mark. One step up puts the logo back on top of its own ground. */
+  .ui-logo { z-index: 1201; }
 }
 
 
