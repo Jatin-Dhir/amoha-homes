@@ -7,7 +7,12 @@ html.has-js [data-reveal], html.has-js [data-part], html.has-js [data-text] { vi
 html.has-js.is-reduced [data-reveal], html.has-js.is-reduced [data-part], html.has-js.is-reduced [data-text] { visibility: visible; }
 
 /* split-text wrappers (GSAP SplitText output) */
-.split-line, .split-word, .split-char { display: inline-block; will-change: transform; }
+/* No will-change here. Every heading on the site is split into characters, so a permanent
+   will-change asked the browser to hold one compositor layer per character for the life of the
+   page — thousands of GPU surfaces on a phone with little GPU memory to give. GSAP promotes an
+   element for exactly as long as it is tweening (force3D: auto) and drops it afterwards, which is
+   all the reveals need. */
+.split-line, .split-word, .split-char { display: inline-block; }
 .split-line-mask, .split-word-mask, .split-char-mask { display: inline-block; line-height: inherit; vertical-align: top; overflow: clip; }
 /* line masks must be blocks: as inline-blocks, two short centred lines that fit one row sat side by side
    with no space between them and read as one word ("move" + "south." → "MOVESOUTH") — every phone width hit it */
@@ -18,7 +23,12 @@ html.has-js.is-reduced [data-reveal], html.has-js.is-reduced [data-part], html.h
 .a1 .split-char, .a2 .split-char, .a3 .split-char {
   padding: var(--sp-32) var(--sp-160); margin: calc(var(--sp-32) * -1) calc(var(--sp-160) * -1);
 }
-[data-parallax="img"], [data-parallax="img-out"], [data-parallax="img-in"], [data-reveal="h"], [data-reveal="a"], [data-reveal="p"], [data-reveal="slide"], [data-reveal="ctn"] { will-change: transform; }
+/* Parallax layers move on every scroll frame for as long as they are on screen, so they keep a
+   standing layer. The [data-reveal] parts used to be on this rule too — but each reveals ONCE and
+   then sits still for the rest of the visit, and a permanent will-change held a compositor layer
+   for every revealed heading, paragraph and image on the page regardless. GSAP promotes them for
+   the length of their tween (force3D: auto), which is the only time the promotion helps. */
+[data-parallax="img"], [data-parallax="img-out"], [data-parallax="img-in"] { will-change: transform; }
 
 /* fixed UI colour transitions when the theme sensors flip */
 [data-theme] .l1, [data-theme] .l2, [data-theme] .h6, [data-theme] .logo, [data-theme] .ui-logo__ring,

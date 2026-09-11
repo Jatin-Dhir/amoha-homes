@@ -1,0 +1,16 @@
+Vendored animation engine — self-hosted so no third-party host sits in the critical path.
+
+  gsap.min.js            GSAP 3.15.0        (the site previously loaded gsap@3.15 from jsdelivr, which resolves to 3.15.0)
+  ScrollTrigger.min.js   ScrollTrigger 3.15.0
+  SplitText.min.js       SplitText 3.15.0
+  CustomEase.min.js      CustomEase 3.15.0
+  lenis.min.js           Lenis 1.3.26       (previously pinned 1.3.21; same 1.3 API, patch releases only)
+
+Source: copied from the npm packages already installed locally (node_modules/gsap/dist,
+node_modules/lenis/dist). License banners are intact in each file. GSAP 3.13+ is free under the
+GSAP Standard "No Charge" license, which permits self-hosting; Lenis is MIT.
+
+Lenis's stylesheet is not vendored as a file: its rules are folded into css/base.css.
+
+To update: replace the file(s) here from the matching npm package's dist/ folder, and bump the
+version in this note.

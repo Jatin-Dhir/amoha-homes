@@ -122,6 +122,7 @@
   ERA.initHeroVideo = function () {
     const vids = arr('[data-hero-video]'); if (!vids.length) return;
     if (ERA.reduced) return;                                  // the still is the whole hero here
+    if (ERA.lite) return;                                     // lite: the still is the whole hero
     const c = navigator.connection;
     if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;   // metered or slow: leave the still
 
@@ -169,10 +170,19 @@
       });
     }));
 
-    document.addEventListener('visibilitychange', () => {
-      vids.forEach((v) => { if (!v.dataset.heroLoaded) return;
-        if (document.hidden) v.pause(); else if (visible(v)) v.play().catch(() => {}); });
+    // Nothing tied the clip to the viewport, so a 1080p loop kept decoding the whole time the
+    // reader was further down the page. Park it when the hero leaves, resume when it returns —
+    // and let tab visibility respect that, rather than restarting a clip nobody can see.
+    let onScreen = true;
+    const sync = () => vids.forEach((v) => {
+      if (!v.dataset.heroLoaded) return;
+      if (document.hidden || !onScreen || !visible(v)) v.pause(); else v.play().catch(() => {});
     });
+    const hero = vids[0].closest('[data-hero]') || vids[0].closest('section');
+    if (hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver((es) => { onScreen = es[es.length - 1].isIntersecting; sync(); }, { rootMargin: '10%' }).observe(hero);
+    }
+    document.addEventListener('visibilitychange', sync);
   };
 
   /* ---------- amenity tabs with sliding hairline highlight ---------- */
@@ -483,11 +493,28 @@
 
   /* ---------- flowers: a slow breeze on the cut-outs, pivoting from where the branch hangs ---------- */
   ERA.initFlowers = function () {
-    if (ERA.reduced || ERA.windActive) return;   // the WebGL wind owns the motion when available
-    arr('.flower img').forEach((img, i) => {
-      const r = gsap.utils.random;
+    // Lite keeps the flowers still. Measured at 4x throttle, a masked poster swaying at 60fps cost
+    // a weak device more at rest than the clip it replaced (706 vs 252 ms/s of main thread): the
+    // sway repaints its masked layer every frame, a clip composites at its own frame rate.
+    if (ERA.reduced || ERA.windActive || ERA.lite) return;   // the WebGL wind owns the motion when available
+    // Every flower on these pages is a clip, and a playing clip IS the motion: its poster sits at
+    // opacity 0 underneath. The sway used to run on all of them regardless — seven infinite
+    // tweens writing transforms every frame, under video and thousands of pixels off-screen.
+    // Now only a flower without a clip sways, and only while it is near the viewport.
+    const sway = (img, i) => {
+      const r = gsap.utils.random, wrap = img.closest('.flower') || img;
       gsap.set(img, { transformOrigin: '50% 0%' });
-      gsap.to(img, { rotation: r(1.4, 2.6) * (i % 2 ? 1 : -1), y: r(-8, 8), scale: 1.015, duration: r(4.5, 7), ease: 'sine.inOut', yoyo: true, repeat: -1, delay: r(0, 2.5) });
+      const tw = gsap.to(img, { rotation: r(1.4, 2.6) * (i % 2 ? 1 : -1), y: r(-8, 8), scale: 1.015, duration: r(4.5, 7), ease: 'sine.inOut', yoyo: true, repeat: -1, delay: r(0, 2.5), paused: true });
+      new IntersectionObserver((es) => { if (es[es.length - 1].isIntersecting) tw.resume(); else tw.pause(); }, { rootMargin: '20%' }).observe(wrap);
+    };
+    arr('.flower img').forEach((img, i) => {
+      const wrap = img.closest('.flower');
+      if (wrap && wrap.classList.contains('is-video')) {
+        // a clip that fails to load hands its flower back to a sway
+        wrap.addEventListener('flower:fallback', () => { if (!ERA.stillFlowers) sway(img, i); }, { once: true });   // a clip that 404s still sways; a device the audition demoted stays still, for the same reason as lite
+        return;
+      }
+      sway(img, i);
     });
   };
 

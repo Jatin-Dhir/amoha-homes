@@ -70,7 +70,8 @@
   /* ---------- real footage: a transparent clip over its poster, playing only in view ---------- */
   ERA.initFlowerVideos = function () {
     const done = Promise.resolve();
-    if (ERA.reduced) return done;
+    if (ERA.reduced || ERA.lite) return done;   // lite: the posters are the flowers
+    const clipFails = []; let judged = false;
     // WebKit plays the HEVC-with-alpha .mov twins; everything else the VP9 .webm. WebKit also
     // reports VP9 WebM as playable but drops its alpha, so it is never offered the .webm
     const probe = document.createElement('video');
@@ -86,12 +87,31 @@
     function attach(wrap, src) {
       const img = wrap.querySelector('img'); if (!src) return;
       const v = document.createElement('video');
-      v.muted = true; v.loop = true; v.playsInline = true; v.preload = ERA.isMobile() ? 'metadata' : 'auto'; v.className = 'flower__video'; v.setAttribute('aria-hidden', 'true');
+      // preload 'metadata', not 'auto': on desktop 'auto' had seven ~3MB clips (10MB .mov on Safari)
+      // all downloading during load, competing with the page itself. The viewport observer calls
+      // play() on approach, which fetches then, and the poster covers the gap. Kept OFF the statement
+      // line on purpose: a trailing // here once commented out the className and aria-hidden after it.
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata'; v.className = 'flower__video'; v.setAttribute('aria-hidden', 'true');
       v.disablePictureInPicture = true;
       const s = document.createElement('source'); s.src = src; s.type = kind === 'mov' ? 'video/mp4' : 'video/webm'; v.appendChild(s);
       let failed = false;
       const fail = () => { if (failed) return; failed = true; wrap.classList.remove('is-video'); v.remove(); if (img) img.style.opacity = ''; wrap.dispatchEvent(new CustomEvent('flower:fallback')); };
       v.addEventListener('error', fail); s.addEventListener('error', fail);
+      clipFails.push(fail);
+      // The first clip that plays auditions the device. If it cannot decode this footage without
+      // dropping frames, none of the others will do better — they are the same 1080px VP9/HEVC
+      // with alpha, decoded in software on most hardware — so every flower goes back to its still,
+      // where the viewport-gated sway takes over. Judged once, on real evidence (40+ frames).
+      v.addEventListener('playing', () => {
+        if (judged) return;
+        setTimeout(() => {
+          if (judged || v.paused) return;
+          const q = v.getVideoPlaybackQuality && v.getVideoPlaybackQuality();
+          if (!q || q.totalVideoFrames < 40) return;   // not enough yet; the next 'playing' tries again
+          judged = true;
+          if (q.droppedVideoFrames / q.totalVideoFrames > 0.12) { ERA.stillFlowers = true; clipFails.splice(0).forEach((f) => f()); }
+        }, 4000);
+      });
       v.addEventListener('playing', () => { if (img) img.style.opacity = '0'; });
       v.addEventListener('pause', () => { if (img) img.style.opacity = ''; });      // poster back while parked out of view
       wrap.appendChild(v); wrap.classList.add('is-video');
@@ -101,12 +121,12 @@
         const inView = entries[entries.length - 1].isIntersecting;
         if (inView) { if (v.paused) v.play().catch(() => {}); }
         else if (!v.paused) v.pause();
-      }, { rootMargin: '30%' }).observe(wrap);
+      }, { rootMargin: '12%' }).observe(wrap);   // was 30%: that started clips a third of a screen early, so two or three decoded at once
     }
   };
 
   ERA.initWind = function () {
-    if (ERA.reduced) return false;
+    if (ERA.reduced || ERA.lite) return false;   // a per-frame WebGL blit is no lighter than the clip it replaces
     const imgs = arr('.flower:not(.is-video) img'); if (!imgs.length) return false;
     const glCanvas = document.createElement('canvas'); glCanvas.width = glCanvas.height = GL_SIZE;
     const gl = glCanvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: 'low-power' });

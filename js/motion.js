@@ -10,6 +10,18 @@ window.ERA = window.ERA || {};
   const D = { s: 0.4, m: 0.8, l: 1.2, stagger: 0.1, delay: 0.3, bp: 992 };
   ERA.D = D;
   ERA.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // A lite tier for devices that cannot carry the full site: genuinely weak hardware (two cores or
+  // less, two GB or less), a reader who has asked to save data, a 2G link — or ?lite to preview it.
+  // Deliberately conservative thresholds: most mid-range phones report 4+ cores and 4 GB, and they
+  // keep everything. Weak devices these signals miss are caught at runtime by the clip audition in
+  // js/wind.js, which measures the one thing that actually matters: dropped frames.
+  ERA.lite = (() => {
+    const n = navigator, c = n.connection || {};
+    return !!(c.saveData || /(^|-)2g$/.test(c.effectiveType || '')
+      || (n.deviceMemory && n.deviceMemory <= 2) || (n.hardwareConcurrency && n.hardwareConcurrency <= 2)
+      || matchMedia('(prefers-reduced-data: reduce)').matches || /[?&]lite\b/.test(location.search));
+  })();
+  document.documentElement.classList.toggle('is-lite', ERA.lite);
   ERA.isMobile = () => window.innerWidth < D.bp;
   ERA.lenis = null;
   const arr = (x) => gsap.utils.toArray(x).filter(Boolean);
