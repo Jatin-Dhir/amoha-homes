@@ -13,6 +13,7 @@
   --c-root:  #10201a;   /* near-black green, text   */
   --c-chalk: #f7f5ee;   /* text on green            */
   --c-bloom: #c2307a;   /* bougainvillea, interactive only */
+  --c-bloom-ink: #a8205f;   /* the same hue deep enough for small text: 4.8:1 on sage, 6.1:1 on paper (#c2307a is 3.65 on sage) */
   --c-gold:  #c39a5e;   /* the gold the client’s own mark is drawn in */
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-accent:  "Fraunces", Georgia, serif;
@@ -61,7 +62,7 @@ body { background: var(--c-paper); }
 .l1, .l2 { text-transform: none; letter-spacing: 0; font-weight: 600; }
 .l1 { font-size: calc(var(--fs-p1) * 0.92); }
 .p1, .p2 { line-height: 1.55; letter-spacing: 0; }
-.h1, .h2, .h3 { text-wrap: balance; }
+.h1, .h2, .h3, .h4, .h5, .h6, .l1, .c1, .a2 { text-wrap: balance; }   /* no one-word last lines: "clarity in / approach", "Schedule a site / visit" */
 .p1 { text-wrap: pretty; }
 .ui-logo__ring text { letter-spacing: .22em; text-transform: uppercase; }   /* the ring stays a ring */
 .loc-path__map text, .loc-path__map text.sub { text-transform: none; letter-spacing: 0; font-weight: 600; }
@@ -248,7 +249,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .loc-info .info-desc { grid-area: 1 / 4 / 2 / 8; }   /* was two columns of ten: 35 characters a line, a column too narrow to read */
   .loc-intro { width: calc(var(--cell-h) * 10 + var(--gap) * 9); }   /* was 13: the surplus travelled past as empty page */
   .loc-intro__cap { grid-area: 1 / 1 / 2 / 3; }
-  .loc-intro__title { grid-area: 1 / 2 / 2 / 7; }
+  .loc-intro__title { grid-area: 1 / 2 / 2 / 6; }   /* ends where the photograph begins: at 2-7 the heading lay across the render, dark type on dark */
   .loc-intro__img { grid-area: 1 / 6 / 2 / 10; }
   .loc-intro__desc { grid-area: 1 / 10 / 2 / 14; }
   .loc-intro__btn { grid-area: 1 / 11 / 2 / 14; }
@@ -281,7 +282,8 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 .other-card__lede { max-width: 24em; margin: var(--sp-8) auto 0; font-family: var(--font-body);
   font-size: calc(var(--fs-p1) * .98); line-height: 1.45; letter-spacing: 0; color: var(--fg-80);
   text-align: center; text-wrap: balance; }
-.other-card.is-active .other-card__lede { opacity: .45; }   /* the full paragraph is open below it, so the summary steps back */
+/* the lede no longer steps back when its row opens: already at --fg-80, any dimming took it under
+   4.5:1 (measured 1.97 at .45, 3.81 at .8) */
 
 /* ---------- projects: all four on one screen, comparable at a glance ---------- */
 .apart__s { height: auto; }
@@ -289,13 +291,16 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 .apart__lede .h4 { max-width: 22em; margin: 0 auto; }
 .apart__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); align-items: start; }
 .proj-card { display: flex; flex-flow: column; color: var(--fg); text-decoration: none; }
-.proj-card__img { position: relative; aspect-ratio: 3 / 4; overflow: clip; }
+/* min-height: 0 is what makes the 3:4 stick. overflow: clip is not a scroll container, so the box's
+   automatic minimum stayed its content's height, and the one render taller than 3:4 (next, 1000x1406)
+   pushed its card 22px lower than the other three. */
+.proj-card__img { position: relative; aspect-ratio: 3 / 4; min-height: 0; overflow: clip; }
 .proj-card__img .img-w, .proj-card__img img { width: 100%; height: 100%; object-fit: cover; }
 .proj-card__name { letter-spacing: -0.015em; }
 .proj-card__facts { font-family: var(--font-accent); font-style: italic; font-size: calc(var(--fs-p1) * 1.05); color: var(--fg-80); }
 .proj-card__desc { color: var(--fg-80); text-wrap: pretty; }
 .proj-card__go { margin-top: auto; font-family: var(--font-body); font-weight: 600; font-size: calc(var(--fs-p1) * .95);
-  letter-spacing: .01em; color: var(--c-bloom); border-bottom: 1px solid currentColor; align-self: flex-start; padding-bottom: 2px; }
+  letter-spacing: .01em; color: var(--c-bloom-ink); border-bottom: 1px solid currentColor; align-self: flex-start; padding-bottom: 2px; }
 .proj-card:hover .proj-card__go { color: var(--fg); }
 .proj-card:hover .proj-card__img img { transform: scale(1.04); }
 .proj-card__img img { transition: transform .7s cubic-bezier(.16,1,.3,1); }
@@ -340,14 +345,9 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .other-card__lede { margin-left: 0; text-align: left; }
   .other-card__desc .a-center { text-align: left; }
 }
-/* This spray hangs in the top-right corner and is 919px across, so it passes behind the fixed
-   nav at every scroll position — moving it only changes when they meet. At full strength the
-   dark-green nav type sat on saturated magenta and "Enquire now" disappeared entirely. Softening
-   the bloom in this one section keeps the motif and gives the corner back its contrast.
-   (Applied to the media, not to .flower itself, which gsap animates.) */
-@media (min-width: 992px) {
-  .other .flower > * { opacity: .55; }
-}
+/* This spray passes behind the fixed nav, and it used to be faded to .55 for that — which made it
+   read as a washed-out ghost next to every other spray on the site. It stays at full strength now:
+   the cream halo .ui-nav.t-light carries (below) is what keeps the nav's dark type legible over it. */
 
 .other__layer, .other__layer-img { position: absolute; inset: 0; }
 .other__layer { overflow: hidden; opacity: 0; will-change: clip-path; }
@@ -365,8 +365,10 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
      top edge lands on the same line as the track slides. Left to itself each panel's heading set
      its own height and the pictures stepped 371 / 395 / 386. The --vh term stops a short window
      from spending the whole panel on type. */
+  /* a fixed height, not a minimum: each fitted heading has its own size, so with only a floor the
+     pictures stepped again (253 / 236 / 244) */
   .benefits .benefit__t { flex: none; display: flex; flex-flow: column; justify-content: center;
-    min-height: min(calc(var(--u-160) + var(--sp-48)), calc(var(--vh) * .24)); }
+    height: min(calc(var(--u-160) + var(--sp-48)), calc(var(--vh) * .24)); }
   .benefits .benefit__b { flex: none; }
   .benefits .benefit__c { flex: 1 1 auto; min-height: 0; align-self: stretch; }
   /* the spacers were drawn for a card a third of this size */
@@ -589,10 +591,18 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    sky. And the old veil was built for a golden-hour render: at .58-.74 it turned a bright blue
    daylight sky into flat grey. The daylight frame gets a lighter veil, weighted to the top where the
    wordmark sits and to the foot where the tagline crosses the sunlit facade. */
-/* superseded: the hero is square and revealed by scroll, see the block at the end */
+/* The veil has to sit OVER the clip. .hero__video is z-index 1 and this ::after had none, so the
+   moment the clip faded in it painted over the veil and the type sat on bare white cloud: measured,
+   the sub-line at 1.3:1 and the proof row at 1.4:1. Lighter than the still's old veil, so the
+   daylight sky stays blue, and weighted to where the type actually is — the centre column. */
+.hero__photo::after { z-index: 2; }
 .hero__photo:not(.is-dusk)::after {
-  background: radial-gradient(30% 40% at 50% 8%, rgba(16, 32, 26, .5), transparent),
-    linear-gradient(180deg, rgba(18, 30, 24, .5) 0%, rgba(18, 30, 24, .26) 44%, rgba(16, 32, 26, .58) 100%);
+  background: radial-gradient(44% 56% at 50% 50%, rgba(16, 32, 26, .32), transparent 74%),
+    linear-gradient(180deg, rgba(18, 30, 24, .3) 0%, rgba(18, 30, 24, .1) 42%, rgba(16, 32, 26, .44) 100%);
+}
+.hero__photo.is-dusk::after {
+  background: radial-gradient(44% 56% at 50% 50%, rgba(16, 24, 20, .26), transparent 74%),
+    linear-gradient(180deg, rgba(16, 24, 20, .26) 0%, rgba(16, 24, 20, .08) 42%, rgba(16, 32, 26, .4) 100%);
 }
 
 /* ---------- the landing photograph: sky first, the building revealed by scrolling ----------
@@ -661,6 +671,60 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    as the landing lifts away, the name eases lighter and softer — a depth cue that belongs to the
    typeface instead of a bolted-on effect. js/scenes.js scrubs these two custom properties. */
 .hero__name { font-variation-settings: "opsz" 144, "SOFT" var(--nm-soft, 50), "wght" var(--nm-wght, 500); }
+
+/* Era's hero ended in a light band, so it carried a second, "light" sensor for its last 35rem. Amoha's
+   hero is photograph to the end, and that sensor turned the nav and rail dark ~700px of scroll early,
+   over the building. The principles arch that follows is the real change of ground, and initThemes
+   now reads it at the curve rather than the crown. */
+.hero__themes .sensor-light { display: none; }
+
+/* ---------- Ring Road panel: the place line above the headline, the headline off the photograph ---------- */
+.loc-intro__kicker { margin: 0 0 var(--sp-16); text-align: left; }
+@media (min-width: 992px) {
+  .loc-intro__title .h1 { font-size: var(--fs-h2); }             /* "Bathinda" at display size ran ~100px onto the render */
+  .loc-intro__kicker { margin-left: calc(var(--cell-h) / 2); }    /* on the same edge as "Ring" */
+}
+@media (max-width: 991px) { .loc-intro__title { grid-row: 1 / 3; } }   /* the caption's own row is gone */
+
+/* No tilted type (the client's call). The Era template set these accents at -12deg and tucked them
+   into their neighbours with negative margins; upright, those margins would only overlap. */
+.loc-path__accent { transform: none; margin-top: 0; }
+.modal-cta__accent, .modal-menu__a { transform: none; margin: 0; }
+
+/* The Ring Road track scrolls sideways, so every line of it crosses the fixed rail on the way out —
+   and the counter and scroll cue were landing on the words mid-crossing ("Punjab" under "55"). The
+   rail steps back for that chapter only; js/scenes.js sets the class while the track is pinned. */
+.ui-bar-w, .ui-scroll { transition: opacity var(--dur-m) var(--ease-out); }
+html.is-sideways .ui-bar-w { opacity: 0; }
+html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one's opacity inline; the class has to win over it */
+
+/* The vision quote is chalk over a sunlit wall: the page's bottom scrims only reach the attribution,
+   so the first line sat at 2.3:1. A soft pool of shade behind the words themselves, not over the
+   picture — on a phone the text sits left and low, on desktop right of centre. */
+.quote__bg::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(44% 50% at 68% 54%, rgba(16, 32, 26, .5), transparent 78%); }
+@media (max-width: 991px) {
+  .quote__bg::after { background: radial-gradient(80% 42% at 40% 62%, rgba(16, 32, 26, .44), transparent 82%); }
+}
+
+/* figures in rows of equal length: tools/build-amoha.mjs writes --cols from the count */
+@media (min-width: 992px) {
+  .apart-info .data-list.stats[style*="--cols"] { grid-template-columns: repeat(var(--cols), 1fr); }
+}
+
+/* projects: the section intro's second sentence, under the lede */
+.apart__intro { max-width: 36em; margin: 0 auto; color: var(--fg-80); }
+
+/* project pages: the location advantages, as the content lists them, under the route */
+.loc-facts { grid-area: 1 / 2 / 2 / 10; display: flex; flex-flow: row wrap; justify-content: center;
+  gap: var(--sp-8) var(--sp-32); margin: 0; padding: 0; list-style: none; }
+.loc-facts li { color: var(--fg-80); }
+@media (max-width: 991px) {
+  .loc-facts { grid-area: 1 / 1 / 2 / 5; flex-flow: column; align-items: flex-start; gap: var(--sp-8); }
+}
+
+/* the cursor's petal trail (js/petals.js): above the page, beneath the fixed marks and the menus */
+.petals { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1150; pointer-events: none; }
 
 /* 2. The facts headings sat in grid column 1 — the container's own edge — which is exactly where
    the fixed left rail lives (x 45-174). "Why Amoha", "Master planner" and "Next chapter" all ran

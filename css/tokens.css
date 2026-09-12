@@ -78,20 +78,22 @@
   --accent-scale: 1.12;           /* Pinyon renders smaller on the em box than the original script */
 
   /* type scale (design px) */
-  --fs-h1: calc(192 * var(--px)); --lh-h1: 0.875;   --ls-h1: -0.024em;
-  --fs-h2: calc(136 * var(--px)); --lh-h2: 0.88235; --ls-h2: -0.024em;
-  --fs-h3: calc(96 * var(--px));  --lh-h3: 0.91667; --ls-h3: -0.024em;
-  --fs-h4: calc(63 * var(--px));  --lh-h4: 0.88889; --ls-h4: -0.016em;
-  --fs-h5: calc(40 * var(--px));  --lh-h5: 1;       --ls-h5: -0.008em;
-  --fs-h6: calc(28 * var(--px));  --lh-h6: 1;       --ls-h6: 0em;
+  /* display sizes brought down about a fifth at the client's request ("the text is too big"):
+     body, labels and captions were already small and keep their size */
+  --fs-h1: calc(152 * var(--px)); --lh-h1: 0.875;   --ls-h1: -0.024em;
+  --fs-h2: calc(108 * var(--px)); --lh-h2: 0.88235; --ls-h2: -0.024em;
+  --fs-h3: calc(78 * var(--px));  --lh-h3: 0.91667; --ls-h3: -0.024em;
+  --fs-h4: calc(50 * var(--px));  --lh-h4: 0.88889; --ls-h4: -0.016em;
+  --fs-h5: calc(33 * var(--px));  --lh-h5: 1;       --ls-h5: -0.008em;
+  --fs-h6: calc(24 * var(--px));  --lh-h6: 1;       --ls-h6: 0em;
   --fs-p1: calc(13 * var(--px));  --lh-p1: 1.38462; --ls-p1: -0.024em;
   --fs-p2: calc(11 * var(--px));  --lh-p2: 1.45455; --ls-p2: -0.024em;
   --fs-l1: calc(11 * var(--px));  --lh-l1: 1.45455; --ls-l1: 0.048em;
   --fs-l2: calc(9 * var(--px));   --lh-l2: 1.33333; --ls-l2: 0.32em;
-  --fs-c1: calc(25 * var(--px));  --lh-c1: 1.12;    --ls-c1: 0.8em;
-  --fs-a1: calc(192 * var(--px) * var(--accent-scale));
-  --fs-a2: calc(120 * var(--px) * var(--accent-scale));
-  --fs-a3: calc(64 * var(--px) * var(--accent-scale));
+  --fs-c1: calc(21 * var(--px));  --lh-c1: 1.12;    --ls-c1: 0.8em;
+  --fs-a1: calc(152 * var(--px) * var(--accent-scale));
+  --fs-a2: calc(96 * var(--px) * var(--accent-scale));
+  --fs-a3: calc(52 * var(--px) * var(--accent-scale));
 
   /* motion */
   --dur-s: 0.4s;
@@ -161,15 +163,15 @@
     --sp-160: var(--u-96);
     --sp-272: var(--u-120);
 
-    --fs-h1: calc(96 * var(--px)); --lh-h1: 0.91667;
-    --fs-h2: calc(73 * var(--px)); --lh-h2: 0.87671;
-    --fs-h3: calc(56 * var(--px)); --lh-h3: 0.92857;
-    --fs-h4: calc(40 * var(--px)); --lh-h4: 1;
-    --fs-h5: calc(28 * var(--px));
-    --fs-h6: calc(28 * var(--px));
-    --fs-c1: calc(19 * var(--px)); --lh-c1: 1.26316;
-    --fs-a1: calc(96 * var(--px) * var(--accent-scale));
-    --fs-a2: calc(72 * var(--px) * var(--accent-scale));
-    --fs-a3: calc(48 * var(--px) * var(--accent-scale));
+    --fs-h1: calc(78 * var(--px)); --lh-h1: 0.91667;
+    --fs-h2: calc(60 * var(--px)); --lh-h2: 0.87671;
+    --fs-h3: calc(46 * var(--px)); --lh-h3: 0.92857;
+    --fs-h4: calc(33 * var(--px)); --lh-h4: 1;
+    --fs-h5: calc(24 * var(--px));
+    --fs-h6: calc(24 * var(--px));
+    --fs-c1: calc(17 * var(--px)); --lh-c1: 1.26316;
+    --fs-a1: calc(78 * var(--px) * var(--accent-scale));
+    --fs-a2: calc(60 * var(--px) * var(--accent-scale));
+    --fs-a3: calc(40 * var(--px) * var(--accent-scale));
   }
 }

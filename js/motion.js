@@ -186,6 +186,15 @@ window.ERA = window.ERA || {};
     const classes = ['t-light', 't-brand', 't-color', 't-dark'];
     const map = { light: 't-light', color: 't-color', dark: 't-dark' };
     const apply = (ui, cls) => classes.forEach((c) => ui.classList.toggle(c, c === cls));
+    // An arch section's box top is the crown of its dome; at the sides the curve is far lower (half a
+    // screen, at the rail and the nav). Measured from the box, the rail and nav went dark while the
+    // photograph was still behind them. So the edge a UI piece waits for is the curve at ITS x.
+    const archDrop = (sensor, cx) => {
+      if (!sensor.classList.contains('arch')) return 0;
+      const sr = sensor.getBoundingClientRect(), R = parseFloat(getComputedStyle(sensor).borderTopLeftRadius) || 0;
+      const dx = Math.max(sr.left + R - cx, cx - (sr.right - R), 0);
+      return R && dx ? R - Math.sqrt(Math.max(0, R * R - Math.min(dx, R) * Math.min(dx, R))) : 0;
+    };
     arr('[data-bg]').forEach((sensor) => {
       if (getComputedStyle(sensor).display === 'none') return;
       const cls = map[sensor.dataset.bg]; if (!cls) return;
@@ -194,7 +203,7 @@ window.ERA = window.ERA || {};
         const r = ui.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
         if (cx < sr.left || cx > sr.right) return;
         ScrollTrigger.create({
-          trigger: sensor, start: () => 'top top+=' + cy, end: () => 'bottom top+=' + cy,
+          trigger: sensor, start: () => 'top+=' + archDrop(sensor, cx) + ' top+=' + cy, end: () => 'bottom top+=' + cy,
           onEnter: () => apply(ui, cls), onEnterBack: () => apply(ui, cls)
         });
       });

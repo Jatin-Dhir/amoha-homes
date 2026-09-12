@@ -116,8 +116,14 @@
       const tween = gsap.to(track, { x: () => -(track.scrollWidth - area.offsetWidth), ease: 'eraHor', scrollTrigger: { trigger: area, start: '2.5% top', end: '97.5% bottom', scrub: 0.25, invalidateOnRefresh: true } });
       area._tween = tween;
       ScrollTrigger.addEventListener('refreshInit', setHeight);
+      // The Ring Road track carries its copy out past the fixed rail; the rail's counter and scroll
+      // cue step back while it is pinned (css/amoha.css, html.is-sideways).
+      if (area.querySelector('.loc-intro')) ScrollTrigger.create({ trigger: area, start: 'top top', end: 'bottom bottom',
+        onToggle: (st) => document.documentElement.classList.toggle('is-sideways', st.isActive) });
       const lines = area.querySelectorAll('[data-line]');
-      gsap.fromTo(lines, { xPercent: gsap.utils.wrap([-5, 25, -15]) }, { xPercent: gsap.utils.wrap([5, -25, 25]), ease: 'none', scrollTrigger: { trigger: area, start: 'top top', end: 'bottom bottom', scrub: 0.25 } });
+      // A gentle drift, not Era's ±25%: the headline now ends where the photograph starts, and a
+      // quarter of "Bathinda" sliding right would put it straight back on the render.
+      if (lines.length) gsap.fromTo(lines, { xPercent: gsap.utils.wrap([-3, 8, -5]) }, { xPercent: gsap.utils.wrap([3, -8, 5]), ease: 'none', scrollTrigger: { trigger: area, start: 'top top', end: 'bottom bottom', scrub: 0.25 } });   // the principles track has no display lines
       const fi = area.querySelector('[data-flower-intro]'); fi && gsap.fromTo(fi, { xPercent: 0 }, { xPercent: -25, ease: 'none', scrollTrigger: { trigger: area, start: 'top top', end: 'bottom bottom', scrub: 0.25 } });
       const fp = area.querySelector('[data-flower-path]'); fp && gsap.fromTo(fp, { yPercent: 0 }, { yPercent: 25, ease: 'none', scrollTrigger: { trigger: area, start: 'bottom bottom', end: 'bottom top', scrub: 0.25 } });
     });
