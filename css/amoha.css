@@ -289,7 +289,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 .apart__s { height: auto; }
 .apart__lede { grid-area: 1 / 3 / 2 / 9; }
 .apart__lede .h4 { max-width: 22em; margin: 0 auto; }
-.apart__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); align-items: start; }
+.apart__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); align-items: stretch; }   /* stretch, so .proj-card__go's margin-top:auto puts all four links on one line */
 .proj-card { display: flex; flex-flow: column; color: var(--fg); text-decoration: none; }
 /* min-height: 0 is what makes the 3:4 stick. overflow: clip is not a scroll container, so the box's
    automatic minimum stayed its content's height, and the one render taller than 3:4 (next, 1000x1406)
@@ -698,6 +698,12 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 html.is-sideways .ui-bar-w { opacity: 0; }
 html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one's opacity inline; the class has to win over it */
 
+/* One screen, not a 4:3 box: at 1792 wide that was 1344px on a 910px screen, so the statement and
+   its photograph never fitted in view together. The photograph covers the screen instead. */
+@media (min-width: 992px) {
+  .quote__bg { aspect-ratio: auto; height: var(--vh); }
+}
+
 /* The vision quote is chalk over a sunlit wall: the page's bottom scrims only reach the attribution,
    so the first line sat at 2.3:1. A soft pool of shade behind the words themselves, not over the
    picture — on a phone the text sits left and low, on desktop right of centre. */
@@ -722,6 +728,16 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
 @media (max-width: 991px) {
   .loc-facts { grid-area: 1 / 1 / 2 / 5; flex-flow: column; align-items: flex-start; gap: var(--sp-8); }
 }
+
+/* The numbers-section spray is clip 02 now (tools/build-amoha.mjs), mirrored rather than flipped: its
+   mass hugs the left screen edge, that side's partial crop sits on the edge, and every edge a reader
+   can see — including the tips that hang into the section below — is the plant's own. */
+.apart-info .flower { transform: scaleX(-1); }
+
+/* The landscape-phone cover was Era's navy with its line set in .l1, which takes the theme's dark
+   ink — near-black on navy, unreadable. The site's own ground, and chalk type. */
+.landscape-cover { background: var(--c-root); color: var(--c-chalk); }
+.landscape-cover .l1 { color: var(--c-chalk); font-size: var(--fs-p1); }
 
 /* the cursor's petal trail (js/petals.js): above the page, beneath the fixed marks and the menus */
 .petals { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1150; pointer-events: none; }

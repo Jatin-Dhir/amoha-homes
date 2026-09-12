@@ -170,7 +170,13 @@ window.ERA = window.ERA || {};
         if (ERA.reduced) { show(el); return; }
         ERA.anim[type](el, 'initial');
         const horiz = el.closest('[data-horizontal]');
-        const ca = horiz && horiz._tween;
+        // Only what is still off to the right of a sideways track waits for the track to bring it
+        // in. The track's first screen is on show while the section rises into view, and tied to the
+        // track it stayed hidden until the pin began — "Thoughtful planning" appeared late on the way
+        // down (and was simply there on the way back up, having already played once).
+        const track = horiz && horiz.querySelector('[data-horizontal-track]');
+        const offRight = !!(track && el.getBoundingClientRect().left - track.getBoundingClientRect().left > horiz.offsetWidth * 0.9);
+        const ca = offRight ? horiz._tween : null;
         ScrollTrigger.create({
           trigger: el, containerAnimation: ca || undefined,
           start: ca ? 'left right' : 'top bottom', once: true,
