@@ -37,6 +37,11 @@
       // real transparent clips where the files exist (skipped on Safari); the rest get the
       // WebGL wind on their cut-outs, and the CSS sway only if WebGL is unavailable
       ERA.initFlowerVideos().then(() => { ERA.initWind(); ERA.initFlowers(); });
+      // Fit the display lines before anything measures or splits them. Run last, a CTA headline
+      // sat at its unfitted size while the scenes, reveals and theme sensors laid out: on a phone
+      // 'neighbourhood' widened the document, so SplitText broke lines for the wrong column and
+      // the nav fell outside every theme sensor.
+      ERA.initFitText();
       ERA.initScenes();          // creates the horizontal tween the reveals depend on
       ERA.initReveals();
       ERA.initThemes();
@@ -58,7 +63,6 @@
       ERA.initNavHover();
       ERA.initModals();
       ERA.initForm();
-      ERA.initFitText();
       ERA.initRouteArt();
       ERA.initMisc();
       ScrollTrigger.refresh();

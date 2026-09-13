@@ -151,6 +151,10 @@
 @media (max-width: 991px) {
   :root {
     --scale: 4.16;
+    /* the design pixel stops growing at 1.28px (~533px wide). Pure vw ran this scale on to
+       991px, so an 820px tablet drew everything at 2.1x a 390 phone (33px body, 221px nav bar).
+       Phones up to ~533px sit under the cap and are unchanged. */
+    --px: min(calc(1rem / var(--scale)), 1.28px);
     --offset: var(--u-24);
     --cell-h: var(--u-80);
     --cell-v: var(--u-80);

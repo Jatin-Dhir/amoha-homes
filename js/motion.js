@@ -190,7 +190,9 @@ window.ERA = window.ERA || {};
   ERA.initThemes = function () {
     const uis = arr('[data-theme]'); if (!uis.length) return;
     const classes = ['t-light', 't-brand', 't-color', 't-dark'];
-    const map = { light: 't-light', color: 't-color', dark: 't-dark' };
+    // brand is the sage ground. Unmapped, the sage sections had to call themselves light, and the
+    // nav painted its cream halo (meant for chalk grounds) as pale boxes on sage.
+    const map = { light: 't-light', brand: 't-brand', color: 't-color', dark: 't-dark' };
     const apply = (ui, cls) => classes.forEach((c) => ui.classList.toggle(c, c === cls));
     // An arch section's box top is the crown of its dome; at the sides the curve is far lower (half a
     // screen, at the rail and the nav). Measured from the box, the rail and nav went dark while the
@@ -436,7 +438,10 @@ window.ERA = window.ERA || {};
     // 0.88, not Era's 0.75: the door's foot has to stay inside the zoomed-out hero photograph or
     // the opening frames the section below it instead of the picture
     const mob = ERA.isMobile(), heroScale = mob ? 1.12 : 0.88;
-    const W = () => window.innerWidth, H = () => window.innerHeight;
+    // clientWidth, not innerWidth: the overlay is the width of the screen, but innerWidth grows with
+    // anything overflowing the page sideways. The px clip-path hole and the gold strokes (a viewBox
+    // scaled into the overlay) then parted, and the photo opening sat 40px right of its frame.
+    const W = () => document.documentElement.clientWidth, H = () => window.innerHeight;
     const GROUND = () => H() * 0.78;
     // the opening was 17% of the frame width and read as thin; this gives it real presence while
     // still leaving the wordmark room above the crown

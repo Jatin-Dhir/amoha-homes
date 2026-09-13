@@ -539,7 +539,9 @@
   .arch__intro .flower.is-r,
   .other .flower { width: var(--fl); }
   /* the route-panel spray hangs in the same top-right corner as the fixed nav, so it reads
-     the smallest and tucks further into the corner to keep "Select an apartment" clear */
+     the smallest and tucks further into the corner. The tuck does not clear the nav: when the
+     route track comes to rest the spray still sits behind it, so amoha.css hides it on desktop
+     too (phones already drop it, see the <=991 .loc-path__flower rule above). */
   .loc-path__flower .flower { width: calc(var(--u-80) * 6.6); margin-right: calc(var(--u-112) * -1); }
 }
 

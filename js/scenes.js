@@ -40,6 +40,11 @@
         if (drift) {
           // the composition lifts out; each [data-hero-layer="depth"] in the field follows at its own rate (no zoom)
           tl.fromTo(content, { y: 0 }, { y: () => -(1.15 * window.innerHeight), ease: 'eraEase', duration: 0.6 }, 0);
+          // Phones only: the logo and Menu sit in the band the lifted copy passes through, and the hero
+          // paints no bar under them (is-hero, js/components.js). So the composition dissolves as it
+          // lifts and is gone as the sub's first line reaches that band, which it does at 0.088-0.111
+          // of this timeline (measured on home and the project template at 360, 390 and 820).
+          if (mob) tl.to(content, { autoAlpha: 0, ease: 'none', duration: 0.08 }, 0.015);
           bg.querySelectorAll('[data-hero-layer]').forEach((layer) => {
             const depth = parseFloat(layer.dataset.heroLayer) || 0.3;
             tl.fromTo(layer, { y: 0 }, { y: () => -(depth * window.innerHeight), ease: 'eraEase', duration: 0.6 }, 0);
@@ -53,7 +58,18 @@
           const reveal = bg.querySelectorAll('[data-hero-reveal]');
           // 0.27 of the 0.6 timeline, so the picture finishes revealing at 45% of the hero scroll and
           // the building stands fully in view for a beat before the dome starts to rise over it.
-          if (reveal.length) tl.fromTo(reveal, { yPercent: 0 }, { yPercent: -41.2, ease: 'none', duration: 0.27 }, 0);
+          // A project page has no dome coming (no .benefits.arch), and there 0.27 froze the render for
+          // a screen and a half of scroll; 0.5 keeps it moving for most of the run.
+          // The travel is the picture's surplus over its frame, measured rather than assumed: 41.2 is
+          // right for desktop's 170%, but the phone picture is 152% (css/amoha.css) and 41.2 lifted it
+          // 78-125px too far, baring a flat green band under the building. The frame is the .img-w
+          // (the <picture> is display:contents); the hidden dusk panel measures 0 and is skipped; and
+          // invalidateOnRefresh re-measures after a resize or a rotate.
+          if (reveal.length) {
+            const laid = () => Array.prototype.find.call(reveal, (r) => r.offsetHeight > 0);
+            const travel = () => { const el = laid(), f = el && el.closest('.img-w'); return f ? -100 * (1 - f.offsetHeight / el.offsetHeight) : -41.2; };
+            tl.fromTo(reveal, { yPercent: 0 }, { yPercent: travel, ease: 'none', duration: document.querySelector('.benefits.arch') ? 0.27 : 0.5 }, 0);
+          }
           // The wordmark relaxes on the typeface's own axes as it departs — lighter and softer,
           // which reads as distance rather than as a fade. Fraunces carries wght and SOFT, so this
           // is the type responding, not an effect laid over it.
@@ -137,10 +153,13 @@
       // actually on screen. (A timed reveal fires at 'left right' — the instant the panel peeks in
       // from the right — and finishes ~0.4 s later while the panel is still sliding in off-frame, so
       // it was never seen.) The clip wipes line, stops and labels in together; labels then settle.
+      // Unpinned (the upright phone route, a project page's map) the bounds were 'top 82%' → 'top 32%',
+      // keyed to the map's top edge alone, so on a short screen the whole map sat in view still half
+      // drawn. It now draws from the moment it enters and has finished once all of it is on screen.
       const rt = gsap.timeline({ scrollTrigger: {
         trigger: route, containerAnimation: ca,
-        start: ca ? 'left 72%' : 'top 82%',
-        end: ca ? 'left 18%' : 'top 32%',
+        start: ca ? 'left 72%' : 'top bottom',
+        end: ca ? 'left 18%' : 'bottom 90%',
         scrub: 1 } });
       // Below 992px the container holds the UPRIGHT route instead (see tools/build-amoha.mjs), so
       // the wipe has to travel down it. A left-to-right inset over a tall drawing uncovers every
@@ -198,11 +217,15 @@
       const clip = document.querySelector('[data-footer-clip]'), s = footer.querySelector('[data-footer-s]');
       const h = footer.querySelectorAll('[data-text="h"]'), p = footer.querySelectorAll('[data-text="p"]'), ctn = footer.querySelectorAll('[data-text="ctn"]');
       ERA.animH(h, 'initial'); ERA.animP(p, 'initial'); ERA.animCtn(ctn, 'initial');
-      gsap.timeline({ scrollTrigger: { trigger: footer, start: 'top 30%', end: 'bottom bottom', scrub: 0.5,
+      const ftl = gsap.timeline({ scrollTrigger: { trigger: footer, start: 'top 30%', end: 'bottom bottom', scrub: 0.5,
         onEnter: () => { ERA.animH(h, 'reveal', 0.1); ERA.animP(p, 'reveal', 0.1); ERA.animCtn(ctn, 'reveal', 0.1); },
         onLeaveBack: () => { ERA.animH(h, 'hide', 0); ERA.animP(p, 'hide', 0); ERA.animCtn(ctn, 'hide', 0); } } })
-        .fromTo(clip, { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: mob ? 'inset(4% 32% 4% 32%)' : 'inset(8% 22% 8% 22%)', ease: 'none' }, 0)
-        .fromTo(s, { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, ease: 'none' }, 0);
+        .fromTo(clip, { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: mob ? 'inset(4% 32% 4% 32%)' : 'inset(8% 22% 8% 22%)', ease: 'none' }, 0);
+      // Tied to that run, the content waited for the footer's top to reach 30%: on a phone the dark
+      // ground came up through most of the screen with nothing on it. There the content has its own
+      // earlier run, and is in place by the time the footer's top is at mid-screen.
+      if (mob) gsap.fromTo(s, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, ease: 'none', scrollTrigger: { trigger: footer, start: 'top 90%', end: 'top 45%', scrub: 0.5 } });
+      else ftl.fromTo(s, { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, ease: 'none' }, 0);
       const cue = document.querySelector('[data-scroll-cue]');
       cue && gsap.to(cue, { opacity: 0, ease: 'eraInOut', scrollTrigger: { trigger: footer, start: 'top bottom', end: 'center bottom', scrub: true } });
     }

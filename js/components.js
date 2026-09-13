@@ -110,11 +110,21 @@
      mostly past. Desktop ignores this entirely; the bar only exists below 992px. */
   ERA.initNavBar = function () {
     const nav = document.querySelector('.ui-nav'); if (!nav) return;
+    // is-hero: the hero area still runs past the foot of the screen. Past it, copy over the quote and
+    // closing photographs scrolled straight under the logo and Menu, so those t-color sections get a
+    // dark ground too (css/amoha.css); the hero keeps none, since its own shade is what the marks sit on.
+    // Where the hero ends is measured once per layout (every ScrollTrigger refresh) and compared with
+    // the scroll position; read back from the page on each scroll frame, it forced a style pass per frame.
+    const ha = document.querySelector('[data-hero] .hero__area');
+    let heroEnd = -1;
+    const measure = () => { heroEnd = ha ? ha.getBoundingClientRect().bottom + window.scrollY - window.innerHeight : -1; };
     const set = () => {
       const y = ERA.lenis ? ERA.lenis.scroll : window.scrollY;
       nav.classList.toggle('is-solid', y > window.innerHeight * 0.55);
+      nav.classList.toggle('is-hero', y < heroEnd);
     };
-    set();
+    measure(); set();
+    if (window.ScrollTrigger) ScrollTrigger.addEventListener('refresh', () => { measure(); set(); });
     if (ERA.lenis) ERA.lenis.on('scroll', set);
     else window.addEventListener('scroll', set, { passive: true });
   };
@@ -363,6 +373,8 @@
       if (name === 'menu') {
         uis.forEach((u) => { if (!u.classList.contains('t-dark')) { u.classList.add('t-dark'); u.dataset.modalThemed = '1'; } });
         document.querySelectorAll('.btn-menu_label').forEach((l) => l.classList.toggle('is-active'));
+        // the label said Close under the menu's own kebab; is-open swaps the icon too (css/amoha.css)
+        document.querySelectorAll('.btn-menu').forEach((b) => b.classList.add('is-open'));
         const q = (s) => m.querySelectorAll(s);
         ERA.animA(q('[data-part="a"]'), 'initial'); ERA.animH(q('[data-part="h"]'), 'initial'); ERA.animP(q('[data-part="p"]'), 'initial'); ERA.animCtn(q('[data-part="ctn"]'), 'initial');
         ERA.animA(q('[data-part="a"]'), 'reveal'); ERA.animH(q('[data-part="h"]'), 'reveal'); ERA.animP(q('[data-part="p"]'), 'reveal'); ERA.animCtn(q('[data-part="ctn"]'), 'reveal');
@@ -372,7 +384,9 @@
         const q = (s) => m.querySelectorAll(s);
         ERA.animA(q('[data-part="a"]'), 'initial'); ERA.animH(q('[data-part="h"]'), 'initial'); ERA.animP(q('[data-part="p"]'), 'initial');
         ERA.animA(q('[data-part="a"]'), 'reveal', D.m); ERA.animH(q('[data-part="h"]'), 'reveal', D.m); ERA.animP(q('[data-part="p"]'), 'reveal', D.m);
-        const first = m.querySelector('input'); first && setTimeout(() => first.focus({ preventScroll: true }), 900);
+        // The caret goes into Name for a mouse or trackpad only. On a touch screen it landed the
+        // sheet with Name already ringed, and can raise the keyboard over a form not yet read.
+        const first = m.querySelector('input'); if (first && matchMedia('(pointer: fine)').matches) setTimeout(() => first.focus({ preventScroll: true }), 900);
       }
       ERA.lockScroll();
     };
@@ -383,6 +397,7 @@
       if (name === 'menu') {
         uis.forEach((u) => { if (u.dataset.modalThemed) { u.classList.remove('t-dark'); delete u.dataset.modalThemed; } });
         document.querySelectorAll('.btn-menu_label').forEach((l) => l.classList.toggle('is-active'));
+        document.querySelectorAll('.btn-menu').forEach((b) => b.classList.remove('is-open'));
         const q = (s) => m.querySelectorAll(s);
         ERA.animA(q('[data-part="a"]'), 'hide'); ERA.animH(q('[data-part="h"]'), 'hide'); ERA.animP(q('[data-part="p"]'), 'hide'); ERA.animCtn(q('[data-part="ctn"]'), 'hide');
         gsap.delayedCall(D.m, () => gsap.set([m, over], { display: 'none' }));
