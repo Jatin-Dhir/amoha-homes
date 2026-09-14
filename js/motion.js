@@ -193,7 +193,11 @@ window.ERA = window.ERA || {};
     // brand is the sage ground. Unmapped, the sage sections had to call themselves light, and the
     // nav painted its cream halo (meant for chalk grounds) as pale boxes on sage.
     const map = { light: 't-light', brand: 't-brand', color: 't-color', dark: 't-dark' };
-    const apply = (ui, cls) => classes.forEach((c) => ui.classList.toggle(c, c === cls));
+    // is-hero rides along: the ground under this piece is the hero photograph. The phone bar
+    // (css/amoha.css) stays off there however far the picture has scrolled, and since it switches on
+    // the theme's own edge, arch curve included, the bar and the theme change together.
+    // !!hero: classList.toggle with an undefined force flips the class instead of clearing it
+    const apply = (ui, cls, hero) => { classes.forEach((c) => ui.classList.toggle(c, c === cls)); ui.classList.toggle('is-hero', !!hero); };
     // An arch section's box top is the crown of its dome; at the sides the curve is far lower (half a
     // screen, at the rail and the nav). Measured from the box, the rail and nav went dark while the
     // photograph was still behind them. So the edge a UI piece waits for is the curve at ITS x.
@@ -206,13 +210,13 @@ window.ERA = window.ERA || {};
     arr('[data-bg]').forEach((sensor) => {
       if (getComputedStyle(sensor).display === 'none') return;
       const cls = map[sensor.dataset.bg]; if (!cls) return;
-      const sr = sensor.getBoundingClientRect();
+      const sr = sensor.getBoundingClientRect(), hero = !!sensor.closest('[data-hero]');
       uis.forEach((ui) => {
         const r = ui.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
         if (cx < sr.left || cx > sr.right) return;
         ScrollTrigger.create({
           trigger: sensor, start: () => 'top+=' + archDrop(sensor, cx) + ' top+=' + cy, end: () => 'bottom top+=' + cy,
-          onEnter: () => apply(ui, cls), onEnterBack: () => apply(ui, cls)
+          onEnter: () => apply(ui, cls, hero), onEnterBack: () => apply(ui, cls, hero)
         });
       });
     });

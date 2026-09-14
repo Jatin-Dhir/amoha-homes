@@ -41,7 +41,7 @@
           // the composition lifts out; each [data-hero-layer="depth"] in the field follows at its own rate (no zoom)
           tl.fromTo(content, { y: 0 }, { y: () => -(1.15 * window.innerHeight), ease: 'eraEase', duration: 0.6 }, 0);
           // Phones only: the logo and Menu sit in the band the lifted copy passes through, and the hero
-          // paints no bar under them (is-hero, js/components.js). So the composition dissolves as it
+          // paints no bar under them (is-hero, js/motion.js). So the composition dissolves as it
           // lifts and is gone as the sub's first line reaches that band, which it does at 0.088-0.111
           // of this timeline (measured on home and the project template at 360, 390 and 820).
           if (mob) tl.to(content, { autoAlpha: 0, ease: 'none', duration: 0.08 }, 0.015);

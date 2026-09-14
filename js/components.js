@@ -110,21 +110,16 @@
      mostly past. Desktop ignores this entirely; the bar only exists below 992px. */
   ERA.initNavBar = function () {
     const nav = document.querySelector('.ui-nav'); if (!nav) return;
-    // is-hero: the hero area still runs past the foot of the screen. Past it, copy over the quote and
-    // closing photographs scrolled straight under the logo and Menu, so those t-color sections get a
-    // dark ground too (css/amoha.css); the hero keeps none, since its own shade is what the marks sit on.
-    // Where the hero ends is measured once per layout (every ScrollTrigger refresh) and compared with
-    // the scroll position; read back from the page on each scroll frame, it forced a style pass per frame.
-    const ha = document.querySelector('[data-hero] .hero__area');
-    let heroEnd = -1;
-    const measure = () => { heroEnd = ha ? ha.getBoundingClientRect().bottom + window.scrollY - window.innerHeight : -1; };
+    // Past the hero, copy over the quote and closing photographs runs under the logo and Menu, so those
+    // t-color sections get a dark ground too (css/amoha.css). The hero keeps none, however far it has
+    // scrolled: its own corner shade is what the marks sit on. Which photograph is under the nav is the
+    // theme sensors' call (is-hero, js/motion.js), made on the same edge as the theme itself; keyed to
+    // the hero area's end instead, the bar came up over the picture's last screen.
     const set = () => {
       const y = ERA.lenis ? ERA.lenis.scroll : window.scrollY;
       nav.classList.toggle('is-solid', y > window.innerHeight * 0.55);
-      nav.classList.toggle('is-hero', y < heroEnd);
     };
-    measure(); set();
-    if (window.ScrollTrigger) ScrollTrigger.addEventListener('refresh', () => { measure(); set(); });
+    set();
     if (ERA.lenis) ERA.lenis.on('scroll', set);
     else window.addEventListener('scroll', set, { passive: true });
   };
