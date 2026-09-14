@@ -58,6 +58,8 @@
           const reveal = bg.querySelectorAll('[data-hero-reveal]');
           // 0.27 of the 0.6 timeline, so the picture finishes revealing at 45% of the hero scroll and
           // the building stands fully in view for a beat before the dome starts to rise over it.
+          // On a phone the run is 3.7 screens plus the radius, so 0.27 held the finished picture still
+          // for ≈1.4 screens; 0.45 leaves about half a screen before the dome.
           // A project page has no dome coming (no .benefits.arch), and there 0.27 froze the render for
           // a screen and a half of scroll; 0.5 keeps it moving for most of the run.
           // The travel is the picture's surplus over its frame, measured rather than assumed: 41.2 is
@@ -68,7 +70,7 @@
           if (reveal.length) {
             const laid = () => Array.prototype.find.call(reveal, (r) => r.offsetHeight > 0);
             const travel = () => { const el = laid(), f = el && el.closest('.img-w'); return f ? -100 * (1 - f.offsetHeight / el.offsetHeight) : -41.2; };
-            tl.fromTo(reveal, { yPercent: 0 }, { yPercent: travel, ease: 'none', duration: document.querySelector('.benefits.arch') ? 0.27 : 0.5 }, 0);
+            tl.fromTo(reveal, { yPercent: 0 }, { yPercent: travel, ease: 'none', duration: document.querySelector('.benefits.arch') ? (mob ? 0.45 : 0.27) : 0.5 }, 0);
           }
           // The wordmark relaxes on the typeface's own axes as it departs — lighter and softer,
           // which reads as distance rather than as a fade. Fraunces carries wght and SOFT, so this
@@ -133,8 +135,9 @@
       area._tween = tween;
       ScrollTrigger.addEventListener('refreshInit', setHeight);
       // The Ring Road track carries its copy out past the fixed rail; the rail's counter and scroll
-      // cue step back while it is pinned (css/amoha.css, html.is-sideways).
-      if (area.querySelector('.loc-intro')) ScrollTrigger.create({ trigger: area, start: 'top top', end: 'bottom bottom',
+      // cue step back as the chapter comes up, not once it pins (css/amoha.css, html.is-sideways):
+      // its spray hangs from the chapter's top edge, and the whole approach dragged it through them.
+      if (area.querySelector('.loc-intro')) ScrollTrigger.create({ trigger: area, start: 'top bottom', end: 'bottom bottom',
         onToggle: (st) => document.documentElement.classList.toggle('is-sideways', st.isActive) });
       const lines = area.querySelectorAll('[data-line]');
       // A gentle drift, not Era's ±25%: the headline now ends where the photograph starts, and a
@@ -217,15 +220,21 @@
       const clip = document.querySelector('[data-footer-clip]'), s = footer.querySelector('[data-footer-s]');
       const h = footer.querySelectorAll('[data-text="h"]'), p = footer.querySelectorAll('[data-text="p"]'), ctn = footer.querySelectorAll('[data-text="ctn"]');
       ERA.animH(h, 'initial'); ERA.animP(p, 'initial'); ERA.animCtn(ctn, 'initial');
-      const ftl = gsap.timeline({ scrollTrigger: { trigger: footer, start: 'top 30%', end: 'bottom bottom', scrub: 0.5,
+      // Whole pixels: at fractional insets the parallax photo and its dimming overlays (separate layers)
+      // took the clip edge differently, and a 1-2px column of undimmed photo lit both sides of the
+      // closing card.
+      const sq = mob ? [4, 32] : [8, 22], k = { v: 0 };
+      const paint = () => { const y = Math.round(clip.offsetHeight * sq[0] / 100 * k.v), x = Math.round(clip.offsetWidth * sq[1] / 100 * k.v); clip.style.clipPath = 'inset(' + y + 'px ' + x + 'px)'; };
+      gsap.timeline({ scrollTrigger: { trigger: footer, start: 'top 30%', end: 'bottom bottom', scrub: 0.5 } })
+        .fromTo(k, { v: 0 }, { v: 1, ease: 'none', onUpdate: paint }, 0);
+      ScrollTrigger.addEventListener('refresh', paint);
+      // The content no longer waits for the clip's 'top 30%': there the root-green ground came up
+      // through most of the screen empty, on desktop and on phones (whose earlier fade still held its
+      // text back).
+      gsap.fromTo(s, { opacity: 0, scale: mob ? 0.9 : 0.75 }, { opacity: 1, scale: 1, ease: 'none', scrollTrigger: { trigger: footer, start: 'top 90%', end: 'top 45%', scrub: 0.5 } });
+      ScrollTrigger.create({ trigger: footer, start: 'top 60%',
         onEnter: () => { ERA.animH(h, 'reveal', 0.1); ERA.animP(p, 'reveal', 0.1); ERA.animCtn(ctn, 'reveal', 0.1); },
-        onLeaveBack: () => { ERA.animH(h, 'hide', 0); ERA.animP(p, 'hide', 0); ERA.animCtn(ctn, 'hide', 0); } } })
-        .fromTo(clip, { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: mob ? 'inset(4% 32% 4% 32%)' : 'inset(8% 22% 8% 22%)', ease: 'none' }, 0);
-      // Tied to that run, the content waited for the footer's top to reach 30%: on a phone the dark
-      // ground came up through most of the screen with nothing on it. There the content has its own
-      // earlier run, and is in place by the time the footer's top is at mid-screen.
-      if (mob) gsap.fromTo(s, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, ease: 'none', scrollTrigger: { trigger: footer, start: 'top 90%', end: 'top 45%', scrub: 0.5 } });
-      else ftl.fromTo(s, { opacity: 0, scale: 0.75 }, { opacity: 1, scale: 1, ease: 'none' }, 0);
+        onLeaveBack: () => { ERA.animH(h, 'hide', 0); ERA.animP(p, 'hide', 0); ERA.animCtn(ctn, 'hide', 0); } });
       const cue = document.querySelector('[data-scroll-cue]');
       cue && gsap.to(cue, { opacity: 0, ease: 'eraInOut', scrollTrigger: { trigger: footer, start: 'top bottom', end: 'center bottom', scrub: true } });
     }

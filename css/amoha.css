@@ -92,7 +92,8 @@ body { background: var(--c-paper); }
 .hero__flower.is-r > * { transform: scaleX(-1); }        /* mirrored on the media, so the box itself can drift */
 /* The right spray's mass came to rest in the fixed nav's corner, under the links, on every page. It
    cannot simply hang lower: the field is overflow:clip, so the frame's top edge would show as a
-   straight cut. The left spray carries the corner alone, at every width. */
+   straight cut. The left spray carries the corner alone on desktop; phones hang this one from the top
+   edge instead (W04, at the end). */
 .hero__flower.is-r { display: none; }
 @media (min-width: 992px) { .hero__flower { width: var(--fl); } }
 .hero__content { justify-content: center; height: calc(100% - var(--hero-foot)); }   /* the column stops above the tagline, so the block centres in the room that is left */
@@ -119,9 +120,14 @@ body { background: var(--c-paper); }
 .btn.is-solid:hover .btn_label, .btn.is-solid:hover .btn_label .l1, .btn.is-solid:focus-visible .btn_label { color: var(--c-root); }
 .hero__tagline { display: flex; justify-content: center; pointer-events: auto; }
 .hero__tagline .h5 { max-width: 20em; color: var(--c-chalk); }
+/* The wordmark leads, as the phone block below already rules: at the full --fs-h1 the principle heads
+   and the closing headline set ~97px against a 62px wordmark at 1024x768. Each now sits just under
+   .hero__name (.84 tall, .64 short); fit-text only shrinks from there. */
+@media (min-width: 992px) { .benefits .benefit__t .h1, .cta__title .h1 { font-size: calc(var(--fs-h1) * .8); } }
 @media (min-width: 992px) and (max-height: 860px) {   /* short laptop screens: the two-line wordmark plus the proof line overran the tagline */
   :root { --hero-foot: calc(var(--u-40) * 5); }
   .hero__name { font-size: calc(var(--fs-h1) * .64); }
+  .benefits .benefit__t .h1, .cta__title .h1 { font-size: calc(var(--fs-h1) * .6); }
   .hero__accent .a2 { font-size: calc(var(--fs-a2) * .42); }
   .hero__accent { margin-top: 0; }
   .hero__sub { font-size: calc(var(--fs-p1) * 1.38); }
@@ -137,18 +143,23 @@ body { background: var(--c-paper); }
   .hero__name { font-size: calc(var(--fs-h1) * .74); }
   .hero__accent { margin-top: 0; margin-left: 0; }   /* -16 drove the place line into the descenders of the name, as it did on desktop */
   .hero__accent .a2 { font-size: calc(var(--fs-a2) * .46); }
-  .hero__flower.is-l { width: min(calc(var(--u-40) * 10.5), 50svh); top: calc(var(--u-40) * -1); left: calc(var(--u-80) * -1); }   /* larger than it was: hanging it off the top edge takes visible mass off-screen with it, so at the old width the corner was left with a thin clump. Capped by the short axis too, like every other spray (21. below) */
   .hero__field::after { background: radial-gradient(60% 40% at 0% 0%, rgba(16, 32, 26, .5), transparent), radial-gradient(50% 24% at 100% 0%, rgba(16, 32, 26, .45), transparent); }   /* Menu has a corner too: it stood on bare sky */
   .hero__sub { font-size: calc(var(--fs-p1) * 1.12); }   /* --fs-p1 is already at its 16px floor here, so the sub was the same size as body copy */
   .hero__ctas { flex-flow: column; align-items: stretch; gap: var(--sp-12); }   /* stacked, the two buttons share one width instead of two ragged ones */
 }
 /* The project heroes have no arch rising through them, so home's extra radius of run only held one
-   frozen frame for a screen and a half. */
+   frozen frame for a screen and a half. On a phone 3.7vh had faded the copy by 0.16 of the run and then
+   only panned the render, at ~0.23px per px of scroll. At 3vh the 1.15vh lift runs at about finger
+   speed; 2.3vh outran it (above). */
 .hero.is-project .hero__area { height: calc(var(--vh) * 2.4); }
-@media (max-width: 991px) { .hero.is-project .hero__area { height: calc(var(--vh) * 3.7); } }
+@media (max-width: 991px) { .hero.is-project .hero__area { height: calc(var(--vh) * 3); } }
+/* sections.css stops the hero's sensor a screen early so home can hand off to its arch. A project hero
+   hands off to the overview at its own foot, and on the way back up that gap kept the overview's theme
+   over the photograph: a sage bar and dark marks on phones, dark nav ink on desktop. */
+.hero.is-project .hero__themes { bottom: 0; }
 
 /* ---------- numbers strip ---------- */
-.apart-info .data-list.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--sp-32) var(--sp-24); text-align: center; align-items: end; }   /* five figures wrapped 3 + 2 as a flex row; a five-column grid keeps them on one line, evenly. end, not start: a value that wraps grows upward, and the captions in a row stay on one line */
+.apart-info .data-list.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--sp-32) var(--sp-24); text-align: center; align-items: end; }   /* five figures wrapped 3 + 2 as a flex row; a five-column grid keeps them on one line, evenly. end, not start, is for the project facts: a value that wraps grows upward, and the captions in a row stay on one line. Home's one-line figures take start (6. below) */
 .apart-info .data-list.stats > div { min-width: calc(var(--cell-h) * 1.4); }
 .apart-info .data-list.stats .h5 { font-size: calc(var(--fs-h4) * 0.9); }
 .apart-info .data-list.stats .l1 { color: var(--fg-80); }
@@ -269,10 +280,16 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .loc-intro__title { grid-area: 1 / 2 / 2 / 6; }   /* ends where the photograph begins: at 2-7 the heading lay across the render, dark type on dark */
   .loc-intro__img { grid-area: 1 / 6 / 2 / 10; }
   .loc-intro__desc { grid-area: 1 / 10 / 2 / 14; padding-left: var(--sp-32); }   /* it started on the photograph's own edge, with no gutter */
-  .loc-intro__btn { grid-area: 1 / 11 / 2 / 14; }
+  .loc-intro__btn { grid-area: 1 / 10 / 2 / 14; padding-left: var(--sp-32); align-items: flex-start; }   /* on the paragraph's own left edge, as phones set it: a column in, the circle sat 110px inside it */
   /* the route panel's spray came to rest in the nav's corner whenever the track stopped. The chapter
      keeps its other two, and phones already drop this one (sections.css). */
   .loc-path__flower { display: none; }
+  /* The route panel is exactly one track window wide. js/scenes.js ends the track at -(scrollWidth -
+     area.offsetWidth), and at ten columns the panel ended flush right with the previous panel's last
+     words still in frame and its title off-axis. 100cqw of the area, not 100vw or the offset calc:
+     with a classic scrollbar those leave the panel 7.5px left of centre. */
+  .loc__area { container-type: inline-size; }
+  .loc-path { width: 100cqw; }
 }
 
 /* ---------- proof in the first viewport: quiet, factual, the site's own figures ---------- */
@@ -290,6 +307,9 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .hero__proof { gap: var(--sp-8) var(--sp-16); }
   .hero__proof li { font-size: calc(var(--fs-p1) * .82); letter-spacing: .13em; }
   .hero__proof li + li::before { display: none; }   /* the row wraps here, and a rule leading a new line reads as a stray mark */
+}
+@media (min-width: 600px) and (max-width: 991px) and (min-height: 860px) {   /* a portrait tablet: the capped scale fits two items a line, so the row broke 2 + 1; three centred lines instead */
+  .hero__proof { flex-flow: column; }
 }
 
 /* ---------- project slides: the name is the largest thing here and had the least air ---------- */
@@ -319,7 +339,6 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 .proj-card__name { letter-spacing: -0.015em; }
 .proj-card__facts { font-family: var(--font-accent); font-style: italic; font-size: calc(var(--fs-p1) * 1.05); line-height: 1.4; color: var(--fg-80); }   /* body line-height is 1, and inside the reveal's line mask that cut off the italic descenders ("Planninq staqe") */
 .proj-card__desc { color: var(--fg-80); text-wrap: pretty; }
-.proj-card__desc .split-word { white-space: normal; }   /* sections.css keeps the reveal's word spans nowrap, which made "residential-cum-commercial" one unbreakable block */
 .proj-card__go { margin-top: auto; font-family: var(--font-body); font-weight: 600; font-size: calc(var(--fs-p1) * .95);
   letter-spacing: .01em; color: var(--c-bloom-ink); border-bottom: 1px solid currentColor; align-self: flex-start; padding-bottom: 2px; }
 .proj-card:hover .proj-card__go { color: var(--fg); }
@@ -327,7 +346,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 .proj-card__img img { transition: transform .7s cubic-bezier(.16,1,.3,1); }
 .proj-card:focus-visible { outline: 2px solid var(--c-bloom); outline-offset: var(--sp-8); }
 @media (max-width: 991px) {
-  .apart__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-24) var(--gap); }
+  .apart__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-64) var(--gap); }   /* at sp-24 a card's link sat closer to the next photo than to its own card */
 }
 @media (max-width: 560px) {
   .apart__grid { grid-template-columns: 1fr; row-gap: var(--sp-96); }   /* 4x the in-card image-to-name spacer, so a card reads as one thing */
@@ -345,7 +364,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
      pinned to the panel edge. The copy also has to ride above the spray: .flower is z-index 1 and
      the last child of .loc-info, while gsap's transform on .loc-info__s makes it a stacking
      context painted below that, so petals were landing on the words. */
-  .loc-info__s { position: relative; z-index: 2; padding-left: var(--u-160); }   /* the container used to add --offset in front of this; now that it does not, this value carries the whole distance and still lands the copy at ~150, clear of the rail ink at 87-132 */   /* was --cell-h + --gap = a full column; the rail's real ink is only x 87-132, so that reserved far more than it needed */
+  .loc-info__s { position: relative; z-index: 2; padding-left: calc(var(--offset) + var(--cell-h) + var(--gap)); }   /* the page's column-2 line, where the About rows and the projects grid start (171 at 1366): at u-160 the copy kept an edge of its own, 34px left of it */
   .loc-info .s-title { grid-area: 1 / 1 / 2 / 4; padding-left: 0; padding-right: 0; }
   .loc-info .info-lead { grid-area: 1 / 1 / 2 / 9; }   /* the indent costs a column; buy it back */
   .loc-info .info-desc { grid-area: 1 / 1 / 2 / 7; }
@@ -373,9 +392,6 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .other-card__desc .a-center { text-align: left; }
   .other .other-card__desc { grid-area: 1 / 1 / 2 / 6; }   /* the open answer starts on its own heading's edge; Era set it a column in */
 }
-/* This spray passes behind the fixed nav, and it used to be faded to .55 for that — which made it
-   read as a washed-out ghost next to every other spray on the site. It stays at full strength now:
-   the cream halo .ui-nav.t-light carries (below) is what keeps the nav's dark type legible over it. */
 
 .other__layer, .other__layer-img { position: absolute; inset: 0; }
 .other__layer { overflow: hidden; opacity: 0; will-change: clip-path; }
@@ -494,14 +510,6 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   mask: url("../assets/img/amoha-mark.png") center / contain no-repeat; }
 @media (max-width: 991px) {
   .ui-logo { width: var(--u-48); height: var(--u-48); }
-  .hero__flower.is-l { left: calc(var(--u-40) * -3); }   /* top intentionally NOT set: the rule above hangs it off the top edge, and the phone nav bar is what keeps the logo clear now */
-  /* ...but a positive top puts the asset's own straight edges inside the frame, so the spray read
-     as a hard-edged pink rectangle with a seam through the logo. sections.css nulls .flower img's
-     mask globally (correct where the box is off-frame); this puts it back for this one spray. */
-  .hero__flower.is-l img {
-    -webkit-mask-image: radial-gradient(closest-side, #000 34%, rgba(0,0,0,.5) 56%, transparent 76%);
-    mask-image: radial-gradient(closest-side, #000 34%, rgba(0,0,0,.5) 56%, transparent 76%);
-  }
 }
 
 /* 6. The figures strip forced 5 fixed tracks for 6 children: 990px of tracks in an 847px column,
@@ -509,11 +517,15 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 .apart-info .data-list.stats { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); align-content: start; }
 .apart-info .data-list.stats > div { min-width: 0; }
 .apart-info .data-list.stats .h5 { min-height: 2lh; align-content: end; }    /* a wrapping value no longer drags its caption down; align-content keeps a ONE-line value at the foot of that reserved box, next to its own caption instead of floating above it */
-.project-overview .data-list.stats .h5 { font-size: var(--fs-h5); }   /* the project facts are words ("Residential + Commercial"), not figures: at the strip's display size they overran quarter-width cells and the line mask clipped them */
+/* Home's figures are one line each, so with the 2lh value box every figure stands on one line and every
+   caption starts on the next. The numbers strip's end (above) lifted any figure whose caption wrapped ('20+', '5'). */
+.apart-info:not(.project-overview) .data-list.stats { align-items: start; }
+.project-overview .data-list.stats .h5 { font-size: var(--fs-h5); min-height: 0; }   /* the project facts are words ("Residential + Commercial"), not figures: at the strip's display size they overran quarter-width cells and the line mask clipped them. No 2lh reserve: the strip's end already levels each row's captions, and the reserve only hung an empty line over rows whose values fit on one */
 .project-overview .apart-info__w .grid { position: relative; z-index: 2; }   /* text wins over the spray */
 @media (max-width: 991px) {
   .apart-info .data-list.stats { grid-template-columns: repeat(2, 1fr); row-gap: var(--sp-48); }   /* once it multi-rows, the gap between figures must beat the gap inside one */
   .apart-info .data-list.stats > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .project-overview .data-list.stats:has(> div:nth-child(4):last-child) > div:nth-child(n+3) { grid-column: 1 / -1; }   /* four facts (Next, Roots): the long third and fourth take the full width, not a ~165px half cell */
 }
 
 /* 7. Accordion toggles were anchored to the end of each centred title, so they floated at four
@@ -529,7 +541,7 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 .other-card + .other-card { margin-top: var(--sp-32); }
 .other-card__desc { align-items: flex-start; }   /* at every width: on a phone the open answer still sat centred under a left-set heading */
 /* the builder sets each highlight as a paragraph of its own, so a wrap reads as a wrap and the gap as the next item */
-.other-card__item { text-wrap-style: pretty; }
+.other-card__item, .modal-cta__desc .p1 { text-wrap-style: balance; }   /* short blocks, three lines or fewer, well inside balance's limit: pretty accepted two-word last lines ('and more', 'for you.'). Both are split into lines at open, and the split keeps the balanced breaks */
 .other-card__item + .other-card__item { margin-top: var(--sp-8); }
 @media (max-width: 991px) {
   .other-card__name { padding-block: var(--sp-12); border-bottom: 1px solid var(--fg-line); }
@@ -567,13 +579,19 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .legal-list > * > *, .credits a { padding-block: var(--sp-12); }
 }
 @media (min-width: 992px) { .footer__address { grid-area: 2 / 4 / 3 / 8; padding: 0; } }   /* two of ten columns less 48px a side left ~100px: "Amoha / Group office", a word a line */
+/* Round 1 emptied the credits cell and removed the legal links, which left the copyright as the one
+   left-set item under a centred mark, number and address. It centres under them. */
+.footer__info { align-items: center; text-align: center; }
+.footer__credits:empty { display: none; }
+@media (min-width: 992px) { .footer__info { grid-area: 1 / 3 / 2 / 9; } }
+@media (max-width: 991px) { .footer__info { grid-area: 1 / 1 / 2 / 5; } }
 .footer__totop .ui-arrow { transform: scaleX(-1); }   /* the shared arrow points left, so the -90° frame turned it down; mirrored first, it points up */
 
 /* 12. The project overview lede was typeset as display: 59.5px over 7 lines on desktop, 37.5px
    over 14 lines on a phone — taller than the screen, so a whole viewport showed the middle of one
    paragraph with neither its start nor its end in view. Its 26em cap never bound. */
 .project-overview .info-lead .h4 { font-size: calc(var(--fs-h5) * .9); max-width: 40ch;
-  line-height: 1.25; margin-inline: auto; }   /* at 1.05 it still outweighed the section heads around it */
+  line-height: 1.25; margin-inline: auto; text-wrap-style: pretty; }   /* at 1.05 it still outweighed the section heads around it. pretty, not the heads' balance: Chromium balances only up to 6 lines, and this runs 7-14, so it fell back to greedy and ended on 'leaf.' alone */
 @media (max-width: 991px) { .project-overview .info-lead .h4 { margin-bottom: var(--u-24); } }
 
 /* 16. A dead-straight luminance step cut across the hero render: the glow layer's bottom edge is
@@ -623,6 +641,12 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .modal-menu { row-gap: var(--sp-48); }
   .modal-menu__list { margin-top: var(--sp-24); }   /* "Home" sat closer to the title than to the link under it */
 }
+/* the tablet's 3/5 frame crops less of the width than the phone's 2/6, so at 44% she stood under line 2
+   of the centred headline ('to la' on her head at 820); 60% moves her ~110px left */
+@media (min-width: 600px) and (max-width: 991px) { .cta .img-p { object-position: 60% 50%; } }
+/* at the stock rgba(0,0,0,.6) the page stayed legible, so on a 910px screen the sheet's foot read as a
+   cut through the hero tagline's display type. A deeper root-green scrim lets the page recede. */
+.modal[data-modal="cta"] .modal__over { background: rgba(16, 32, 26, .82); }
 @media (max-width: 991px) and (max-height: 760px) {   /* a short phone: every link above the fold */
   .modal-menu .u-272.b-mob { height: min(var(--sp-272), 9svh); }
   .modal-menu__list { gap: var(--sp-24); }
@@ -648,14 +672,16 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .loc-intro__btn { align-items: flex-start; }                        /* on the copy's left edge, not centred under it */
   .apart__s > .u-48:last-child { height: var(--sp-96); }              /* the same pause the stacked cards keep between them, so the last one does not run into the next section */
   .project-overview .apart-info__w > .u-160 { height: 0; }            /* a desktop reserve; stacked, it was a band of empty sage */
+  .project-overview .apart-info__w > .u-48:first-child, .project-location__s > .u-48:first-child { height: calc(var(--sp-48) + var(--u-64)); }   /* the lead .other__s already gets (its u-48 plus u-64 padding, sections.css:601), 123px at 820: the overview and the location opened on a lone 41px u-48 */
 }
 
 /* Phone display sizes: at the full --fs-h1 the closing headline and "Ring Road, Bathinda" were the
-   largest type on the page, larger than the wordmark itself. */
+   largest type on the page, larger than the wordmark itself. The principle headings and the menu title
+   too: fit-text only shrinks, so under the tablet cap (tokens.css:157) a heading that just fit kept the
+   full 99.8px at 820, 1.35x the wordmark. */
 @media (max-width: 991px) {
-  .cta__title .h1, .loc-intro__title .h1 { font-size: calc(var(--fs-h1) * .7); }
+  .cta__title .h1, .loc-intro__title .h1, .benefits .benefit__t .h1, .modal-menu__title .h1 { font-size: calc(var(--fs-h1) * .7); }
   .cta__title .h1 { line-height: 1.04; }   /* at the display .95 a descender met the ascender under it */
-  .other .flower { right: calc(var(--u-64) * -1 - var(--offset) - var(--u-32)); }   /* a further 32 units off the edge: at 360 its first bracts began 5px after the last word of About Amoha Group, on the label line */
 }
 
 /* The landing pair: the same corner at daylight and at golden hour, stacked. The dusk frame starts
@@ -687,6 +713,16 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
 .hero.is-project .hero__photo:not(.is-dusk)::after {
   background: radial-gradient(44% 56% at 50% 50%, rgba(16, 32, 26, .5), transparent 74%),
     linear-gradient(180deg, rgba(18, 30, 24, .3) 0%, rgba(18, 30, 24, .18) 42%, rgba(16, 32, 26, .58) 100%);
+}
+/* On an upright phone that 44% x 56% pool was a tall column of shade fixed mid-screen for the whole run,
+   and the sub's line ends fell outside it. The shade hangs on the copy there instead, lifting and fading
+   with it (js/scenes.js), so the render is left clean once the copy has gone. */
+@media (max-width: 991px) {
+  .hero.is-project .hero__photo:not(.is-dusk)::after {
+    background: linear-gradient(180deg, rgba(18, 30, 24, .3) 0%, rgba(18, 30, 24, .18) 42%, rgba(16, 32, 26, .58) 100%); }
+  .hero.is-project .hero__brand { position: relative; isolation: isolate; }
+  .hero.is-project .hero__brand::before { content: ""; position: absolute; inset: -10% -40%; z-index: -1; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(16, 32, 26, .6) 35%, rgba(16, 32, 26, .38) 70%, transparent); }
 }
 
 /* ---------- the landing photograph: sky first, the building revealed by scrolling ----------
@@ -800,6 +836,10 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
   .quote__bg::after { background: radial-gradient(80% 42% at 40% 62%, rgba(16, 32, 26, .44), transparent 82%); }
 }
 .quote__s .h5 { text-wrap-style: pretty; text-shadow: 0 1px calc(var(--u-12)) rgba(16, 32, 26, .45); }   /* at every width now, with a shadow of its own for the lines that still cross pale stone */
+/* The photograph fades in from the sage above it (clear, .35 at 22%, opaque at 48%: sections.css:87), so
+   its top third is sage ground, not picture. The fixed marks keep sage's ink there, both ways, and change
+   where the picture is mostly opaque (~.75). The % is of the band's own box, so it holds at every width. */
+.quote .w-themes_row.q-wash { height: 38%; }
 
 /* figures in rows of equal length: tools/build-amoha.mjs writes --cols from the count */
 @media (min-width: 992px) {
@@ -807,7 +847,7 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
 }
 
 /* projects: the section intro's second sentence, under the lede */
-.apart__intro { max-width: 36em; margin: 0 auto; color: var(--fg-80); }
+.apart__intro { max-width: 36em; margin: 0 auto; color: var(--fg-80); text-wrap-style: balance; }   /* not .p1's pretty, which left the centred two-line block uneven (70/20); the line split keeps the balanced breaks */
 
 /* project pages: the location advantages, as the content lists them, under the route */
 .loc-facts { grid-area: 1 / 2 / 2 / 10; display: flex; flex-flow: row wrap; justify-content: center;
@@ -825,7 +865,7 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
   /* Four items wrapped 3 + 1. The builder writes --n on those lists, so they set as even rows, and no
      rule leads a row: at the start of a line it reads as a stray mark, as on the phone proof row. */
   .loc-facts[style*="--n"] { display: grid; grid-template-columns: repeat(var(--n), auto); justify-content: center; }
-  .loc-facts[style*="--n:2"] li:nth-child(odd)::before { display: none; }
+  .loc-facts[style*="--n"] li:nth-child(odd)::before { display: none; }   /* '--n', not '--n:2': once the reveal writes its inline visibility, transform and opacity, the browser re-serialises the attribute as '--n: 2; ...' and a hairline led the second row. The builder only writes --n:2 */
 }
 
 /* The numbers-section spray is clip 02 now (tools/build-amoha.mjs), mirrored rather than flipped: its
@@ -915,31 +955,40 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
    shadow is keyed on the two chalk themes, t-color and t-dark; over cream (t-light) and sage
    (t-brand) the type is dark on light and needs nothing. Same reasoning as the wordmark's stroke —
    separation, not decoration. */
-.ui-nav:is(.t-color, .t-dark) .link_label_text .h6,
-.ui-nav:is(.t-color, .t-dark) .btn-menu_label .l2 { text-shadow: 0 1px 10px rgba(16, 32, 26, .45); }
-.ui-nav:is(.t-color, .t-dark) .link_label_text .h6 { -webkit-text-stroke: .5px rgba(16, 32, 26, .22); paint-order: stroke fill; }
+/* On desktop the corner link and the small links carry theme sensors of their own (tools/build-amoha.mjs),
+   so their edges key on their own t-* class: read as one block at the nav's centre, part of the stack
+   took the wrong ink at every seam. Menu has no sensor of its own, so it stays keyed on .ui-nav. */
+.ui-nav__sub { display: flex; flex-flow: column; align-items: flex-end; }   /* the small links' wrapper keeps the list's own column, so nothing moves */
+.ui-nav .link:is(.t-color, .t-dark) .link_label_text .h6 { text-shadow: 0 1px 10px rgba(16, 32, 26, .45); }
+.ui-nav:is(.t-color, .t-dark) .btn-menu_label .l2 { text-shadow: 0 1px 2px rgba(16, 32, 26, .55), 0 1px 10px rgba(16, 32, 26, .45); }   /* a tight edge under the soft one, as the hero's small type has: on pale rooftops the soft one alone lost 'Menu' */
+.ui-nav .link:is(.t-color, .t-dark) .link_label_text .h6 { -webkit-text-stroke: .5px rgba(16, 32, 26, .22); paint-order: stroke fill; }
 /* The small links are different: their labels sit in an overflow:clip roll (base.css) and the hover
    split masks every word, so a text-shadow inside them was cut into hard-edged boxes. A filter on the
    anchor draws the same edge around the glyphs as painted, outside every clip. The phone's Menu dots
    take it too; the Menu label itself is not clipped and keeps the text-shadow above. */
-.ui-nav:is(.t-color, .t-dark) .nav-item { filter: drop-shadow(0 0 2px rgba(16, 32, 26, .55)) drop-shadow(0 1px 6px rgba(16, 32, 26, .45)); }
-.ui-nav:is(.t-color, .t-dark) .btn-menu .ico { filter: drop-shadow(0 1px 6px rgba(16, 32, 26, .45)); }
+.ui-nav__sub:is(.t-color, .t-dark) .nav-item { filter: drop-shadow(0 0 2px rgba(16, 32, 26, .55)) drop-shadow(0 1px 6px rgba(16, 32, 26, .45)); }
+.ui-nav:is(.t-color, .t-dark) .btn-menu .ico { filter: drop-shadow(0 0 2px rgba(16, 32, 26, .55)) drop-shadow(0 1px 6px rgba(16, 32, 26, .45)); }
 /* The mirror case: over the facts section the nav is t-light — dark type — and the layer stack
    parks a bright aerial directly under it, so "Our projects" sat on white rooftops and parked
    cars. A cream halo is the light-theme equivalent of the shadow above: on the cream sections it
    is cream on cream and therefore invisible, and it only does work where an image is behind. Sage
    sections report t-brand, so it never paints its pale patches there. */
-.ui-nav.t-light .link_label_text .h6 {
+.ui-nav .link.t-light .link_label_text .h6 {
   text-shadow: 0 0 6px var(--c-cream), 0 0 14px var(--c-cream), 0 0 24px var(--c-cream);
 }
-.ui-nav.t-light .nav-item { filter: drop-shadow(0 0 3px var(--c-cream)) drop-shadow(0 0 8px var(--c-cream)); }
+.ui-nav__sub.t-light .nav-item { filter: drop-shadow(0 0 3px var(--c-cream)) drop-shadow(0 0 8px var(--c-cream)); }
 
 /* The rail is chalk over the same photographs and the pale hero sky, with no ground of its own, and
    the counter all but vanished there. The edge goes on the parents: .logo is a mask, which would cut
-   away a shadow of its own, and .ui-bar__fill carries a clip-path. */
+   away a shadow of its own, and .ui-bar__fill carries a clip-path. The scroll cue's arrow and label
+   carry sensors of their own, so the edge goes on each. */
 .ui-bar-w:is(.t-color, .t-dark) .ui-bar,
-.ui-scroll:is(.t-color, .t-dark) { filter: drop-shadow(0 0 1px rgba(16, 32, 26, .6)) drop-shadow(0 1px 6px rgba(16, 32, 26, .45)); }
+.ui-scroll > :is(.t-color, .t-dark) { filter: drop-shadow(0 0 1px rgba(16, 32, 26, .6)) drop-shadow(0 1px 6px rgba(16, 32, 26, .45)); }
 .ui-logo:is(.t-color, .t-dark) .ui-logo__symbol { filter: drop-shadow(0 1px 6px rgba(16, 32, 26, .5)); }
+/* The light-theme counterpart, the halo the nav carries: cream on the cream sections, so it only shows
+   where a photograph passes under the mark (the Ring Road render). On the parent, outside the .logo mask;
+   sage (t-brand) is left out, as for the nav. It adds an edge and never fades or hides the mark. */
+.ui-logo.t-light .ui-logo__symbol { filter: drop-shadow(0 0 2px var(--c-cream)) drop-shadow(0 0 6px var(--c-cream)); }
 
 /* On a phone the fixed marks sit --offset (24 design px) from the edges, which is exactly where
    body copy starts, so every section's text slid under the logo glyph and the Menu button on its
@@ -964,11 +1013,12 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
   /* On past the first screen, over cream and sage, the bar is the section's own ground. */
   .ui-nav.is-solid:not(.t-color):not(.t-dark)::before { opacity: 1; }
   /* Over the quote and closing photographs (t-color, past the hero) copy still runs under the marks,
-     and a flat leaf green would be a band across the picture, so there the bar is a root-green
-     shade. Its colour keys on t-color alone, so it holds while the bar fades out into the hero,
+     and a flat leaf green would be a band across the picture, so there the bar is opaque root green,
+     softened only at its foot (at 90% the type under the marks ghosted through it). Its colour keys on
+     t-color alone, so it holds while the bar fades out into the hero,
      where the corner shade does the work. Never on the root-green footer (t-dark), where the bar
      sliced the footer mark in half. */
-  .ui-nav.t-color::before { --bar: rgba(16, 32, 26, .9); }
+  .ui-nav.t-color::before { --bar: var(--c-root); }
   .ui-nav.is-solid.t-color:not(.is-hero)::before { opacity: 1; }
   /* The bar is the logo's ground as well as Menu's, but the two read different sensors: over the
      quote the nav takes the light one on the sunlit right half while the logo keeps the chalk one,
@@ -1009,7 +1059,7 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
   /* the upright viewBox is 340 wide against the wide one's 1072, so its type needs its own size
      in user units to land at the same rendered size on the glass */
   .loc-path__map svg.b-mob text { font-size: 13px; }
-  .loc-path__map svg.b-mob text.sub { font-size: 12px; }
+  .loc-path__map svg.b-mob text.sub { font-size: 13px; fill: var(--fg); }   /* at 12px regular in fg-80 the strokes measured 3.4-4.2:1 on sage; the names' 600 weight carries the hierarchy */
 }
 
 /* ---------- sprays cross the seam between sections ----------
@@ -1035,5 +1085,119 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
   .s-title { padding-inline: 0; }
   .modal-cta__desc { width: auto; max-width: 18em; }   /* u-192 is a fixed strip: a few words a line in a small window */
   .cta .btn-circle { padding: var(--sp-32); }          /* air between "Schedule a site visit" and its ring */
-  .modal-cta__close .ico { width: max(16px, var(--u-24)); height: max(16px, var(--u-24)); }   /* the close glyph shrank with the window */
+}
+/* The enquiry sheet's close. .btn-ico is a u-40 flex box with sp-12 padding, and the icon, a flex item
+   free to shrink, was squeezed into that content box, so #i-close (drawn across half its viewBox)
+   printed at 5-9px on desktop and under the menu's close on a tablet. */
+.modal-cta__close .btn-ico { width: max(44px, var(--u-48)); height: max(44px, var(--u-48)); }
+.modal-cta__close .ico { flex: none; width: max(24px, var(--u-24)); height: max(24px, var(--u-24)); }
+
+/* ===== Round 2 · bougainvillea placement (judged) — append at the very end of css/amoha.css =====
+   Measured with the builder/JS parts applied: 5 pages x 10 widths, reading positions, transits, the
+   polish-cap capture grid and a sweep through the pinned hero. */
+
+/* W01 · desktop numbers spray. The rail owns the left column and the nav the top-right corner at every
+   scroll position, so the spray hangs from the seam above its section (the sage projects band on home,
+   the hero photograph on project pages) in the open right-centre, where no fixed UI ever passes. Its top
+   44% sits above the seam and the section clips it there: that hides clip 02's cut run and the ctn-down
+   drift. */
+@media (min-width: 992px) {
+  .section.apart-info, .section.other { overflow: clip; }
+  .apart-info .flower { top: calc(var(--u-80) * -3.41); right: var(--u-136); left: auto; bottom: auto;
+    width: calc(var(--u-80) * 7.75); height: auto; max-height: none; transform: none; }
+}
+
+/* W02 · desktop project highlights spray (clip 02 now, tools/build-amoha.mjs): mirrored, hung from the
+   overview/highlights seam in the same open column. */
+@media (min-width: 992px) {
+  .other .flower { top: calc(var(--u-80) * -3.74); right: calc(var(--u-40) * -1); left: auto; bottom: auto;
+    width: calc(var(--u-80) * 8.5); height: auto; max-height: none; transform: scaleX(-1); }
+}
+
+/* W03 · desktop home About: no seam, edge or column there is free of the list, the layer photograph and
+   the nav at every scroll position, so this one spray stands down on desktop (as the hero right spray and
+   the route spray did in round 1). Phones keep it (W06). */
+@media (min-width: 992px) {
+  .other:has(.other__layers) .flower { display: none; }
+}
+
+/* W04 · phone hero: one spray, hung from the top edge between the logo and Menu and ending above the
+   wordmark. It lifts with the composition (data-hero-layer 1.15 in the builder), so it never crosses the
+   marks or the copy while the hero is pinned. Clip 01 stands down here: its cut top and left only work in
+   the logo's corner. */
+@media (max-width: 991px) {
+  .hero__flower.is-l { display: none; }
+  .hero__flower.is-r { display: block; --spray-w: max(calc(var(--u-40) * 2.4), min(calc(var(--u-40) * 6.5), calc(87svh - 490px)));
+    width: var(--spray-w); height: auto; top: calc(var(--spray-w) * -.4); right: auto; left: calc(50% - var(--spray-w) * .68); }
+  .hero__flower.is-r > * { transform: none; }
+}
+@media (min-width: 600px) and (max-width: 991px) {
+  .hero__flower.is-r { --spray-w: max(calc(var(--u-40) * 2.4), min(calc(var(--u-40) * 8), calc(87svh - 630px))); }
+}
+
+/* W05 · phone numbers spray. Home keeps it in the Group-snapshot pocket, tilted clear of the mark; on the
+   project pages it leaves the overview (whose pocket closes) and hangs from the left edge beside the
+   highlights label, framing it with W06. Leaf's longer lists keep both sprays in the overview foot. */
+@media (max-width: 991px) {
+  .apart-info .flower { top: auto; bottom: calc(var(--u-4) * 37.5); left: calc(var(--offset) * -1 - var(--u-10)); right: auto;
+    width: calc(var(--u-40) * 7.25); height: auto; transform: rotate(-15deg) scaleX(-1); }
+  .project-overview .apart-info__w { padding-bottom: var(--u-96); }
+  .project-overview .flower { top: calc(100% + var(--u-4) * 23.5); bottom: auto; left: calc(var(--offset) * -1 - var(--u-4));
+    width: calc(var(--u-40) * 4); transform: rotate(-40deg) scaleX(-1); }
+  .project-overview:has(.data-list.stats > :nth-child(8)) .apart-info__w { padding-bottom: calc(var(--u-40) * 6); }
+  .project-overview:has(.data-list.stats > :nth-child(8)) .flower { top: auto; bottom: calc(var(--u-4) * 15.5); width: calc(var(--u-40) * 5.25); }
+}
+@media (min-width: 600px) and (max-width: 991px) {   /* tablet: the pocket held a 300px band of empty cream under the spray */
+  .apart-info:not(.project-overview) .flower { bottom: calc(var(--u-4) * 10.5); width: calc(var(--u-40) * 8.75); transform: scaleX(-1); }
+  .apart-info:not(.project-overview) .apart-info__w { padding-bottom: calc(var(--u-40) * 3); }
+}
+@media (min-width: 600px) and (max-width: 767px) {   /* the capped tablet scale on a narrow screen: keep the tips off the centred caption */
+  .apart-info:not(.project-overview) .flower { width: min(calc(var(--u-40) * 8.75), 58vw); }
+}
+
+/* W06 · phone About / highlights spray (clip 02 on every page now): from the right edge beside the section
+   label, above the first row. */
+@media (max-width: 991px) {
+  .other .flower { top: calc(var(--u-4) * 24.5); right: calc(var(--offset) * -1 - var(--u-4)); left: auto; bottom: auto;
+    width: calc(var(--u-40) * 4.5); height: auto; transform: rotate(40deg); }
+  .other:has(.other-card:nth-child(6)) .flower { top: calc(var(--u-272) * -1); width: calc(var(--u-40) * 5.25); }
+}
+@media (max-width: 991px) and (max-height: 760px) {   /* short phone: home's list outgrows the screen, so the band is shallower */
+  .other:has(.other__layers) .flower { top: calc(var(--u-40) * 3.75); width: calc(var(--u-40) * 3.25); }
+}
+@media (min-width: 600px) and (max-width: 991px) and (max-height: 1000px) {   /* short tablet, same reason */
+  .other:has(.other__layers) .flower { top: calc(var(--u-4) * 44); width: calc(var(--u-40) * 3); }
+}
+
+/* W07 · the cream/sage bar tucks what passes under it instead of washing it: a 12% edge, not 30%.
+   The root-green photo bar keeps its long fade over photographs. */
+@media (max-width: 991px) {
+  .ui-nav:not(.t-color)::before { background: linear-gradient(to bottom, var(--bar) 0, var(--bar) 88%, transparent 100%); }
+}
+
+/* W08 · the quote band hands the bar to paper one bar-reach early (row added in tools/build-amoha.mjs). */
+.quote__foot { display: none; }
+@media (max-width: 991px) {
+  .quote__foot { display: flex; height: calc(var(--offset) + var(--u-40)); }
+}
+
+/* W09 · 'The group' spray: further off the left edge and higher, so no cluster rests on the logo. */
+@media (min-width: 992px) {
+  .loc-info .flower { left: calc(var(--u-64) * -1 - var(--offset) - var(--u-32)); top: calc(var(--u-160) * -1.3); }
+}
+
+/* W10 · Ring Road spray: its crown a clear u-48 lower under 'Bathinda'. */
+@media (min-width: 992px) {
+  .loc-intro .flower { bottom: calc(var(--u-144) * -1 - var(--u-48)); }
+}
+
+/* W11 · phones: the Ring Road spray lowered so its crown clears the 'See the projects' ring. */
+@media (max-width: 991px) {
+  .loc-intro .flower { bottom: calc(var(--u-40) * -1.6); }
+}
+
+/* W12 · the held first frame of the Ring Road track: two columns of air after 'The group' keep the next
+   panel's headline off-screen until the track moves (the panel itself stays eight columns). */
+@media (min-width: 992px) {
+  .loc-info { margin-right: calc(var(--cell-h) * 2 + var(--gap) * 2); }
 }

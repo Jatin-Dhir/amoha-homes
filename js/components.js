@@ -115,11 +115,20 @@
     // scrolled: its own corner shade is what the marks sit on. Which photograph is under the nav is the
     // theme sensors' call (is-hero, js/motion.js), made on the same edge as the theme itself; keyed to
     // the hero area's end instead, the bar came up over the picture's last screen.
-    const set = () => {
-      const y = ERA.lenis ? ERA.lenis.scroll : window.scrollY;
-      nav.classList.toggle('is-solid', y > window.innerHeight * 0.55);
+    // It also waits for the hero to be clear of it. Scroll alone brought it up while the dome's shoulders
+    // still showed the photograph at both edges (the theme is read at Menu, where the curve passes first).
+    // Over the dome it comes once the shoulders are inside the bar's solid band (70%, css/amoha.css); on a
+    // straight seam, once the hero has gone.
+    const hero = document.querySelector('[data-hero]'), dome = !!document.querySelector('.benefits.arch');
+    const sy = () => (ERA.lenis ? ERA.lenis.scroll : window.scrollY);
+    let heroEnd = -Infinity, clearAt = 0;
+    const measure = () => {
+      heroEnd = hero ? hero.getBoundingClientRect().bottom + sy() : -Infinity;
+      clearAt = dome ? (parseFloat(getComputedStyle(nav, '::before').height) || 0) * 0.7 : 0;
     };
-    set();
+    const set = () => { const y = sy(); nav.classList.toggle('is-solid', y > window.innerHeight * 0.55 && heroEnd - y <= clearAt); };
+    measure(); set();
+    ScrollTrigger.addEventListener('refresh', () => { measure(); set(); });
     if (ERA.lenis) ERA.lenis.on('scroll', set);
     else window.addEventListener('scroll', set, { passive: true });
   };

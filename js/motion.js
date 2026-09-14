@@ -79,9 +79,14 @@ window.ERA = window.ERA || {};
   };
 
   /* ---------- split helpers (cached per element) ---------- */
-  const splitChars = (el) => el._split || (el._split = new SplitText(el, { type: 'chars', tag: 'span', charsClass: 'split-char', smartWrap: true }));
-  const splitWordsChars = (el) => el._split || (el._split = new SplitText(el, { type: 'words,chars', tag: 'span', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true }));
-  const splitLines = (el) => el._split || (el._split = new SplitText(el, { type: 'lines,words', tag: 'span', linesClass: 'split-line', wordsClass: 'split-word', mask: 'lines' }));
+  /* SplitText collapses whitespace with /\s+/, and in JavaScript \s matches U+00A0: every &nbsp; the
+     builder writes ('trust us.', 'Ring Road', '150 sq yds', '(dual surface)') came back as an ordinary,
+     breakable space. Collapse only ordinary whitespace, in SplitText's own per-text-node hook
+     (prepareText runs right after its whitespace step), and the no-break space stays inside its word. */
+  const WS = { reduceWhiteSpace: false, prepareText: (t) => t.replace(/[ \t\n\r\f]+/g, ' ') };
+  const splitChars = (el) => el._split || (el._split = new SplitText(el, Object.assign({ type: 'chars', tag: 'span', charsClass: 'split-char', smartWrap: true }, WS)));
+  const splitWordsChars = (el) => el._split || (el._split = new SplitText(el, Object.assign({ type: 'words,chars', tag: 'span', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true }, WS)));
+  const splitLines = (el) => el._split || (el._split = new SplitText(el, Object.assign({ type: 'lines,words', tag: 'span', linesClass: 'split-line', wordsClass: 'split-word', mask: 'lines' }, WS)));
   const show = (els) => gsap.set(els, { visibility: 'visible' });
 
   /* ---------- text & container animators: mode = initial | reveal | hide ----------
@@ -100,14 +105,25 @@ window.ERA = window.ERA || {};
       else gsap.set(chars, { opacity: 0, rotateX: -90, x: '-10rem', transformOrigin: 'center top' });
     });
   };
+  // A [data-reveal] heading plays once, so afterwards it gets its own text back: each inline-block
+  // character was shaped alone, and the face's pair kerning went with it ('Y our next'). Only where
+  // nothing can move: plain text (no nested element another tween holds, like the Ring Road lines),
+  // with every <br> segment on one line, so balance has nothing to re-wrap.
+  const settle = (el) => {
+    const s = el._split;
+    if (!s || !el._plain || !el.hasAttribute('data-reveal')) return;
+    if (new Set(s.words.map((w) => w.offsetTop)).size !== el.querySelectorAll('br').length + 1) return;
+    s.revert(); el._split = null;
+  };
   // display headings: characters rise and turn into place
   ERA.animH = function (els, mode, delay) {
     arr(els).forEach((el, i) => {
       if (!el.textContent.trim()) return;
       show(el);
+      if (el._plain == null) el._plain = !el.querySelector(':not(br)');
       const chars = splitWordsChars(el).chars, off = i * D.stagger;
       if (mode === 'reveal') gsap.fromTo(chars, { opacity: 0, yPercent: 50, rotateY: 90 },
-        { opacity: 1, yPercent: 0, rotateY: 0, duration: D.l, delay: (delay ?? D.delay) + off, stagger: { each: D.stagger * 0.5, amount: 0.5 }, ease: 'eraOut', overwrite: true });
+        { opacity: 1, yPercent: 0, rotateY: 0, duration: D.l, delay: (delay ?? D.delay) + off, stagger: { each: D.stagger * 0.5, amount: 0.5 }, ease: 'eraOut', overwrite: true, onComplete: () => settle(el) });
       else if (mode === 'hide') gsap.to(chars, { opacity: 0, yPercent: -50, rotateY: -90, duration: D.s, delay: delay ?? 0, stagger: { each: D.stagger * 0.25, amount: 0.25 }, ease: 'eraIn', overwrite: true });
       else gsap.set(chars, { opacity: 0, yPercent: 50, rotateY: 90 });
     });
@@ -207,6 +223,7 @@ window.ERA = window.ERA || {};
       const dx = Math.max(sr.left + R - cx, cx - (sr.right - R), 0);
       return R && dx ? R - Math.sqrt(Math.max(0, R * R - Math.min(dx, R) * Math.min(dx, R))) : 0;
     };
+    const sy = ScrollTrigger.getScrollFunc(ERA.wrapper || window);
     arr('[data-bg]').forEach((sensor) => {
       if (getComputedStyle(sensor).display === 'none') return;
       const cls = map[sensor.dataset.bg]; if (!cls) return;
@@ -214,8 +231,16 @@ window.ERA = window.ERA || {};
       uis.forEach((ui) => {
         const r = ui.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
         if (cx < sr.left || cx > sr.right) return;
+        const bar = ui.querySelector('[data-bar]');
+        // The rail's counter rides its bar at --progress (css/motion.css:47), so a line at the bar's
+        // centre left the digits in the last ground's ink for up to ~130px of scroll at every seam, dark
+        // on the photographs. The rail changes where its counter crosses: at scroll S it sits at
+        // bar.top + S / max * bar.height.
+        const cross = (y) => { const b = bar.getBoundingClientRect(); return (y + sy() - b.top) / (1 + b.height / (ScrollTrigger.maxScroll(ERA.wrapper || window) || 1)); };
         ScrollTrigger.create({
-          trigger: sensor, start: () => 'top+=' + archDrop(sensor, cx) + ' top+=' + cy, end: () => 'bottom top+=' + cy,
+          trigger: sensor,
+          start: bar ? () => cross(sensor.getBoundingClientRect().top + archDrop(sensor, cx)) : () => 'top+=' + archDrop(sensor, cx) + ' top+=' + cy,
+          end: bar ? () => cross(sensor.getBoundingClientRect().bottom) : () => 'bottom top+=' + cy,
           onEnter: () => apply(ui, cls, hero), onEnterBack: () => apply(ui, cls, hero)
         });
       });
