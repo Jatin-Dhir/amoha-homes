@@ -158,11 +158,24 @@
       // it was never seen.) The clip wipes line, stops and labels in together; labels then settle.
       // Unpinned (the upright phone route, a project page's map) the bounds were 'top 82%' → 'top 32%',
       // keyed to the map's top edge alone, so on a short screen the whole map sat in view still half
-      // drawn. It now draws from the moment it enters and has finished once all of it is on screen.
+      // drawn. It now draws from the moment it enters and has finished once all of it is on screen:
+      // 'bottom bottom', not 'bottom 90%', which ended a tenth of a screen later and left Gardens' map
+      // resting at 0.92, the destination's end-anchored label cut to "Amoha Gard".
+      // On the sideways track the bounds are shares of the screen the map's left edge passes. ScrollTrigger
+      // places a containerAnimation position as if the track moved linearly, but it eases (eraHor), so
+      // 'left 72%' → 'left 18%' drew the map while its edge really ran from ~66% to ~7% (1366). Each bound
+      // is handed over as where the linear track would be when the eased one really brings the edge there.
+      const at = (f) => () => {
+        const track = horiz.querySelector('[data-horizontal-track]'), D = track.scrollWidth - horiz.offsetWidth;
+        const l0 = track.offsetParent.getBoundingClientRect().left + track.offsetLeft + route.getBoundingClientRect().left - track.getBoundingClientRect().left;
+        const e = gsap.utils.clamp(0, 1, (l0 - f * horiz.offsetWidth) / D), ease = gsap.parseEase(ca.vars.ease);
+        let lo = 0, hi = 1; for (let i = 0; i < 24; i++) { const m = (lo + hi) / 2; if (ease(m) < e) lo = m; else hi = m; }
+        return 'left ' + (l0 - lo * D) + 'px';
+      };
       const rt = gsap.timeline({ scrollTrigger: {
         trigger: route, containerAnimation: ca,
-        start: ca ? 'left 72%' : 'top bottom',
-        end: ca ? 'left 18%' : 'bottom 90%',
+        start: ca ? at(0.72) : 'top bottom',
+        end: ca ? at(0.18) : 'bottom bottom',
         scrub: 1 } });
       // Below 992px the container holds the UPRIGHT route instead (see tools/build-amoha.mjs), so
       // the wipe has to travel down it. A left-to-right inset over a tall drawing uncovers every

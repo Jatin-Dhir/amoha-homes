@@ -109,10 +109,13 @@ window.ERA = window.ERA || {};
   // character was shaped alone, and the face's pair kerning went with it ('Y our next'). Only where
   // nothing can move: plain text (no nested element another tween holds, like the Ring Road lines),
   // with every <br> segment on one line, so balance has nothing to re-wrap.
+  // Only the breaks that render count: one kept for a single width (the tablet's br-tab) is display:none
+  // everywhere else, and counted there the check never matched, so the heading kept its split for good.
   const settle = (el) => {
     const s = el._split;
     if (!s || !el._plain || !el.hasAttribute('data-reveal')) return;
-    if (new Set(s.words.map((w) => w.offsetTop)).size !== el.querySelectorAll('br').length + 1) return;
+    const breaks = Array.prototype.filter.call(el.querySelectorAll('br'), (b) => getComputedStyle(b).display !== 'none').length;
+    if (new Set(s.words.map((w) => w.offsetTop)).size !== breaks + 1) return;
     s.revert(); el._split = null;
   };
   // display headings: characters rise and turn into place
@@ -203,8 +206,9 @@ window.ERA = window.ERA || {};
   };
 
   /* ---------- theme sensors: fixed UI adopts the theme of what sits behind it ---------- */
-  ERA.initThemes = function () {
-    const uis = arr('[data-theme]'); if (!uis.length) return;
+  // `only`: pieces that exist only after the first pass (the corner link's split lines, js/components.js)
+  ERA.initThemes = function (only) {
+    const uis = only ? arr(only) : arr('[data-theme]'); if (!uis.length) return;
     const classes = ['t-light', 't-brand', 't-color', 't-dark'];
     // brand is the sage ground. Unmapped, the sage sections had to call themselves light, and the
     // nav painted its cream halo (meant for chalk grounds) as pale boxes on sage.
@@ -214,6 +218,17 @@ window.ERA = window.ERA || {};
     // the theme's own edge, arch curve included, the bar and the theme change together.
     // !!hero: classList.toggle with an undefined force flips the class instead of clearing it
     const apply = (ui, cls, hero) => { classes.forEach((c) => ui.classList.toggle(c, c === cls)); ui.classList.toggle('is-hero', !!hero); };
+    // ui._t: the ground the vertical sensors last gave a piece, for a sideways sensor to hand back
+    const set = (ui, cls, hero) => { ui._t = [cls, hero]; apply(ui, cls, hero); };
+    // Phones: the logo and Menu sit on a bar (css/amoha.css) that reaches well below their centre, and a
+    // theme handed over at the centre left the bar in the last section's ground over the next one's head
+    // (sage 35-40px across the cream Key highlights at their reading stop). Pieces on the bar change where
+    // a seam meets its foot instead. Not at the hero's foot, where the bar is off and the marks read the
+    // photograph at their centre; not inside a row map (.w-themes), whose rows are fitted to the centre
+    // and carry a foot row of their own (the quote band's quote__foot).
+    const nav = document.querySelector('.ui-nav'), heroEl = document.querySelector('[data-hero]');
+    const barFoot = nav && ERA.isMobile() ? parseFloat(getComputedStyle(nav, '::before').height) || 0 : 0;
+    const heroFoot = heroEl ? heroEl.getBoundingClientRect().bottom : -Infinity;
     // An arch section's box top is the crown of its dome; at the sides the curve is far lower (half a
     // screen, at the rail and the nav). Measured from the box, the rail and nav went dark while the
     // photograph was still behind them. So the edge a UI piece waits for is the curve at ITS x.
@@ -228,9 +243,35 @@ window.ERA = window.ERA || {};
       if (getComputedStyle(sensor).display === 'none') return;
       const cls = map[sensor.dataset.bg]; if (!cls) return;
       const sr = sensor.getBoundingClientRect(), hero = !!sensor.closest('[data-hero]');
+      const byFoot = barFoot && !hero && !sensor.closest('.w-themes');
+      // A sensor on a sideways track (the Ring Road render) crosses the fixed pieces sideways while its
+      // section holds still, so it has no vertical edge to wait for and its x at init says nothing: over
+      // the dusk sky the nav and logo stayed dark ink in a cream halo. It is checked against each piece's
+      // centre whenever the track renders, the scrub's catch-up included. Positions worked out from the
+      // scroll (containerAnimation) missed the crossing: the track is eased and lags the scroll, and with
+      // the render under the whole nav only its leftmost piece had flipped. Leaving, it hands back the
+      // ground the vertical sensors gave.
+      const track = sensor.closest('[data-horizontal]'), tw = track && track._tween;
+      if (tw) {
+        const pieces = uis.map((ui) => { const r = ui.getBoundingClientRect(); return { ui, cx: r.left + r.width / 2, cy: r.top + r.height / 2, on: false }; });
+        const check = () => {
+          const b = sensor.getBoundingClientRect();
+          pieces.forEach((p) => {
+            const on = p.cx >= b.left && p.cx <= b.right && p.cy >= b.top && p.cy <= b.bottom;
+            if (on === p.on) return;
+            p.on = on;
+            if (on) apply(p.ui, cls, hero); else if (p.ui._t) apply(p.ui, p.ui._t[0], p.ui._t[1]);
+          });
+        };
+        const prev = tw.eventCallback('onUpdate');
+        tw.eventCallback('onUpdate', function () { if (prev) prev.apply(this, arguments); check(); });
+        ScrollTrigger.addEventListener('refresh', check);
+        return;
+      }
       uis.forEach((ui) => {
         const r = ui.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
         if (cx < sr.left || cx > sr.right) return;
+        const foot = byFoot && cy < barFoot, top = foot && sr.top > heroFoot + 1 ? barFoot : cy, bottom = foot ? barFoot : cy;
         const bar = ui.querySelector('[data-bar]');
         // The rail's counter rides its bar at --progress (css/motion.css:47), so a line at the bar's
         // centre left the digits in the last ground's ink for up to ~130px of scroll at every seam, dark
@@ -239,9 +280,9 @@ window.ERA = window.ERA || {};
         const cross = (y) => { const b = bar.getBoundingClientRect(); return (y + sy() - b.top) / (1 + b.height / (ScrollTrigger.maxScroll(ERA.wrapper || window) || 1)); };
         ScrollTrigger.create({
           trigger: sensor,
-          start: bar ? () => cross(sensor.getBoundingClientRect().top + archDrop(sensor, cx)) : () => 'top+=' + archDrop(sensor, cx) + ' top+=' + cy,
-          end: bar ? () => cross(sensor.getBoundingClientRect().bottom) : () => 'bottom top+=' + cy,
-          onEnter: () => apply(ui, cls, hero), onEnterBack: () => apply(ui, cls, hero)
+          start: bar ? () => cross(sensor.getBoundingClientRect().top + archDrop(sensor, cx)) : () => 'top+=' + archDrop(sensor, cx) + ' top+=' + top,
+          end: bar ? () => cross(sensor.getBoundingClientRect().bottom) : () => 'bottom top+=' + bottom,
+          onEnter: () => set(ui, cls, hero), onEnterBack: () => set(ui, cls, hero)
         });
       });
     });

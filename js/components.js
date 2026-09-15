@@ -323,6 +323,11 @@
       const a = new SplitText(texts[0], { type: 'lines,words,chars', tag: 'span', linesClass: 'split-line', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true });
       const b = new SplitText(texts[1], { type: 'words,chars', tag: 'span', wordsClass: 'split-word', charsClass: 'split-char', smartWrap: true });
       const lines = a.lines.map((l) => { const s = document.createElement('span'); s.className = 'link_line'; l.appendChild(s); return s; });
+      // The nav's corner link sets over two lines ('All / projects'), and themed as one piece from its
+      // middle it flipped with a seam between them: one word took the other ground's ink for ~50px of
+      // scroll. Each line reads the ground at its own centre; its ink and edges key on it (css/amoha.css).
+      // The lines exist only now, after the first initThemes pass, so they are added to it here.
+      if (link.closest('.ui-nav')) { a.lines.forEach((l) => { l.classList.add('t-dark'); l.setAttribute('data-theme', ''); }); ERA.initThemes(a.lines); }
       gsap.set(lines, { scaleX: 1, transformOrigin: 'right center' });
       gsap.set(texts[1], { opacity: 1 });          // see the note in initNavHover
       gsap.set(b.chars, { opacity: 0, x: '-0.4em', yPercent: 25, rotateY: 90 });
