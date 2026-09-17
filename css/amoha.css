@@ -283,12 +283,11 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 @media (min-width: 992px) {
   .loc-info { width: calc(var(--cell-h) * 8 + var(--gap) * 7); }   /* was 10: its content spans about six, so two columns rode along as dead panel */
   .loc-info .info-desc { grid-area: 1 / 4 / 2 / 8; }   /* was two columns of ten: 35 characters a line, a column too narrow to read */
-  .loc-intro { width: calc(var(--cell-h) * 10 + var(--gap) * 9); }   /* was 13: the surplus travelled past as empty page */
+  .loc-intro { width: calc(var(--cell-h) * 8 + var(--gap) * 7); }   /* was 13, then 10 (8 since the description came out, 2026-09-17): the surplus travelled past as empty page */
   .loc-intro__cap { grid-area: 1 / 1 / 2 / 3; }
-  .loc-intro__title { grid-area: 1 / 2 / 2 / 6; }   /* ends where the photograph begins: at 2-7 the heading lay across the render, dark type on dark */
-  .loc-intro__img { grid-area: 1 / 6 / 2 / 10; position: relative; }   /* a box for the render's own theme sensor (tools/build-amoha.mjs), so the nav and logo take chalk as it slides under them */
-  .loc-intro__desc { grid-area: 1 / 10 / 2 / 14; padding-left: var(--sp-32); }   /* it started on the photograph's own edge, with no gutter */
-  .loc-intro__btn { grid-area: 1 / 10 / 2 / 14; padding-left: var(--sp-32); align-items: flex-start; }   /* on the paragraph's own left edge, as phones set it: a column in, the circle sat 110px inside it */
+  .loc-intro__title { grid-area: 1 / 2 / 2 / 7; }   /* ends where the photograph begins: at 2-7 the heading lay across the render, dark type on dark */
+  .loc-intro__img { grid-area: 1 / 7 / 2 / 12; position: relative; }   /* a box for the render's own theme sensor (tools/build-amoha.mjs), so the nav and logo take chalk as it slides under them */
+  .loc-intro__btn { grid-area: 1 / 12 / 2 / 14; padding-left: var(--sp-16); align-items: flex-start; }   /* beside the render, now that the paragraph it used to stand under is gone */
   /* the route panel's spray came to rest in the nav's corner whenever the track stopped. The chapter
      keeps its other two, and phones already drop this one (sections.css). */
   .loc-path__flower { display: none; }
