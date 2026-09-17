@@ -346,6 +346,10 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
 .proj-card__name { letter-spacing: -0.015em; }
 .proj-card__facts { font-family: var(--font-accent); font-style: italic; font-size: calc(var(--fs-p1) * 1.05); line-height: 1.4; color: var(--fg-80); }   /* body line-height is 1, and inside the reveal's line mask that cut off the italic descenders ("Planninq staqe") */
 .proj-card__desc { color: var(--fg-80); text-wrap: pretty; }
+/* Under about 1100px the facts line wraps on two of the four cards ("115 acres · 150 – 700 sq yds")
+   and not on the other two, which dropped those descriptions a line below their neighbours'. Both
+   lines are reserved on every card through that band, so the row of descriptions stays level. */
+@media (min-width: 992px) and (max-width: 1100px) { .proj-card__facts { min-height: 2lh; } }
 .proj-card__go { margin-top: auto; font-family: var(--font-body); font-weight: 600; font-size: calc(var(--fs-p1) * .95);
   letter-spacing: .01em; color: var(--c-bloom-ink); border-bottom: 1px solid currentColor; align-self: flex-start; padding-bottom: 2px; }
 .proj-card:hover .proj-card__go { color: var(--fg); }
