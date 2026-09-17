@@ -123,7 +123,7 @@ body { background: var(--c-paper); }
 /* The wordmark leads, as the phone block below already rules: at the full --fs-h1 the principle heads
    and the closing headline set ~97px against a 62px wordmark at 1024x768. Each now sits just under
    .hero__name (.84 tall, .64 short); fit-text only shrinks from there. */
-@media (min-width: 992px) { .benefits .benefit__t .h1, .cta__title .h1 { font-size: calc(var(--fs-h1) * .8); } }
+@media (min-width: 992px) { .benefits .benefit__t .h1 { font-size: calc(var(--fs-h1) * .7); } .cta__title .h1 { font-size: calc(var(--fs-h1) * .8); } }   /* the principle heads a step under the closing headline: at .8 the chapter read oversized (the client, 2026-09-17) */
 /* The project pages' closing spacer (tools/build-amoha.mjs) put line 2 of the headline at the model's
    head height, and the photograph moves slower than the copy, so it sat on her the whole way in. Home
    keeps its composition; phones already take u-120 (tokens.css). */
@@ -421,7 +421,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
      pictures stepped again (253 / 236 / 244) */
   /* standing on the band's foot, not centred in it: centred, each fitted size set its own baseline */
   .benefits .benefit__t { flex: none; display: flex; flex-flow: column; justify-content: flex-end;
-    height: min(calc(var(--u-160) + var(--sp-48)), calc(var(--vh) * .24)); }
+    height: min(calc(var(--u-144) + var(--sp-32)), calc(var(--vh) * .21)); }
   .benefits .benefit__b { flex: none; }
   .benefits .benefit__c { flex: 1 1 auto; min-height: 0; align-self: stretch; }
   /* the spacers were drawn for a card a third of this size */
@@ -430,7 +430,7 @@ html.is-door .hero__brand, html.is-door .hero__bottom { opacity: 0; }
   .benefits .benefit__b > .u-48:last-child  { height: min(var(--sp-48), calc(var(--vh) * .055)); }
   /* width-driven now, not height-driven: the frame takes the heading's own measure and whatever
      height the type does not need */
-  .benefits .benefit__img { flex: 1 1 auto; min-height: 0; width: 100%; height: auto;
+  .benefits .benefit__img { flex: 1 1 auto; min-height: 0; width: 100%; height: auto; max-height: calc(var(--vh) * .52); max-width: 88%; margin-inline: auto;   /* a step smaller, with the heading above it */
     aspect-ratio: auto; border-radius: calc(var(--u-8) * .75); overflow: clip; }
   .benefits .benefit__img .img-w { border-radius: inherit;
     /* the render sits on the sage ground, so it needs its own edge to read as a photograph */
