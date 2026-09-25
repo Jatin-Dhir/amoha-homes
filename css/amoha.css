@@ -1277,6 +1277,7 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
    so it sits in the footer's own credits cell rather than over the picture. */
 .footer__credit { color: var(--fg); opacity: .6; text-wrap: pretty; }   /* --fg is the section’s own ink, chalk here; --fg-60 does not exist and fell back to the dark inherited colour, invisible on this ground */
 .footer__credit a { color: inherit; text-decoration: underline; text-underline-offset: .22em; text-decoration-thickness: from-font; }
+.footer__credit a[href*="creativecommons"] { white-space: nowrap; }   /* a phone broke the licence name across lines, "CC / BY-SA 4.0" */
 .footer__credit:hover { opacity: .85; }
 /* The info block spans the whole bottom row (it used to be alone there, the credits cell being
    empty), so the credit takes a row of its own underneath rather than sharing that one and landing
