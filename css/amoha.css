@@ -752,8 +752,8 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
    until the building and the street are in view. That is the move the original site opens with, and
    it is why these renders must not be cropped to a letterbox: a wide crop throws away the sky and
    leaves the reveal nothing to reveal.
-   Day and night are two stacked panels, swapped by the toggle at the foot of the screen (never
-   automatically — the reader asks for it). ERA.initHeroTabs cross-fades their .img-w. */
+   Since 2026-09-25 there is one picture, the Amoha Leaf clubhouse at golden hour; the day/dusk pair
+   and the toggle between them are gone. */
 .hero__photo { position: absolute; inset: 0; z-index: 0; overflow: clip; }
 .hero__photo .img-w { display: block; position: relative; width: 100%; height: 100%; overflow: clip; }
 .hero__photo picture { display: contents; }   /* so the img positions against .img-w, not the picture */
@@ -773,30 +773,12 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   will-change: transform;
 }
 @media (max-width: 991px) { .hero__photo [data-hero-reveal] { height: 152%; } }
-
-/* The day/dusk toggle, at the foot of the first screen, over the picture it changes. It began as a
-   quiet pair of labels, which read as a caption rather than a control — so most visitors would never
-   discover that a dusk frame exists at all. It is now a segmented pill: the frame groups the two
-   options as one control, and the filled capsule says which one you are looking at. width:max-content
-   matters — it is a flex CHILD of .hero__bottom, so left to itself it stretched the whole viewport. */
-.hero__tabs { display: flex; align-items: center; justify-content: center; gap: 0;
-  width: max-content; margin-inline: auto; pointer-events: auto;
-  padding: var(--sp-4); border: 1px solid rgba(247, 245, 238, .3); border-radius: 999px;
-  background: rgba(16, 32, 26, .32); }   /* no backdrop blur: a touch more ground instead, so the control still separates from the picture without the soft-focus patch */
-.hero__tabs .nav-item { padding: var(--sp-8) var(--sp-16); color: var(--c-chalk); opacity: .72;
-  border-radius: 999px;
-  transition: opacity var(--dur-m) var(--ease-out), background var(--dur-m) var(--ease-out); }
-.hero__tabs .nav-item.is-active { opacity: 1; background: rgba(16, 32, 26, .5); box-shadow: inset 0 0 0 1px rgba(247, 245, 238, .55); }   /* a dark capsule with a chalk rim: the chalk capsule set chalk type on chalk wherever the sky was pale */
-.hero__tabs .nav-item:hover { opacity: 1; }
-.hero__tabs .l2 { letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
-.hero__tabs-divider { display: none; }   /* the capsule marks the active side; a rule as well is noise */
-@media (max-width: 991px) { .hero__tabs .nav-item { min-height: 44px; display: flex; align-items: center; } }
-/* One pulse a few seconds in if nobody has touched it, so the second frame is discoverable without
-   nagging. js/components.js arms this once and never repeats it. */
-@keyframes amoha-tab-hint { 0%, 100% { box-shadow: 0 0 0 0 rgba(247, 245, 238, 0); }
-  50% { box-shadow: 0 0 0 6px rgba(247, 245, 238, .16); } }
-.hero__tabs.is-hinting { animation: amoha-tab-hint 2.4s var(--ease-out) 2; }
-@media (prefers-reduced-motion: reduce) { .hero__tabs.is-hinting { animation: none; } }
+/* The clubhouse picture keeps its street, its cars and its people in the bottom eighth of the square,
+   and a wide screen cuts the foot off a square laid 170% tall: at 1738 x 897 the lowest 12% never came
+   into view, the blue car's wheels with it. Anchored at the foot instead, the surplus comes off the
+   top, which is only pale extended sky, and the first screen still opens on sky with the canopy rising
+   into its foot. Project pages keep the top anchor above. */
+.hero:not(.is-project) .hero__photo [data-hero-reveal] { object-position: 50% 100%; }
 
 /* The clip sits exactly over its own still, in the same frame, with the same reveal treatment
    (data-hero-reveal gives it the 170% height and the scroll tween). It starts invisible and only
