@@ -155,15 +155,24 @@
           <div class="hero__bg" data-hero-bg>
             <div class="hero__bg-master" data-hero-zoom>
               <div class="hero__bg-img hero__field">
-                <div class="hero__photo"><div class="img-w"><picture>
+                <div class="hero__photo" data-tab-content="dawn"><div class="img-w"><picture>
                   <source media="(max-width: 991px)" srcset="assets/img/amoha-hero-portrait.jpg">
-                  <img class="img" data-hero-reveal src="assets/img/amoha-hero.jpg" alt="The Amoha Leaf clubhouse at golden hour, seen from the road outside" fetchpriority="high">
-                </picture><video class="img hero__video" data-hero-reveal data-hero-video="assets/video/hero-leaf.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div></div>
+                  <img class="img" data-hero-reveal src="assets/img/amoha-hero.jpg" alt="The Amoha Leaf clubhouse at dawn, seen from the road outside" fetchpriority="high">
+                </picture><video class="img hero__video" data-hero-reveal data-hero-video="assets/video/hero-dawn.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div></div>
+                <div class="hero__photo" data-tab-content="dusk" style="display:none"><div class="img-w"><picture>
+                  <source media="(max-width: 991px)" srcset="assets/img/amoha-hero-dusk-p.jpg">
+                  <img class="img" data-hero-reveal src="assets/img/amoha-hero-dusk.jpg" alt="The same clubhouse at dusk, lit from inside" loading="lazy">
+                </picture><video class="img hero__video" data-hero-reveal data-hero-video="assets/video/hero-dusk.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></div></div>
                 <div class="hero__glow" data-hero-layer="0.3" data-hero-glow></div>
                 <div class="flower hero__flower is-l" data-hero-layer="0.42" data-video="assets/video/bougainvillea-flowers_01.webm"><img src="assets/img/flower-poster-01.avif" width="1080" height="1080" alt=""></div>
                 <div class="flower hero__flower is-r" data-hero-layer="1.15" data-video="assets/video/bougainvillea-flowers_02.webm"><img src="assets/img/flower-poster-02.avif" width="1080" height="1080" alt=""></div>
               </div>
               <div class="hero__bottom">
+                <div class="hero__tabs" data-reveal="ctn">
+                  <a class="nav-item is-active" href="#dawn" data-tab-trigger="dawn" data-hover="nav" aria-label="See the clubhouse at dawn"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">At dawn</div></div><div class="nav-item_label_text is-2" aria-hidden="true"><div class="l2">At dawn</div></div></div></a>
+                  <div class="hero__tabs-divider" data-tabs-divider></div>
+                  <a class="nav-item" href="#dusk" data-tab-trigger="dusk" data-hover="nav" aria-label="See the clubhouse at dusk"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">At dusk</div></div><div class="nav-item_label_text is-2" aria-hidden="true"><div class="l2">At dusk</div></div></div></a>
+                </div>
                 <div class="u-48"></div>
               </div>
             </div>
@@ -271,7 +280,7 @@
                 <div class="grid c13 fill">
                   
                   <div class="loc-intro__title"><p class="c1 loc-intro__kicker" data-reveal="h">Punjab</p><h3 class="h1" data-reveal="h"><span class="loc-intro__line is-1" data-line>Developing</span><span class="loc-intro__line is-2" data-line>Bathinda</span><span class="loc-intro__line" data-line>land by land</span></h3></div>
-                  <div class="loc-intro__img"><div class="img-w" data-reveal="slide"><img class="img" src="assets/img/amoha-greenery.jpg" alt="Trees arching over a road through green fields near Rampura Phul, Bathinda district" loading="lazy"></div><div class="sensor b-desk" data-bg="color" style="position:absolute;inset:0;pointer-events:none"></div></div>
+                  <div class="loc-intro__img"><div class="img-w" data-reveal="slide"><img class="img" src="assets/img/amoha-greenery.jpg" alt="Render of a tree-lined avenue in golden evening light" loading="lazy"></div><div class="sensor b-desk" data-bg="color" style="position:absolute;inset:0;pointer-events:none"></div></div>
                   
                   <div class="loc-intro__btn" data-reveal="ctn">
                     <div class="btn-circle" data-magnetic data-circle-btn>
@@ -344,9 +353,9 @@
             <div class="u-96"></div>
             <div class="apart__grid">
                 <a class="proj-card" href="amoha-gardens.html">
-                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-gardens.jpg" alt="Render of the Amoha Gardens entrance gate and sign at dusk" loading="lazy"></div></div>
+                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-gardens.jpg" alt="Render of the Amoha Gardens entrance gate and sign at dusk" style="object-position:87.5% 50%" loading="lazy"></div></div>
                   <div class="u-24"></div>
-                  <h3 class="h4 proj-card__name" data-reveal="h">Amoha<br>Gardens</h3>
+                  <h3 class="h4 proj-card__name" data-reveal="h">Amoha <br>Gardens</h3>
                   <div class="u-8"></div>
                   <p class="proj-card__facts" data-reveal="ctn">36 acres &middot; 166 – 320 sq&nbsp;yds</p>
                   <div class="u-16"></div>
@@ -356,9 +365,9 @@
                   <span class="proj-card__go" data-reveal="ctn">View project</span>
                 </a>
                 <a class="proj-card" href="amoha-leaf.html">
-                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-leaf.jpg" alt="Render of the leaf-shaped entrance arch at Amoha Leaf, with the clubhouse beyond" loading="lazy"></div></div>
+                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-leaf.jpg" alt="Render of the leaf-shaped entrance arch at Amoha Leaf, with the clubhouse beyond" style="object-position:100% 50%" loading="lazy"></div></div>
                   <div class="u-24"></div>
-                  <h3 class="h4 proj-card__name" data-reveal="h">Amoha<br>Leaf</h3>
+                  <h3 class="h4 proj-card__name" data-reveal="h">Amoha <br>Leaf</h3>
                   <div class="u-8"></div>
                   <p class="proj-card__facts" data-reveal="ctn">115 acres &middot; 150 – 700 sq&nbsp;yds</p>
                   <div class="u-16"></div>
@@ -368,9 +377,9 @@
                   <span class="proj-card__go" data-reveal="ctn">View project</span>
                 </a>
                 <a class="proj-card" href="amoha-roots.html">
-                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-roots.jpg" alt="Render of a lit water wall in the Amoha Roots landscape at dusk" loading="lazy"></div></div>
+                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-roots.jpg" alt="Render of a lit water wall in the Amoha Roots landscape at dusk" style="object-position:20% 50%" loading="lazy"></div></div>
                   <div class="u-24"></div>
-                  <h3 class="h4 proj-card__name" data-reveal="h">Amoha<br>Roots</h3>
+                  <h3 class="h4 proj-card__name" data-reveal="h">Amoha <br>Roots</h3>
                   <div class="u-8"></div>
                   <p class="proj-card__facts" data-reveal="ctn">22 acres &middot; 100 &amp; 150 sq&nbsp;yds</p>
                   <div class="u-16"></div>
@@ -380,9 +389,9 @@
                   <span class="proj-card__go" data-reveal="ctn">View project</span>
                 </a>
                 <a class="proj-card" href="amoha-next.html">
-                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-next.jpg" alt="Render of a landscaped garden with curved planters and seating" loading="lazy"></div></div>
+                  <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-next.jpg" alt="Render of a landscaped garden with curved planters and seating" style="object-position:62.5% 50%" loading="lazy"></div></div>
                   <div class="u-24"></div>
-                  <h3 class="h4 proj-card__name" data-reveal="h">Blooming<br>Soon</h3>
+                  <h3 class="h4 proj-card__name" data-reveal="h">Blooming <br>Soon</h3>
                   <div class="u-8"></div>
                   <p class="proj-card__facts" data-reveal="ctn">55 acres</p>
                   <div class="u-16"></div>
@@ -519,7 +528,7 @@
                 <div class="l1" data-text="p">Amoha Group.</div>
                 <div class="l1 reg no-wrap" data-text="p">© <span data-year>2026</span> All rights reserved.</div>
               </div>
-              <div class="footer__credits"><div class="l1 reg footer__credit" data-text="p">Photographs of Qila Mubarak by <a href="https://commons.wikimedia.org/wiki/File:Qila_Mubarak_old_building2.jpg" target="_blank" rel="noopener">Tamoghni</a> and of the road near Rampura Phul by <span class="no-wrap"><a href="https://commons.wikimedia.org/wiki/File:Slabatpura_to_Rampura_Phool_road.jpeg" target="_blank" rel="noopener">Charan Gill</a>,</span> <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></div></div>
+              <div class="footer__credits"><div class="l1 reg footer__credit" data-text="p">Qila Mubarak photograph by <span class="no-wrap"><a href="https://commons.wikimedia.org/wiki/File:Qila_Mubarak_old_building2.jpg" target="_blank" rel="noopener">Tamoghni</a>,</span> <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></div></div>
             </div>
             <div class="u-48"></div>
           </div>

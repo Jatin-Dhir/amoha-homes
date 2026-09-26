@@ -25,7 +25,7 @@
         .fromTo(next.querySelector('.img-w'), { opacity: 0 }, { opacity: 1, duration: D.m, ease: 'eraInOut' })
         .set(prev, { display: 'none' });
       triggers[current].classList.remove('is-active'); t.classList.add('is-active'); current = i;
-      if (divider) divider.classList.toggle('is-night', t.dataset.tabTrigger === 'night');
+      if (divider) divider.classList.toggle('is-night', i === 1);   // the second view (dusk) whatever its key
     }));
   };
 
