@@ -508,6 +508,16 @@ html.is-arriving .pt__layer { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 1
   .hero__accent { margin-top: var(--u-12); }   /* 0.0px gap under the name on all four project pages */
 }
 @media (max-height: 700px) { .hero__proof { display: none; } }   /* the guard was desktop-only */
+/* A window under 992px wide and this short (a desktop browser squeezed small; touch devices this
+   short get the rotate screen instead) set the tablet hero's stacked buttons over the dawn/dusk pill
+   at the foot of the first screen: 56px at 799x420, 29px at 799x455. Side by side the buttons give a
+   row back, the wordmark steps down as the desktop short-screen rule has it, and the spacers around
+   the buttons halve, so even 420px tall keeps a clear band above the pill. */
+@media (max-width: 991px) and (max-height: 520px) {
+  .hero__ctas { flex-flow: row; align-items: center; }
+  .hero__name { font-size: calc(var(--fs-h1) * .6); }
+  .hero__brand > .u-48 { height: var(--u-24); }
+}
 
 /* 5. The fixed chrome had no ground and stole taps. The logo is a 75x75 anchor around a 37px
    mark, so its empty ring covered the top-left corner of all four project cards; the mark was a

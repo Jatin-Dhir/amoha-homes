@@ -74,8 +74,22 @@
   const fonts = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
   // some embedded browsers report innerWidth 0 for the first frames after a navigation; every
   // isMobile() decision taken then would send a desktop layout down the phone branch (no horizontal
-  // chapter, no snap). Wait for a real width — a no-op in normal browsers, capped at ~1.5 s.
-  const sized = () => new Promise((r) => { let n = 0; const t = () => (window.innerWidth > 0 || n++ > 90) ? r() : setTimeout(t, 16); t(); });
+  // chapter, no snap), and the reveals split their text into lines at that width — one word a line,
+  // which stays when the frame opens ("Where / every / address / becomes / a legacy." at 799x455).
+  // Wait for a real width, however long: a no-op in normal browsers, and a page with no width shows
+  // nothing to wait on. The old ~1.5 s cap booted a hidden preview pane at width 0. Resize is the
+  // signal; the lazy poll covers embedders that reveal the frame without firing one.
+  const sized = () => new Promise((r) => {
+    if (window.innerWidth > 0) return r();
+    let timer = 0;
+    const check = () => {
+      clearTimeout(timer);
+      if (window.innerWidth > 0) { window.removeEventListener('resize', check); r(); }
+      else timer = setTimeout(check, 250);
+    };
+    window.addEventListener('resize', check);
+    timer = setTimeout(check, 16);
+  });
   const start = () => Promise.race([fonts, new Promise((r) => setTimeout(r, 3000))]).then(sized).then(boot);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
   window.addEventListener('load', () => ScrollTrigger.refresh());
