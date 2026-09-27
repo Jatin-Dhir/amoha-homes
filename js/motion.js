@@ -550,8 +550,10 @@ window.ERA = window.ERA || {};
       gsap.set(pre.querySelector('.pl__place'), { visibility: 'visible' });
       gsap.set([key, rule, gl], { opacity: 1, scaleX: 1 });
       const m = ERA.milestones || {};
+      // the photograph was set back to heroScale above, for the door to frame; with no dive to grow it
+      // back, every hero stayed a framed picture on leaf green, an 86px border round it at 1440
       Promise.race([Promise.all([m.fonts, m.hero, m.built].filter(Boolean)), new Promise((r) => setTimeout(r, 1200))])
-        .then(() => { ready(); gsap.to(pre, { opacity: 0, duration: 0.2, onComplete: teardown }); });
+        .then(() => { ready(); zoom && gsap.set(zoom, { scale: 1 }); gsap.to(pre, { opacity: 0, duration: 0.2, onComplete: teardown }); });
       return;
     }
 

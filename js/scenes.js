@@ -45,6 +45,16 @@
           // lifts and is gone as the sub's first line reaches that band, which it does at 0.088-0.111
           // of this timeline (measured on home and the project template at 360, 390 and 820).
           if (mob) tl.to(content, { autoAlpha: 0, ease: 'none', duration: 0.08 }, 0.015);
+          // A project hero's tagline sits at the foot of the screen, outside the lifted block, and since its
+          // highlights chapter rises on home's arch (2026-09-28) the dome climbed straight through it,
+          // slicing the headline mid-letter. It leaves with the composition instead: on a desktop it lifts
+          // at the block's rate (centred, so it passes between the logo and the nav, never under them); on a
+          // phone it dissolves with the block, as the marks share its band there. Home has no tagline.
+          const tagline = bg.querySelector('.hero__tagline');
+          if (tagline) {
+            if (mob) tl.to(tagline, { autoAlpha: 0, ease: 'none', duration: 0.08 }, 0.015);
+            else tl.fromTo(tagline, { y: 0 }, { y: () => -(1.15 * window.innerHeight), ease: 'eraEase', duration: 0.6 }, 0);
+          }
           bg.querySelectorAll('[data-hero-layer]').forEach((layer) => {
             const depth = parseFloat(layer.dataset.heroLayer) || 0.3;
             tl.fromTo(layer, { y: 0 }, { y: () => -(depth * window.innerHeight), ease: 'eraEase', duration: 0.6 }, 0);

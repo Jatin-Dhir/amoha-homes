@@ -151,16 +151,14 @@ body { background: var(--c-paper); }
   .hero__sub { font-size: calc(var(--fs-p1) * 1.12); }   /* --fs-p1 is already at its 16px floor here, so the sub was the same size as body copy */
   .hero__ctas { flex-flow: column; align-items: stretch; gap: var(--sp-12); }   /* stacked, the two buttons share one width instead of two ragged ones */
 }
-/* The project heroes have no arch rising through them, so home's extra radius of run only held one
-   frozen frame for a screen and a half. On a phone 3.7vh had faded the copy by 0.16 of the run and then
-   only panned the render, at ~0.23px per px of scroll. At 3vh the 1.15vh lift runs at about finger
-   speed; 2.3vh outran it (above). */
-.hero.is-project .hero__area { height: calc(var(--vh) * 2.4); }
-@media (max-width: 991px) { .hero.is-project .hero__area { height: calc(var(--vh) * 3); } }
-/* sections.css stops the hero's sensor a screen early so home can hand off to its arch. A project hero
-   hands off to the overview at its own foot, and on the way back up that gap kept the overview's theme
-   over the photograph: a sage bar and dark marks on phones, dark nav ink on desktop. */
-.hero.is-project .hero__themes { bottom: 0; }
+/* Since 2026-09-28 a project page opens the way home does: its highlights chapter rises through the last
+   of the hero on the same arch, so the hero keeps home's extra radius of run for the dome to climb
+   through, and sections.css's hero sensor, which stops a screen early for the arch, applies unchanged.
+   The base run stays shorter than home's: a project hero has no wordmark block to lift clear, and at
+   home's 3vh (3.7 on a phone) the finished picture froze for a screen and a half before the dome. At
+   3vh on a phone the 1.15vh lift runs at about finger speed; 2.3vh outran it. */
+.hero.is-project .hero__area { height: calc(var(--vh) * 2.4 + var(--arch-r)); }
+@media (max-width: 991px) { .hero.is-project .hero__area { height: calc(var(--vh) * 3 + var(--arch-r)); } }
 
 /* ---------- numbers strip ---------- */
 .apart-info .data-list.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--sp-32) var(--sp-24); text-align: center; align-items: end; }   /* five figures wrapped 3 + 2 as a flex row; a five-column grid keeps them on one line, evenly. end, not start, is for the project facts: a value that wraps grows upward, and the captions in a row stay on one line. Home's one-line figures take start (6. below) */
@@ -1300,3 +1298,95 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
 @media (min-width: 992px) { .footer__credits { grid-area: 2 / 3 / 3 / 9; align-items: center; } }
 @media (max-width: 991px) { .footer__credits { grid-area: 2 / 1 / 3 / 5; align-items: center; } }
 .footer__credit { margin-top: var(--sp-16); text-align: center; }
+
+/* ---------- project pages, 2026-09-28: the highlights chapter, a figure in the picture's frame ----------
+   Each project page now runs home's principles construction for its own promises (tools/build-amoha.mjs,
+   chapter): heading, picture, line, one panel each, travelling sideways on a desktop. Only Amoha Leaf has
+   renders to spare. Gardens, Roots and the upcoming project have one each, their card's, which already
+   opens the page, so a promise without a picture of its own shows its figure instead: a leaf-green plate
+   cut to the picture's frame (.benefit__img's size, radius and flex rules all still apply), the number set
+   large in Fraunces. Picture or plate, the chapter keeps one rhythm. */
+.benefit__plate { container-type: size; }   /* the figure is sized to the plate, on every screen */
+.plate { position: relative; width: 100%; height: 100%; overflow: clip; border-radius: inherit; color: var(--fg);   /* t-color in the markup: leaf ground, chalk ink */
+  background: radial-gradient(120% 90% at 50% 125%, rgba(207, 219, 196, .2), transparent 62%), var(--bg); }   /* a little light from below, as the hero's field has */
+.plate__in { position: absolute; inset: 0; display: flex; flex-flow: column; align-items: center; justify-content: center; gap: var(--sp-12); }
+.plate__fit { display: flex; justify-content: center; width: 84%; }   /* the measure fit-text holds a long figure to */
+.plate__fig { margin: 0; display: flex; align-items: baseline; justify-content: center;
+  font-family: var(--font-display); font-size: min(44cqh, 24cqw); font-weight: 300; font-variant-numeric: lining-nums;
+  line-height: .9; letter-spacing: -0.035em; }   /* Fraunces' optical size follows the size by itself (font-optical-sizing: auto) */
+.plate__u { margin-left: .08em; font-style: italic; font-size: .32em; letter-spacing: 0; }
+.plate__sep { display: inline-block; width: .42em; }
+.plate__fig.is-words { font-style: italic; font-size: min(24cqh, 11cqw); letter-spacing: -0.015em; }
+.plate__fig.is-words .plate__sep { width: auto; padding: 0 .32em; font-style: normal; opacity: .45; }
+.plate__cap { margin: 0; max-width: 84%; font-family: var(--font-body); font-size: calc(var(--fs-p1) * 1.1); line-height: 1.4;
+  text-align: center; color: var(--fg); text-wrap: balance; }   /* full chalk: at --fg-80 the caption over the plate's light fell to 4.38:1 on a 360 phone */
+@media (max-width: 991px) {
+  .plate__fig { font-size: min(52cqh, 26cqw); }
+  .plate__fig.is-words { font-size: min(28cqh, 12cqw); }
+  .plate__cap { font-size: var(--fs-p2); }
+}
+
+/* the other three projects, as home's cards: three to a row on a desktop, one column below that, where
+   each stays its client picture whole at 5:4 (home's phone cut is 3:4, for one card a screen) */
+.apart__grid.is-three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-64) var(--sp-32); }
+@media (max-width: 991px) {
+  .apart__grid.is-three { grid-template-columns: minmax(0, 1fr); row-gap: var(--sp-96); max-width: 560px; margin-inline: auto; }
+  .apart__grid.is-three .proj-card__img { aspect-ratio: 5 / 4; }
+}
+
+/* W13 · phones: Gardens, Roots and the upcoming page no longer have the highlights section W06 hung its
+   spray in, so the overview's spray (W05) was left alone beside the next label. The location section
+   carries the partner now, in W06's own place, and the pair frames "Location advantage" as it framed
+   "Key highlights". Desktop keeps two sprays on these pages, the hero's and the overview's. */
+.project-location .flower { display: none; }
+@media (max-width: 991px) {
+  /* W06's own top put the tip within 4px of the location title's first line at 360 and 390 (the old highlights
+     rows started lower): lifted, it ends a clear line above it and still stays right of the label */
+  .project-location .flower { display: block; top: calc(var(--u-4) * 19); right: calc(var(--offset) * -1 - var(--u-4)); left: auto; bottom: auto;
+    width: calc(var(--u-40) * 4.5); height: auto; transform: rotate(40deg); }
+}
+@media (min-width: 600px) and (max-width: 991px) {
+  .project-location .flower { top: calc(var(--u-4) * 16); width: calc(var(--u-40) * 3); }
+}
+
+/* A project hero's tagline rests at the foot of the render, and there the Gardens gate's pale beam sat
+   right behind it (1.3:1 at 1024x768). A pool of shade hung on the text itself, the size of its lines,
+   not of the full-width row, and it leaves with the words. The sub-line needs none: at ~24px it is large
+   text, and it holds 3:1 over the brightest pixels at every size measured; a pool there read as a smudge
+   across the clear sky of the Roots render. */
+.hero.is-project .hero__tagline .h5 { position: relative; isolation: isolate; }
+.hero.is-project .hero__tagline .h5::before { content: ''; position: absolute; inset: -55% -10%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(16, 32, 26, .5) 40%, rgba(16, 32, 26, .26) 72%, transparent); }
+
+/* ---------- reduced motion: the sideways chapters stand in a column ----------
+   Both kinds of sideways chapter, the principles and highlights on the arch and home's Ring Road track,
+   are carried across by a scroll-driven tween that js/scenes.js does not build when the reader has asked
+   for less motion (nor, of course, without scripts). Left in their row, every panel after the first sat
+   past the screen's right edge with no way to reach it: measured, 3 of 4 Gardens highlights and 4 of 6
+   home panels. So they stack, each panel keeping its one-screen composition, and plain scrolling reads
+   them in order. Phones stack them already. */
+@media (min-width: 992px) {
+  html.is-reduced .benefits__cms, html:not(.has-js) .benefits__cms { height: auto !important; overflow: visible; }
+  html.is-reduced .benefits__screen, html:not(.has-js) .benefits__screen { position: static; height: auto; overflow: visible; }
+  html.is-reduced .benefits .slides, html:not(.has-js) .benefits .slides { flex-flow: column; height: auto; }
+  html.is-reduced .benefits .slide, html:not(.has-js) .benefits .slide { height: var(--vh); }
+  html.is-reduced .loc__area, html:not(.has-js) .loc__area { height: auto !important; }
+  html.is-reduced .loc__screen, html:not(.has-js) .loc__screen { position: static; flex-flow: column; }
+  html.is-reduced .loc__track, html:not(.has-js) .loc__track { flex-flow: column; align-items: center; }
+  html.is-reduced .loc-info, html:not(.has-js) .loc-info { margin-right: 0; }
+}
+
+/* Short desktop windows set the hero sub-line at 1.38 (above), about 21px, for home, whose block also carries the
+   figures row. That size is normal text, and over the brightest pixels of the project renders it held 3.0-3.5:1
+   (Leaf at 1024x768, Next and Leaf at 1280x680). A project hero has no figures row and the room to keep the
+   sub-line at its full ~24px, where it is large text and those same pixels pass. */
+@media (min-width: 992px) and (max-height: 860px) {
+  .hero.is-project .hero__sub { font-size: calc(var(--fs-p1) * 1.62); }
+}
+/* Leaf's pale rooftops still took a few of its pixels to 2.75:1 at 1024x768. A breath of shade under the lines,
+   a fifth of the strength a visible pool needs (one at .5 read as a smudge across the Roots sky), is enough. */
+@media (min-width: 992px) {
+  .hero.is-project .hero__sub { position: relative; isolation: isolate; }
+  .hero.is-project .hero__sub::before { content: ''; position: absolute; inset: -110% -6%; z-index: -1; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(16, 32, 26, .24) 50%, transparent); }
+}
