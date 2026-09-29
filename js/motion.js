@@ -93,11 +93,21 @@ window.ERA = window.ERA || {};
      Character staggers are capped with gsap's `amount`: at a flat 0.05s each, a 47-character
      heading took 3.8s and was read half-drawn. `amount` spreads the same stagger across a fixed
      total however many characters there are. */
+  // A name drawn from the brand face's outlines (tools/amoha-names.mjs) has no characters to split: its
+  // letters are one path each, and they rise and settle the way a heading's characters do.
+  const animMark = (mark, mode, delay, off) => {
+    const g = mark.querySelectorAll('path');
+    if (mode === 'reveal') gsap.fromTo(g, { opacity: 0, yPercent: 40 }, { opacity: 1, yPercent: 0, duration: D.l, delay: (delay ?? D.delay) + off, stagger: { each: D.stagger * 0.5, amount: 0.5 }, ease: 'eraOut', overwrite: true });
+    else if (mode === 'hide') gsap.to(g, { opacity: 0, yPercent: -40, duration: D.s, delay: delay ?? 0, stagger: { each: D.stagger * 0.25, amount: 0.25 }, ease: 'eraIn', overwrite: true });
+    else gsap.set(g, { opacity: 0, yPercent: 40 });
+  };
   // accent script: characters swing in around their baseline
   ERA.animA = function (els, mode, delay) {
     arr(els).forEach((el, i) => {
       if (!el.textContent.trim()) return;
       show(el);
+      const mark = el.querySelector('.name-mark');
+      if (mark) { animMark(mark, mode, delay, i * D.stagger); return; }
       const chars = splitChars(el).chars, off = i * D.stagger;
       if (mode === 'reveal') gsap.fromTo(chars, { opacity: 0, rotateX: 90, x: '10rem', transformOrigin: 'center bottom' },
         { opacity: 1, rotateX: 0, x: '0rem', duration: D.l, delay: (delay ?? D.delay) + off, stagger: { each: D.stagger, amount: 0.6 }, ease: 'eraOut', overwrite: true });
@@ -123,6 +133,8 @@ window.ERA = window.ERA || {};
     arr(els).forEach((el, i) => {
       if (!el.textContent.trim()) return;
       show(el);
+      const mark = el.querySelector('.name-mark');
+      if (mark) { animMark(mark, mode, delay, i * D.stagger); return; }
       if (el._plain == null) el._plain = !el.querySelector(':not(br)');
       const chars = splitWordsChars(el).chars, off = i * D.stagger;
       if (mode === 'reveal') gsap.fromTo(chars, { opacity: 0, yPercent: 50, rotateY: 90 },

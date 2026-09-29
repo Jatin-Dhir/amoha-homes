@@ -1390,3 +1390,16 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
   .hero.is-project .hero__sub::before { content: ''; position: absolute; inset: -110% -6%; z-index: -1; pointer-events: none;
     background: radial-gradient(closest-side, rgba(16, 32, 26, .24) 50%, transparent); }
 }
+
+/* ---------- the page names in Amoha's own face (tools/amoha-names.mjs) ----------
+   Alethia Pro, drawn as outlines, one path per letter: its licence allows graphics made with the font and
+   not the font itself on a web site. Sized in em, so every rule that sets .hero__name's or .pl__name's
+   font-size still sizes the name; the words themselves are kept for screen readers and search (.u-sr). */
+.u-sr { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0; }
+.name-mark { display: block; max-width: 100%; margin-inline: auto; overflow: visible; fill: currentColor; }
+/* the edge the typed name had over the pale sky: a hairline of shade behind each letter, and the soft shadow */
+.hero__name .name-mark { filter: drop-shadow(0 calc(var(--u-2)) calc(var(--u-16)) rgba(16, 32, 26, .22)); }
+.hero__name .name-mark path { stroke: rgba(16, 32, 26, .3); stroke-width: 1.1px; vector-effect: non-scaling-stroke; paint-order: stroke fill; }
+@media (max-width: 991px) { .hero__name .name-mark path { stroke-width: .7px; } }
+.hero__accent .name-mark { filter: drop-shadow(0 1px 2px rgba(16, 32, 26, .55)) drop-shadow(0 1px calc(var(--u-12)) rgba(16, 32, 26, .42)); }

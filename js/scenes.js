@@ -85,8 +85,9 @@
           // The wordmark relaxes on the typeface's own axes as it departs — lighter and softer,
           // which reads as distance rather than as a fade. Fraunces carries wght and SOFT, so this
           // is the type responding, not an effect laid over it.
+          // (a name drawn in the brand face's outlines has no axes to relax: nothing to tween there)
           const nameEl = content.querySelector('.hero__name');
-          if (nameEl && !ERA.lite) tl.fromTo(nameEl, { '--nm-wght': 500, '--nm-soft': 50 },
+          if (nameEl && !ERA.lite && !nameEl.querySelector('.name-mark')) tl.fromTo(nameEl, { '--nm-wght': 500, '--nm-soft': 50 },
             { '--nm-wght': 330, '--nm-soft': 100, ease: 'none', duration: 0.6 }, 0);
           const drifter = bg.querySelector('[data-hero-drift]');
           if (drifter) {                                                          // a photograph: let it drift

@@ -7,7 +7,9 @@
    - every spray on the page (.flower): now and then a bract lets go of the plant and drifts down.
      It leaves from the pink of the spray itself — each poster is sampled once for its pink pixels,
      mapped through the spray's own rotation and mirroring — never from the empty corners of its
-     square. Only sprays on screen shed; phones shed about half as often.
+     square. Only sprays on screen shed; phones shed about half as often. Since 2026-09-29 (the client:
+     "more petals should fall") a spray lets go about two and a half times as often, now and then in a
+     small flurry of two or three, and each bract falls further before it fades.
    The petals are the site's own flowers, cropped single-petal from the spray cut-outs into
    assets/img/petals.png, not a generic particle. A falling bract tumbles through the plane — it
    thins to an edge and turns over, showing a paler back — and slides sideways fastest while it is
@@ -22,12 +24,12 @@
   const fine = mq('(hover: hover) and (pointer: fine)');
 
   const CELLS = 8, CELL = 48;          // the sheet: eight petals in 48px cells
-  const N = 96;                        // ring buffer: the most petals ever in the air
+  const N = 160;                       // ring buffer: the most petals ever in the air
   const STEP = 38;                     // px of pointer travel per petal
   const GUARD = 6;                     // a teleporting pointer never sheds more than this in a frame
   const TAU = Math.PI * 2;
-  const SPRAY_MAX = fine ? 36 : 16;    // spray petals in the air at once
-  const GAP = fine ? [0.9, 2.4] : [1.8, 4.2];   // seconds between two bracts from one spray
+  const SPRAY_MAX = fine ? 84 : 36;    // spray petals in the air at once
+  const GAP = fine ? [0.35, 1] : [0.8, 2];   // seconds between two bracts from one spray
 
   const sheet = new Image();
   sheet.src = 'assets/img/petals.png';
@@ -118,7 +120,7 @@
     p.slip = rand(14, 38);
     p.size = Math.max(11, Math.min(28, r.width * rand(0.022, 0.035)));
     p.cell = (Math.random() * CELLS) | 0;
-    p.drop = 0; p.reach = innerHeight * rand(0.3, 0.55);   // how far it falls before it has faded
+    p.drop = 0; p.reach = innerHeight * rand(0.4, 0.75);  // how far it falls before it has faded
     p.peak = rand(0.78, 0.95);
     p.t = 0; p.life = 1;
   };
@@ -126,7 +128,12 @@
     let soonest = Infinity;
     for (const s of sprays) {
       if (!s.visible) continue;
-      if (now >= s.next) { if (aloft() < SPRAY_MAX) shed(s); s.next = now + rand(GAP[0], GAP[1]) * 1000; }
+      if (now >= s.next) {
+        // now and then a small flurry: two or three bracts let go together, as a gust takes them
+        const n = Math.random() < 0.3 ? (Math.random() < 0.35 ? 3 : 2) : 1;
+        for (let k = 0; k < n && aloft() < SPRAY_MAX; k++) shed(s);
+        s.next = now + rand(GAP[0], GAP[1]) * 1000;
+      }
       soonest = Math.min(soonest, s.next - now);
     }
     return soonest;
