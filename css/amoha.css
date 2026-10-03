@@ -1307,9 +1307,14 @@ html.is-sideways .ui-scroll { opacity: 0 !important; }   /* gsap writes this one
    cut to the picture's frame (.benefit__img's size, radius and flex rules all still apply), the number set
    large in Fraunces. Picture or plate, the chapter keeps one rhythm. */
 .benefit__plate { container-type: size; }   /* the figure is sized to the plate, on every screen */
-.plate { position: relative; width: 100%; height: 100%; overflow: clip; border-radius: inherit; color: var(--fg);   /* t-color in the markup: leaf ground, chalk ink */
-  background: radial-gradient(120% 90% at 50% 125%, rgba(207, 219, 196, .2), transparent 62%), var(--bg); }   /* a little light from below, as the hero's field has */
-.plate__in { position: absolute; inset: 0; display: flex; flex-flow: column; align-items: center; justify-content: center; gap: var(--sp-12); }
+/* 2026-10-03: behind the figure, the project's own render out of focus (.plate__bg, an .img-p, so it is
+   140% tall and the parallax drifts it like any photograph). Its grade is baked in by
+   tools/amoha-images.mjs, solved so chalk on it holds 5.6:1 or better wherever the type can sit. */
+.plate { position: relative; width: 100%; height: 100%; overflow: clip; border-radius: inherit; color: var(--fg);   /* t-color in the markup: chalk ink, and the leaf ground shows until the picture loads */
+  background: var(--bg); }
+.plate__in { position: absolute; inset: 0; display: flex; flex-flow: column; align-items: center; justify-content: center; gap: var(--sp-12);
+  background: radial-gradient(closest-corner at 50% 50%, transparent 58%, rgba(16, 32, 26, .3)); }   /* a lens's own falloff at the corners; it only darkens, so the contrast the picture was graded to holds */
+.plate__fig, .plate__cap { text-shadow: 0 1px 14px rgba(16, 32, 26, .4); }   /* as the site's other chalk over photography */
 .plate__fit { display: flex; justify-content: center; width: 84%; }   /* the measure fit-text holds a long figure to */
 .plate__fig { margin: 0; display: flex; align-items: baseline; justify-content: center;
   font-family: var(--font-display); font-size: min(44cqh, 24cqw); font-weight: 300; font-variant-numeric: lining-nums;
