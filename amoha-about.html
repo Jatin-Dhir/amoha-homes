@@ -1,0 +1,459 @@
+<!doctype html>
+<!--
+  Amoha Group website
+  Designed and developed by Jatin Dhir · jatindhir.dev@gmail.com
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Jatin Dhir">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAADAFBMVEVMaXH/f3+kg2r///+qqlv/AA+qVVX//wB/f38AAAx4d1T/t43//390dB2Te1nFunSEcVmqhViMfF+GcleafliOdVObeFKihWKYelemgVWifFGjflO+onTCpH+qj2fComzOr4rqxIaeelObeVGjg12ZeFTex4yefFOuiVuriFq2k2KffFKui17DoW22nXa+onPfv4WwkWTBn2u0kmLnx5Gef1iZflydelGZelilimOge1Kbe1OjgFWeelOZeFGee1GhfFKee1HszY9b/6y/n3HMqXPNq3Oce1K8oXixjV2gg2uceU+ng1mmhVuhfFGefVWnglexjmGhflWmhluri1yjf1jKq3batnupg1ewjWWdflegflPUsn7NrX7EoGzDonDhv4Tcu37gwpPhv4OgfVmwj1+ujWLDoGuqgmK/mWbUr3m+mWi5lWXAn27VsXeui1/buYTJp3HCn2u4mGrYuYfbuYC5n3fJqnzWsHjCnGq5l2batnubeFLiwIOad1F/bkzgvYHdvIKYdFOZc1jWs3mkf1fQrHefelGmgliphVmSc1Xvy46iglrPrXmkhFiqhlnxzY3Jp3LFom6siV3jvn7MqnO2mGnNqnbXu4iohVmnjFe5lmi0k2e1k2GyjmGhfVWtjmSohVezjl/kwojNrXqtiFqjgFeohVjNsXzAm2nYtXnVsHvPqnS5mGatjVzLpWejgFaiflbnxpHqyIrszI/mw4fdvIXXs3vpxYrlw4fct37UsHvHpXDPqXHJqXKqh13Cq3jJpnLMqXS8o3q3lWTIpnLEpXa/n3HBnGnQrHjmxo22kW3GqHXBm2fBnW3Ws3m7lme2lGO3lmm8mGTcs3m7lWMQIBq3kmG0i1mzjV6vh1nuxYashljDnWjHoGuoglW0jl6xiFm+mGS2kV6/mWa7lWWthlfzz421kGC5lGHLp2/WsXbVrXXeuH3atXqogVKrhVazjVuwi1vdtXrOqHDwyorpwYXJoWvvyIj61JHfun3etnzrxorasHfJomvjvIDWh4F6AAAA6HRSTlMAAgQBAwEDAQIBBAMCAhYEC/4PCSIhXTUq/e/7HwoOCBT+2LRTZzGe/Mv76MHFESZuXWnMQz9VknUv0k/e7G6/4M8UASSC97kT+x83oGnbVcG5inFKXFnp6Ekxxzhd75p5iRnYSt1C6BP1x+abV6qWNZL6d1WRNU7904P1p7StHsmigTfY0Jim8NlCxY9rgfLq5vG6/tptwC30JsN+7el+VOT7h4z5g+tSKbSy8s5uNvbjVtbA2j3K5bGswNz+p3M3+HQy69hySOepSBxk/bEsrd6T6Sz+///////////////////////+SjmF4gAAAAlwSFlzAAALEgAACxIB0t1+/AAABCtJREFUSMftlmV420gQhkeyVruSZWw4aRzmNkmTMjMzMzMzHfO1B+0xMzMzM/Od2Umcppcmacp0PVrJdhLZ8dnpr/vRffTI/vNqZuf7Znbht3NccB6MCELoEiDMigSKKecEEvh4C2jaDiJIm80zLGkziGFrGn0BZtoGEvjgs06r1r4fzwMhbQAxWFZsazjlrTXN7EKARA8ysPngp9s/qa12HTYNjZVTjg7UwB3zUgyWZUvWPu5IPlS4K6i6/7XH9oyvtPoJycmHrhTVZggPMnIELGoYgmBG//3ZwEcXkUZLef5JFhgMmAN9N2OQ+8KBDKx7+pm6Dc+WEpCoMFjGoklVgpITzmMNp9zu8SOAp5icp8hFBBnIWTj/iSnrl3oKvPdlAeapioImvl1EEEPOAMAYhq3aV/CQfZQeEN1n984tXRC+qlq6NPDAvdZH7dPujxUgoRsbTXGwRKgMGhHuKrK6KlxJM/tnxKhs1zqIOKS0P0c4ECc+6HDttxVeDkzEiFQA6Fg8KFWOzDJgHjuha7Y5yOatgEiCYdffvvemOSvvvqc7AC/6hg+JZHIsweypzluO1R/3uN0F45cAsCzHcQH1BRwGxKC91HnFVYMHz+2w3OO11lhvjqc6NnWGDsxsqyACy4WXzFLSQim3ldXUDK8ePioGEBkoKJ6HmCyf9YJBDTw8j/5wBoP8YXF6kbUyz37jdSPoFzGHMMRmJviqFARqIOcr0Po9SUQMZFJ+bZ7p6DW5neX2MGb3jvO3V0iqaVpWMjRNRI6AOPnaI6ZEV2K/oVdnJlUEuGCQQQHnBMrI6aDd6F4OU8Vhh60qY2RTO6tBCdpv2rzmy/XfFNOQnL/wtKTGrNwe/cZkxhmbXaACOShfmJ7+z8HG+g87dOpIo/pUUJpRMIrNLhBQUMSSM+k7d25rbKxvePf4Fzv0oPMnLPAyi3khcDSYjSqw/I2Sdb98P2vrR++9U1fn+fvnjamgY0IPPATGLqwK3F2u+Jsuy+ffbfB86/6xVATCB01NnQ669lSnumcBGBhGYrVyhlt+WL7vV2/ZdIF2V4spjqjIF10AOhX4+0tgUKYpMVgwiDvKvAcOWIsm0aogkScYYcKJCGJ7ZBgBqcGXF4AGE2U3qatX/gSli7211fb8iTHNG9VfltjrYqqKGjzx6qY0efYXr5679K/tX9N/zy22Vtrtd457bFGC3qxPGJubZOurl9VUga+cST859fW3V9w65OzZORstVEgdpI7Oz6u0HTlqeuHFMYXJVbbefVjFBSpwwJt/Ok+fdp78Y4isv2w/gQ4fEn/DuGmJJkdVVUVS3z40HApxDiavzX/rqTWPTBk0kNrWr71S0mUzFk2O6zlSLzuwFcs1n/VY20IBIqKg8RfaHZJWSx9tyImPeDp2OB5Hf0GCqG5W5++r/w/wXxdHA4c8zNlfAAAAAElFTkSuQmCC">
+<title>About us — Amoha Group, Bathinda</title>
+<meta name="description" content="Premium townships and luxury plots along Bathinda’s Ring Road, from the developers behind ABP Group.">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/aboreto.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin>
+
+<link rel="stylesheet" href="css/tokens.css?v=7b34bb63">
+<link rel="stylesheet" href="css/base.css?v=e1b95278">
+<link rel="stylesheet" href="css/sections.css?v=23cdda2c">
+<link rel="stylesheet" href="css/motion.css?v=750b7e3b">
+<link rel="stylesheet" href="css/amoha.css?v=65dedbbb">
+<link rel="preload" as="image" href="assets/img/amoha-hero-dusk.jpg" media="(min-width: 992px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/amoha-hero-dusk-p.jpg" media="(max-width: 991px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/amoha-mark.png">
+<script>
+if (!/nojs/.test(location.search)) document.documentElement.classList.add("has-js");
+
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("is-reduced");
+
+try {
+  if (sessionStorage.getItem("amoha-pt") === "1") {
+    document.documentElement.classList.add("is-arriving");
+    setTimeout(function() {
+      document.documentElement.classList.remove("is-arriving");
+    }, 6e3);
+  }
+} catch (e) {}
+</script>
+</head>
+<body class="t-light">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+        <symbol id="mark" viewBox="0 0 40 40">
+      <g fill="currentColor">
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(45 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(90 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(135 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(180 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(225 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(270 20 20)"/>
+        <path d="M20 2.5c2.6 4 3.6 8.6 3.1 13.2L20 20l-3.1-4.3C16.4 11.1 17.4 6.5 20 2.5Z" transform="rotate(315 20 20)"/>
+        <circle cx="20" cy="20" r="1.6"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 48 12"><path d="M45 6H4M8 1.5 3.2 6 8 10.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 16 16"><path d="M10 3.5 5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 16 16"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<div class="loader t-color" data-preloader data-loader aria-hidden="true">
+  <div class="loader__panel" data-loader-panel>
+    <div class="loader__set" data-loader-set>
+      <div class="loader__logo">
+        <img class="loader__mark" src="assets/img/amoha-mark.png" width="317" height="308" alt="">
+        <div class="loader__name"><span class="lk lk--1" style="margin-inline:-0.026em -0.032em"><span class="ch" style="--i:0">A</span><span class="ch" style="--i:1">m</span><span class="ch" style="--i:2">o</span><span class="ch" style="--i:3">h</span><span class="ch" style="--i:4">a</span></span> <span class="lk lk--2" style="letter-spacing:0.4119em;margin-inline:-0.08em -0.4719em"><span class="ch" style="--i:5">G</span><span class="ch" style="--i:6">r</span><span class="ch" style="--i:7">o</span><span class="ch" style="--i:8">u</span><span class="ch" style="--i:9">p</span></span></div>
+      </div>
+      <div class="loader__bar"><i class="loader__fill" data-loader-fill></i></div>
+      <p class="c1 loader__place">Bathinda, Punjab</p>
+    </div>
+  </div>
+</div>
+
+<div class="pt" data-pt aria-hidden="true"><i class="pt__layer"></i><i class="pt__layer"></i><i class="pt__layer"></i></div>
+
+<div class="landscape-cover"><p class="l1">Please rotate your device to portrait</p></div>
+
+<main class="page">
+
+    <a class="ui-logo t-dark" href="index.html" data-theme aria-label="Amoha Group — home">
+    <div class="ui-logo__ring"></div>
+    <div class="ui-logo__symbol logo_symbol" data-modal-close="menu"><div class="logo"><svg><use href="#mark"/></svg></div></div>
+  </a>
+
+  <nav class="ui-nav t-dark" data-theme aria-label="Primary">
+    <div class="ui-nav__list f-mob">
+      <button class="btn-menu" data-modal-open="menu" aria-label="Menu">
+        <div class="btn-menu_label is-active"><span class="l2">Menu</span></div>
+        <div class="btn-menu_label"><span class="l2">Close</span></div>
+        <div class="ico-24"><div class="ico" data-ico-menu="1"><svg><use href="#i-dots"/></svg></div><div class="ico ia-2" data-ico-menu="2"><svg><use href="#i-close"/></svg></div></div>
+      </button>
+    </div>
+    <div class="ui-nav__list f-desk">
+      <a class="link t-dark" href="index.html#projects" data-hover="link" data-theme>
+        <div class="link_label">
+          <div class="link_label_text"><div class="h6">All<br>projects</div></div>
+          <div class="link_label_text is-2" aria-hidden="true"><div class="h6">All<br>projects</div></div>
+        </div>
+      </a>
+      <div class="u-24"></div>
+      <div class="ui-nav__sub"><a class="nav-item t-dark" data-theme href="amoha-about.html" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">About us</div></div><div class="nav-item_label_text is-2" aria-hidden="true"><div class="l2">About us</div></div></div></a>
+            <div class="u-4"></div>
+            <a class="nav-item t-dark" data-theme href="#book" data-modal-open="cta" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">Enquire now</div></div><div class="nav-item_label_text is-2" aria-hidden="true"><div class="l2">Enquire now</div></div></div></a>
+      <div class="u-4"></div>
+      <a class="nav-item t-dark" data-theme href="#footer" data-hover="nav"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l2">Contact</div></div><div class="nav-item_label_text is-2" aria-hidden="true"><div class="l2">Contact</div></div></div></a></div>
+    </div>
+  </nav>
+
+  <div class="ui-bar-w t-dark" data-theme>
+    <div class="ui-bar" data-bar>
+      <div class="ui-bar__thumb" data-bar-thumb><div class="l1 a-center" data-bar-label>00</div></div>
+      <div class="ui-bar__fill"></div>
+      <div class="ui-bar__track"></div>
+    </div>
+  </div>
+
+  <div class="ui-scroll t-dark" data-theme data-scroll-cue>
+    <div class="ui-arrow t-dark" data-theme><svg><use href="#i-arrow"/></svg></div>
+    <div class="l2 t-dark" data-theme>Scroll</div>
+  </div>
+
+    <section id="hero" class="section clip t-color hero has-photo is-project" data-hero="parallax">
+    <div class="container">
+      <div class="hero__area">
+        <div class="hero__stage" data-hero-tabs>
+          <div class="hero__content" data-hero-content>
+            <div class="u-48"></div>
+            <div class="grid">
+              <div class="hero__brand">
+                <h1 class="h1 a-center hero__name" data-reveal="h">About<br>Amoha Group</h1>
+                <div class="u-32"></div>
+                <p class="hero__sub a-center" data-reveal="p">Premium townships and luxury plots along Bathinda’s Ring Road, from the developers behind ABP&nbsp;Group.</p>
+                <div class="u-48"></div>
+                <div class="hero__ctas" data-reveal="ctn">
+                  <a class="btn is-solid" href="#projects" data-hero-cta="1"><div class="btn_label"><div class="l1">Explore our projects</div></div><div class="btn_bg"><div class="btn_bg_fill"></div></div></a>
+                  <a class="btn" href="#book" data-modal-open="cta" data-hero-cta="2"><div class="btn_label"><div class="l1">Enquire now</div></div><div class="btn_bg"><div class="btn_bg_fill"></div></div></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero__bg" data-hero-bg>
+            <div class="hero__bg-master" data-hero-zoom>
+              <div class="hero__bg-img hero__field">
+                <div class="hero__photo" data-tab-content="dawn"><div class="img-w"><picture>
+                  <source media="(max-width: 991px)" srcset="assets/img/amoha-hero-dusk-p.jpg">
+                  <img style="background:url(data:image/jpeg;base64,/9j/2wBDAA8LDA0MCg8NDA0REA8SFyYZFxUVFy8iJBwmODE7OjcxNjU9RVhLPUFUQjU2TWlOVFteY2RjPEpsdGxgc1hhY1//2wBDARARERcUFy0ZGS1fPzY/X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX1//wAARCAAoACgDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAQCAwUBBv/EACMQAAICAgEEAgMAAAAAAAAAAAECAAMEERIFITFBE2EGFCL/xAAYAQEAAwEAAAAAAAAAAAAAAAADAQIEBf/EABwRAAICAwEBAAAAAAAAAAAAAAABAhEDEiETUf/aAAwDAQACEQMRAD8AWw7FyquSy9qNRL8ftpWr4taabBUt61NscnOhSx94ZzVSDUx+wKvsRdmB8RVIBxFDXCWuwEJOxGrGOkdGfGrFtveMZOQG/iph28zWyMupqdVsNGeVz21bxRu58Bfc5azVxHU8/oyKLbF5Ekid+M1jRWJV5eVTqvTfQIlv714O7UPH2dR1mBeIhkgjwNQlWT1LHZCwHceoS/oiugmudaqgBiRILnOlnyDXL7hCC4RGU2X1Z2XkXcwvJgO2pazdRZDsAKfRhCZ5unVCwjaMe/GuViWEIQiJ2irirP/Z) 50% 42% / cover no-repeat" class="img" data-hero-reveal src="assets/img/amoha-hero-dusk.jpg" alt="The Amoha Leaf clubhouse at dusk, lit from inside" fetchpriority="high">
+                </picture></div></div>
+                <div class="hero__glow" data-hero-layer="0.3" data-hero-glow></div>
+                <div class="flower hero__flower is-l" data-hero-layer="0.42" data-video="assets/video/bougainvillea-flowers_01.webm"><img src="assets/img/flower-poster-01.avif" width="1080" height="1080" alt=""></div>
+                <div class="flower hero__flower is-r" data-hero-layer="1.15" data-video="assets/video/bougainvillea-flowers_02.webm"><img src="assets/img/flower-poster-02.avif" width="1080" height="1080" alt=""></div>
+              </div>
+              <div class="hero__bottom">
+                <div class="hero__tagline"><p class="h5 a-center" data-reveal="h">Building Bathinda’s future, one landmark at a time</p></div>
+                <div class="u-48"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__themes"><div class="sensor" data-bg="color"></div><div class="sensor-light" data-bg="light"></div></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="section z-2 arch clip t-brand benefits project-chapter" data-bg="brand" data-snap>
+    <div class="container">
+      <div class="benefits__s">
+        <div class="grid"><div class="s-title"><h2 class="l1 a-center" data-reveal="p">Our core principles</h2></div></div>
+        <div class="u-48"></div>
+        <div class="grid fill">
+          <div class="benefits__cms" data-horizontal>
+            <div class="benefits__screen">
+              <div class="slides" data-horizontal-track>
+              <div class="slide">
+                <div class="benefit">
+                  <div class="benefit__t"><div class="u-48 b-desk"></div><h3 class="h1 a-center" data-fit-text data-reveal="h">Thoughtful planning</h3><div class="u-48"></div></div>
+                  <div class="benefit__c"><div class="u-16"></div><div class="benefit__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-f-leaf-plan.jpg" alt="Aerial render of the Amoha Leaf master plan, laid out in the shape of a leaf" loading="lazy"></div></div><div class="u-16"></div></div>
+                  <div class="benefit__b"><div class="u-48"></div><div class="grid c8"><div class="benefit__desc"><p class="p1 a-center" data-reveal="p">Every road, park and plot designed with intent.</p></div></div><div class="u-48"></div></div>
+                </div>
+              </div>
+              <div class="slide">
+                <div class="benefit">
+                  <div class="benefit__t"><div class="u-48 b-desk"></div><h3 class="h1 a-center" data-fit-text data-reveal="h">Quality &amp; commitment</h3><div class="u-48"></div></div>
+                  <div class="benefit__c"><div class="u-16"></div><div class="benefit__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-f-leaf-club.jpg" alt="The Amoha Leaf clubhouse at dusk, lit from inside" loading="lazy"></div></div><div class="u-16"></div></div>
+                  <div class="benefit__b"><div class="u-48"></div><div class="grid c8"><div class="benefit__desc"><p class="p1 a-center" data-reveal="p">No shortcuts, no compromises.</p></div></div><div class="u-48"></div></div>
+                </div>
+              </div>
+              <div class="slide">
+                <div class="benefit">
+                  <div class="benefit__t"><div class="u-48 b-desk"></div><h3 class="h1 a-center" data-fit-text data-reveal="h">Nature &amp; community</h3><div class="u-48"></div></div>
+                  <div class="benefit__c"><div class="u-16"></div><div class="benefit__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-f-leaf-walks.jpg" alt="Render of a park at Amoha Leaf, with white pavilions beside a walkway" loading="lazy"></div></div><div class="u-16"></div></div>
+                  <div class="benefit__b"><div class="u-48"></div><div class="grid c8"><div class="benefit__desc"><p class="p1 a-center" data-reveal="p">Spaces that bring people and greenery together.</p></div></div><div class="u-48"></div></div>
+                </div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section class="section clip t-light apart-info project-overview" data-bg="light">
+    <div class="container">
+      <div class="apart-info__w">
+        <div class="u-48"></div>
+        <div class="grid"><div class="s-title"><h2 class="l1 a-center" data-reveal="p">About Amoha Group</h2></div></div>
+        <div class="u-48"></div>
+        <div class="divider"><div class="line-v" data-reveal="line"></div></div>
+        <div class="u-64"></div>
+        <div class="grid"><div class="ov">
+          <p class="ov__lede" data-reveal="ctn">Amoha Group was established five years ago, backed by over 30 years of real estate experience and expertise brought by its founders. In a short journey, we have developed 5 landmark projects spanning 170+ acres, with a growing portfolio of thoughtfully planned residential and commercial developments — and served 1000+ satisfied families.</p>
+          <dl class="facts" style="--cols:5" data-reveal-row>
+            <div class="facts__cell"><div class="facts__rule line-h" data-reveal="line"></div><dt class="facts__k l1 reg" data-reveal="p" data-reveal-after=".06">Developed</dt><dd class="facts__v" data-reveal="p" data-reveal-after=".12"><span class="facts__n">170</span><span class="facts__u">+ acres</span></dd></div>
+            <div class="facts__cell"><div class="facts__rule line-h" data-reveal="line"></div><dt class="facts__k l1 reg" data-reveal="p" data-reveal-after=".06">Families served</dt><dd class="facts__v" data-reveal="p" data-reveal-after=".12"><span class="facts__n">1000</span><span class="facts__u">+</span></dd></div>
+            <div class="facts__cell"><div class="facts__rule line-h" data-reveal="line"></div><dt class="facts__k l1 reg" data-reveal="p" data-reveal-after=".06">Landmark projects</dt><dd class="facts__v" data-reveal="p" data-reveal-after=".12"><span class="facts__n">5</span></dd></div>
+            <div class="facts__cell"><div class="facts__rule line-h" data-reveal="line"></div><dt class="facts__k l1 reg" data-reveal="p" data-reveal-after=".06">Company experience</dt><dd class="facts__v" data-reveal="p" data-reveal-after=".12"><span class="facts__n">5</span><span class="facts__u"> years</span></dd></div>
+            <div class="facts__cell is-wide"><div class="facts__rule line-h" data-reveal="line"></div><dt class="facts__k l1 reg" data-reveal="p" data-reveal-after=".06">Founders’ industry experience</dt><dd class="facts__v" data-reveal="p" data-reveal-after=".12"><span class="facts__n">30</span><span class="facts__u">+ years</span></dd></div>
+          </dl>
+        </div></div>
+        <div class="u-160"></div>
+        <div class="flower" data-parallax="ctn-down" data-video="assets/video/bougainvillea-flowers_02.webm"><img src="assets/img/flower-poster-02.avif" width="1080" height="1080" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="section clip t-brand about-story" data-bg="brand">
+    <div class="container">
+      <div class="about-story__s">
+        <div class="u-48"></div>
+        <div class="grid"><div class="s-title"><h2 class="l1 a-center" data-reveal="p">Our name and vision</h2></div></div>
+        <div class="u-48"></div>
+        <div class="divider"><div class="line-v" data-reveal="line"></div></div>
+        <div class="u-64"></div>
+        <div class="grid"><div class="story">
+            <div class="story__row">
+              <div class="story__media"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-l-name.jpg" alt="Render of the infinity pool at the Amoha Leaf clubhouse, the township beyond" loading="lazy"></div></div>
+              <div class="story__text">
+                <p class="l1" data-reveal="p">Why the name Amoha</p>
+                <div class="u-24"></div>
+                <h3 class="h4" data-reveal="h">Purity in vision, clarity in approach</h3>
+                <div class="u-24"></div>
+                <p class="p1" data-reveal="p">Amoha is derived from Sanskrit, representing purity, clarity, and freedom from illusion. We chose the name because it reflects what we stand for: purity in vision, clarity in approach, and integrity in everything we build.</p>
+              </div>
+            </div>
+            <div class="story__row is-flip">
+              <div class="story__media"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-l-leaf-green.jpg" alt="Aerial render of Amoha Leaf, a park running between rows of homes" loading="lazy"></div></div>
+              <div class="story__text">
+                <p class="l1" data-reveal="p">Our vision</p>
+                <div class="u-24"></div>
+                <h3 class="h4 story__statement" data-reveal="h">To create spaces where nature inspires living, communities inspire belonging, and every development becomes a&nbsp;legacy.</h3>
+              </div>
+            </div>
+          </div></div>
+        <div class="u-160"></div>
+      </div>
+    </div>
+  </section>
+
+    <section id="projects" class="section t-light apart project-more" data-bg="light">
+    <div class="container">
+      <div class="apart__s">
+        <div class="u-48"></div>
+        <div class="grid"><div class="s-title"><h2 class="l1 a-center" data-reveal="p">Our projects</h2></div></div>
+        <div class="u-48"></div>
+        <div class="divider"><div class="line-v" data-reveal="line"></div></div>
+        <div class="u-64"></div>
+        <div class="grid fill">
+          <div class="apart__cms">
+            <div class="apart__grid">
+              <a class="proj-card" href="amoha-gardens.html">
+                <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-gardens.jpg" alt="Render of the Amoha Gardens entrance gate and sign at dusk" loading="lazy"></div></div>
+                <div class="u-24"></div>
+                <h3 class="h4 proj-card__name" data-reveal="h">Amoha <br>Gardens</h3>
+                <div class="u-8"></div>
+                <p class="proj-card__facts" data-reveal="ctn">36 acres &middot; 166 – 320 sq&nbsp;yds</p>
+                <div class="u-16"></div>
+                <p class="p1 proj-card__desc" data-reveal="ctn">Stay fit, let kids play safely and shop for daily needs, all without leaving your neighbourhood. Quick highway access on NH-7, and a home that feels special from the moment you enter.</p>
+                <div class="u-16"></div>
+                <span class="proj-card__go" data-reveal="ctn">View project</span>
+              </a>
+              <a class="proj-card" href="amoha-leaf.html">
+                <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-leaf.jpg" alt="Render of the leaf-shaped entrance arch at Amoha Leaf, with the clubhouse beyond" loading="lazy"></div></div>
+                <div class="u-24"></div>
+                <h3 class="h4 proj-card__name" data-reveal="h">Amoha <br>Leaf</h3>
+                <div class="u-8"></div>
+                <p class="proj-card__facts" data-reveal="ctn">115 acres &middot; 150 – 700 sq&nbsp;yds</p>
+                <div class="u-16"></div>
+                <p class="p1 proj-card__desc" data-reveal="ctn">Enjoy weekends, celebrations and evening walks right at home, with complete peace of mind for your family. A Ring&nbsp;Road address, planned by Studio Symbiosis to stay beautiful for years.</p>
+                <div class="u-16"></div>
+                <span class="proj-card__go" data-reveal="ctn">View project</span>
+              </a>
+              <a class="proj-card" href="amoha-roots.html">
+                <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-roots.jpg" alt="Render of a lit water wall in the Amoha Roots landscape at dusk" loading="lazy"></div></div>
+                <div class="u-24"></div>
+                <h3 class="h4 proj-card__name" data-reveal="h">Amoha <br>Roots</h3>
+                <div class="u-8"></div>
+                <p class="proj-card__facts" data-reveal="ctn">22 acres &middot; 100 &amp; 150 sq&nbsp;yds</p>
+                <div class="u-16"></div>
+                <p class="p1 proj-card__desc" data-reveal="ctn">An easy, affordable way to own your plot on Ring&nbsp;Road. Wide 40&nbsp;ft roads mean no traffic jams, easy parking and a calmer daily drive.</p>
+                <div class="u-16"></div>
+                <span class="proj-card__go" data-reveal="ctn">View project</span>
+              </a>
+              <a class="proj-card" href="amoha-next.html">
+                <div class="proj-card__img"><div class="img-w" data-parallax="w" data-reveal="slide"><img class="img-p" data-parallax="img-in" src="assets/img/amoha-p-next.jpg" alt="Render of a landscaped garden with curved planters and seating" loading="lazy"></div></div>
+                <div class="u-24"></div>
+                <h3 class="h4 proj-card__name" data-reveal="h">Blooming <br>Soon</h3>
+                <div class="u-8"></div>
+                <p class="proj-card__facts" data-reveal="ctn">55 acres</p>
+                <div class="u-16"></div>
+                <p class="p1 proj-card__desc" data-reveal="ctn">Live close to where Bathinda’s business is growing, opposite our newly developed Textile Market. A neighbourhood where work, shopping and home are minutes apart. Details&nbsp;awaited.</p>
+                <div class="u-16"></div>
+                <span class="proj-card__go" data-reveal="ctn">Coming soon</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="u-160"></div>
+      </div>
+    </div>
+  </section>
+
+    <section class="section t-color cta" data-bg="color">
+    <div class="container" data-footer-clip>
+      <div class="cta__w">
+        <div class="cta__s">
+          <div class="u-48"></div>
+          <div class="grid"><div class="cta__desc"><p class="l1 a-center" data-reveal="p">Speak to our team to find the right Amoha project for you.</p></div></div>
+          <div class="u-272 cta__gap"></div>
+          <div class="grid"><div class="cta__title">
+            <h2 class="h1 a-center" data-fit-text data-reveal="h">Your next address<br>is waiting</h2>
+            <div class="u-160"></div>
+            <div class="cta__btn" data-reveal="ctn">
+              <div class="btn-circle" data-magnetic data-circle-btn data-modal-open="cta">
+                <div class="btn-circle_label" data-magnetic-inner><a class="nav-item" href="#book"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">Schedule a&nbsp;site&nbsp;visit</div></div></div></a></div>
+                <div class="btn-circle_bg"><svg viewBox="0 0 208 208"><circle class="arc" data-arc cx="104" cy="104" r="103.5" transform="rotate(-150 104 104)"/><circle class="arc" data-arc cx="104" cy="104" r="103.5" transform="rotate(30 104 104)"/><circle class="ring" cx="104" cy="104" r="103.5"/></svg></div>
+                <a class="btn-circle_link" href="#book" aria-label="Schedule a site visit"></a>
+              </div>
+            </div>
+          </div></div>
+        </div>
+        <div class="w-bg"><div class="img-w" data-parallax="w"><img class="img-p" src="assets/img/amoha-cta.jpg" alt="" loading="lazy" data-parallax="img"><div class="img-over-grad from-top x4"></div><div class="img-over-grad"></div><div class="img-over-grad"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+    <footer id="footer" class="section t-dark footer" data-bg="dark">
+    <div class="container">
+      <div class="footer__w" data-footer>
+        <a class="footer__totop" href="#hero" data-hover="nav"><div class="l2">To top</div><div class="ui-arrow"><svg><use href="#i-arrow"/></svg></div></a>
+        <div class="footer__s" data-footer-s>
+          <div class="footer__t"></div>
+          <div>
+            <div class="grid">
+              <div class="footer__contact">
+                <div class="s-logo"><div class="logo_symbol ico-48" data-text="ctn"><div class="logo"><svg><use href="#mark"/></svg></div></div></div>
+                <div class="u-32"></div>
+                <div class="contact-list"><div><a class="nav-item" href="tel:+919735868686"><div class="h2 a-center" data-fit-text data-text="h">+91 97 35 86 86 86</div></a></div></div>
+                <div class="u-48"></div>
+              </div>
+              <div class="footer__address"><div class="loc-list"><div data-text="ctn">
+                <h3 class="l1 reg a-center">Amoha Group office</h3><div class="u-4"></div>
+                <div class="l1 a-center">Ring Road, Bathinda, Punjab, India</div>
+              </div></div></div>
+            </div>
+          </div>
+          <div class="footer__b">
+            <div class="grid">
+              <div class="footer__info">
+                <div class="l1" data-text="p">Amoha Group.</div>
+                <div class="l1 reg no-wrap" data-text="p">© <span data-year>2026</span> All rights reserved.</div>
+              </div>
+              <div class="footer__credits"><div class="l1 reg footer__credit" data-text="p">Qila Mubarak photograph by <span class="no-wrap"><a href="https://commons.wikimedia.org/wiki/File:Qila_Mubarak_old_building2.jpg" target="_blank" rel="noopener">Tamoghni</a>,</span> <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></div></div>
+            </div>
+            <div class="u-48"></div>
+          </div>
+        </div>
+        <div class="footer__bg"></div>
+      </div>
+    </div>
+  </footer>
+
+    <div class="modal" data-modal="cta" role="dialog" aria-modal="true" aria-label="Enquire now">
+    <div class="modal__c" data-lenis-prevent>
+      <div class="modal-cta t-brand">
+        <div class="grid">
+          <div class="modal-cta__box" data-modal-box>
+            <div class="modal-cta__close"><button class="btn-ico" data-modal-close aria-label="Close"><div class="ico-16 ico"><svg><use href="#i-close"/></svg></div></button></div>
+            <form class="modal-cta__form" data-form novalidate>
+              <div class="modal-cta__l">
+                <div>
+                  <div class="a3" data-part="a">Enquire</div>
+                  <div class="h3" data-part="h">now</div>
+                </div>
+                <div class="modal-cta__desc"><p class="p1" data-part="p">Speak to our team to find the right Amoha project for you.</p></div>
+              </div>
+              <div class="modal-cta__cc"><div class="modal-cta__line"></div><div class="modal-cta__logo logo_symbol"><div class="logo"><svg><use href="#mark"/></svg></div></div><div class="modal-cta__line"></div></div>
+              <div class="modal-cta__r"><div class="modal-cta__fields">
+                <label class="field"><span class="l1 reg">Name</span><input class="p1" type="text" name="name" autocomplete="name" required></label>
+                <label class="field"><span class="l1 reg">Email</span><input class="p1" type="email" name="email" autocomplete="email" required></label>
+                <label class="field"><span class="l1 reg">Phone</span><input class="p1" type="tel" name="phone" autocomplete="tel"></label>
+                <label class="field"><span class="l1 reg">Message</span><textarea class="p1" name="message" rows="2"></textarea></label>
+                <button class="btn" type="submit"><div class="btn_label"><div class="l1">Send request</div></div><div class="btn_bg"><div class="btn_bg_fill"></div></div></button>
+              </div></div>
+            </form>
+            <div class="form-success" data-form-success>
+              <div class="a3">Thank you</div>
+              <div class="h4 a-center">We have your request</div>
+              <div class="u-32"></div>
+              <p class="p1 a-center" style="max-width:var(--u-272)">Thank you. Our team will be in touch.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal__over" data-modal-over data-modal-close></div>
+  </div>
+
+    <div class="modal menu t-dark" data-modal="menu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="modal__c" data-lenis-prevent>
+      <div class="modal-menu" data-modal-box>
+        <div><div class="u-48 b-desk"></div><div class="u-272 b-mob"></div>
+          <div class="grid"><div class="modal-menu__title"><div class="modal-menu__a"><div class="a1 a-center" data-part="a">The</div></div><div class="h1 a-center" data-part="h">Menu</div></div></div>
+        </div>
+        <div class="grid"><div class="modal-menu__list">
+          <a class="link" href="index.html" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">Home</div></div></a>
+          <a class="link" href="amoha-about.html" aria-current="page" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">About us</div></div></a>
+          <a class="link" href="index.html#projects" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">All projects</div></div></a>
+          <a class="link" href="amoha-gardens.html" data-part="ctn"><div class="link_label"><div class="h6">Amoha Gardens</div></div></a>
+          <a class="link" href="amoha-leaf.html" data-part="ctn"><div class="link_label"><div class="h6">Amoha Leaf</div></div></a>
+          <a class="link" href="amoha-roots.html" data-part="ctn"><div class="link_label"><div class="h6">Amoha Roots</div></div></a>
+          <a class="link" href="amoha-next.html" data-part="ctn"><div class="link_label"><div class="h6">Blooming Soon</div></div></a>
+          <a class="link" href="#book" data-part="ctn" data-modal-open="cta" data-modal-close="menu"><div class="link_label"><div class="h6">Enquire now</div></div></a>
+          <a class="link" href="#footer" data-part="ctn" data-modal-close="menu"><div class="link_label"><div class="h6">Contact</div></div></a>
+        </div></div>
+        <div><div class="s-logo"><div class="logo_symbol ico-48" data-part="ctn"><div class="logo"><svg><use href="#mark"/></svg></div></div></div><div class="u-48"></div></div>
+      </div>
+    </div>
+    <div class="modal__bg" data-modal-over data-modal-close></div>
+  </div>
+
+</main>
+
+<script src="js/vendor/gsap.min.js?v=9396f256"></script>
+<script src="js/vendor/ScrollTrigger.min.js?v=05ca5ad8"></script>
+<script src="js/vendor/SplitText.min.js?v=6c4c7716"></script>
+<script src="js/vendor/CustomEase.min.js?v=d11c0971"></script>
+<script src="js/vendor/lenis.min.js?v=daec1872"></script>
+<script src="js/motion.js?v=0bf261b8"></script>
+<script src="js/components.js?v=c96926f1"></script>
+<script src="js/scenes.js?v=4d58da09"></script>
+<script src="js/wind.js?v=8dee3951"></script>
+<script src="js/app.js?v=91dcadc0"></script>
+<script src="js/petals.js?v=89f4c48b"></script>
+</body>
+</html>

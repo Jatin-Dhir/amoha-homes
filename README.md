@@ -5,6 +5,7 @@ Website for Amoha Group, Bathinda: the home page and one page for each project.
 | Page | |
 | --- | --- |
 | `index.html` | Home |
+| `amoha-about.html` | About us |
 | `amoha-gardens.html` | Amoha Gardens |
 | `amoha-leaf.html` | Amoha Leaf |
 | `amoha-roots.html` | Amoha Roots |
