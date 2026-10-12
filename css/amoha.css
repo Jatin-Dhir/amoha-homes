@@ -422,11 +422,19 @@ html {
 }
 
 .hero__name {
+  font-weight: 500;
+  font-size: calc(var(--fs-h1) * .84);
+  line-height: .92;
+  letter-spacing: -0.026em;
+}
+
+.hero__name.is-logo {
   font-family: var(--font-logo);
   font-weight: 400;
   font-size: calc(var(--fs-h1) * .68);
   letter-spacing: 0;
   margin-bottom: .12em;
+  font-variation-settings: normal;
 }
 
 .hero__accent {
@@ -515,6 +523,9 @@ html {
     --hero-foot: calc(var(--u-40) * 5);
   }
   .hero__name {
+    font-size: calc(var(--fs-h1) * .64);
+  }
+  .hero__name.is-logo {
     font-size: calc(var(--fs-h1) * .52);
   }
   .benefits .benefit__t .h1,
@@ -553,6 +564,9 @@ html {
     grid-area: 1 / 1 / 2 / 5;
   }
   .hero__name {
+    font-size: calc(var(--fs-h1) * .74);
+  }
+  .hero__name.is-logo {
     font-size: calc(var(--fs-h1) * .54);
   }
   .hero__accent {
@@ -1256,6 +1270,9 @@ html.is-arriving .pt__layer {
     align-items: center;
   }
   .hero__name {
+    font-size: calc(var(--fs-h1) * .6);
+  }
+  .hero__name.is-logo {
     font-size: calc(var(--fs-h1) * .44);
   }
   .hero__brand > .u-48 {
@@ -1788,6 +1805,14 @@ html.is-arriving .pt__layer {
   .hero__video {
     display: none;
   }
+}
+
+.hero__name {
+  font-variation-settings: "opsz" 144, "SOFT" var(--nm-soft, 50), "wght" var(--nm-wght, 500);
+}
+
+.hero__name.is-logo {
+  font-variation-settings: normal;
 }
 
 .hero__themes .sensor-light {

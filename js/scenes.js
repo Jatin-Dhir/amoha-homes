@@ -172,6 +172,16 @@
               duration: document.querySelector('.benefits.arch') ? mob ? .45 : .27 : .5
             }, 0);
           }
+          const nameEl = content.querySelector('.hero__name');
+          if (nameEl && !AMOHA.lite && !nameEl.classList.contains('is-logo')) tl.fromTo(nameEl, {
+            '--nm-wght': 500,
+            '--nm-soft': 50
+          }, {
+            '--nm-wght': 330,
+            '--nm-soft': 100,
+            ease: 'none',
+            duration: .6
+          }, 0);
           const drifter = bg.querySelector('[data-hero-drift]');
           if (drifter) {
             gsap.set(drifter, {
