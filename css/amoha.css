@@ -1110,6 +1110,8 @@ a.proj-card:hover .proj-card__img img {
     flex-flow: column;
     justify-content: flex-end;
     height: min(calc(var(--u-144) + var(--sp-32)), calc(var(--vh) * .21));
+    width: min(100%, 75vw);
+    margin-inline: auto;
   }
   .benefits .benefit__b {
     flex: none;
@@ -1559,6 +1561,12 @@ html.is-arriving .pt__layer {
 
 @media (max-width: 599px), (min-width: 992px) {
   .br-tab {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .br-mob {
     display: none;
   }
 }
