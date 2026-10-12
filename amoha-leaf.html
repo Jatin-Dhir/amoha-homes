@@ -15,10 +15,10 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin>
 
 <link rel="stylesheet" href="css/tokens.css?v=7b34bb63">
-<link rel="stylesheet" href="css/base.css?v=e1b95278">
+<link rel="stylesheet" href="css/base.css?v=343b7fc6">
 <link rel="stylesheet" href="css/sections.css?v=23cdda2c">
 <link rel="stylesheet" href="css/motion.css?v=750b7e3b">
-<link rel="stylesheet" href="css/amoha.css?v=65dedbbb">
+<link rel="stylesheet" href="css/amoha.css?v=ba8fb730">
 <link rel="preload" as="image" href="assets/img/amoha-h-leaf.jpg" media="(min-width: 992px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/amoha-h-leaf-p.jpg" media="(max-width: 991px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/amoha-mark.png">
@@ -26,6 +26,10 @@
 if (!/nojs/.test(location.search)) document.documentElement.classList.add("has-js");
 
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("is-reduced");
+
+try {
+  if (sessionStorage.getItem("amoha-seen") === "1") document.documentElement.classList.add("is-seen");
+} catch (e) {}
 
 try {
   if (sessionStorage.getItem("amoha-pt") === "1") {
@@ -63,16 +67,20 @@ try {
   </defs>
 </svg>
 
-<div class="loader t-color" data-preloader data-loader aria-hidden="true">
-  <div class="loader__panel" data-loader-panel>
-    <div class="loader__set" data-loader-set>
-      <div class="loader__logo">
-        <img class="loader__mark" src="assets/img/amoha-mark.png" width="317" height="308" alt="">
-        <div class="loader__name"><span class="lk lk--1" style="margin-inline:-0.026em -0.032em"><span class="ch" style="--i:0">A</span><span class="ch" style="--i:1">m</span><span class="ch" style="--i:2">o</span><span class="ch" style="--i:3">h</span><span class="ch" style="--i:4">a</span></span> <span class="lk lk--2" style="letter-spacing:0.4119em;margin-inline:-0.08em -0.4719em"><span class="ch" style="--i:5">G</span><span class="ch" style="--i:6">r</span><span class="ch" style="--i:7">o</span><span class="ch" style="--i:8">u</span><span class="ch" style="--i:9">p</span></span></div>
-      </div>
-      <div class="loader__bar"><i class="loader__fill" data-loader-fill></i></div>
-      <p class="c1 loader__place">Bathinda, Punjab</p>
+<div class="door" data-preloader data-loader aria-hidden="true">
+  <div class="door__open" data-door-open>
+    <div class="door__wall"></div>
+    <div class="door__spill" data-door-spill></div>
+    <div class="door__veil" data-door-veil></div>
+    <i class="door__ground" data-door-fade></i>
+    <svg class="door__lines" data-door-fade viewBox="0 0 200 305" preserveAspectRatio="none" focusable="false"><path class="door__jamb" pathLength="1" d="M0 305V100"/><path class="door__jamb is-r" pathLength="1" d="M200 305V100"/><path class="door__head" pathLength="1" d="M0 100A100 100 0 0 1 200 100"/></svg>
+  </div>
+  <div class="door__set">
+    <div class="door__logo">
+      <img class="door__mark" data-door-mark src="assets/img/amoha-mark.png" width="317" height="308" alt="">
+      <div class="door__name" data-door-fade><span class="lk lk--1" style="margin-inline:-0.026em -0.032em"><span class="ch" style="--i:0">A</span><span class="ch" style="--i:1">m</span><span class="ch" style="--i:2">o</span><span class="ch" style="--i:3">h</span><span class="ch" style="--i:4">a</span></span> <span class="lk lk--2" style="letter-spacing:0.4119em;margin-inline:-0.08em -0.4719em"><span class="ch" style="--i:5">G</span><span class="ch" style="--i:6">r</span><span class="ch" style="--i:7">o</span><span class="ch" style="--i:8">u</span><span class="ch" style="--i:9">p</span></span></div>
     </div>
+    <div class="door__plate" data-door-fade><i class="door__rule"></i><p class="c1 door__place">Bathinda, Punjab</p></div>
   </div>
 </div>
 
@@ -390,7 +398,7 @@ try {
             <div class="u-160"></div>
             <div class="cta__btn" data-reveal="ctn">
               <div class="btn-circle is-long" data-magnetic data-circle-btn data-modal-open="cta">
-                <div class="btn-circle_label" data-magnetic-inner><a class="nav-item" href="#book"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">Book a&nbsp;site&nbsp;visit to Amoha&nbsp;Leaf</div></div></div></a></div>
+                <div class="btn-circle_label" data-magnetic-inner><div class="nav-item"><div class="nav-item_label"><div class="nav-item_label_text"><div class="l1">Book a&nbsp;site&nbsp;visit to Amoha&nbsp;Leaf</div></div></div></div></div>
                 <div class="btn-circle_bg"><svg viewBox="0 0 208 208"><circle class="arc" data-arc cx="104" cy="104" r="103.5" transform="rotate(-150 104 104)"/><circle class="arc" data-arc cx="104" cy="104" r="103.5" transform="rotate(30 104 104)"/><circle class="ring" cx="104" cy="104" r="103.5"/></svg></div>
                 <a class="btn-circle_link" href="#book" aria-label="Book a site visit to Amoha Leaf"></a>
               </div>
@@ -504,11 +512,11 @@ try {
 <script src="js/vendor/SplitText.min.js?v=6c4c7716"></script>
 <script src="js/vendor/CustomEase.min.js?v=d11c0971"></script>
 <script src="js/vendor/lenis.min.js?v=daec1872"></script>
-<script src="js/motion.js?v=0bf261b8"></script>
-<script src="js/components.js?v=c96926f1"></script>
+<script src="js/motion.js?v=06ae2efa"></script>
+<script src="js/components.js?v=b022494d"></script>
 <script src="js/scenes.js?v=4d58da09"></script>
 <script src="js/wind.js?v=8dee3951"></script>
-<script src="js/app.js?v=91dcadc0"></script>
+<script src="js/app.js?v=f719f2f7"></script>
 <script src="js/petals.js?v=89f4c48b"></script>
 </body>
 </html>

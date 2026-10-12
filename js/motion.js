@@ -813,6 +813,7 @@ window.AMOHA = window.AMOHA || {};
     } catch (e) {}
     if (seen || AMOHA.ptArriving) {
       const arriving = AMOHA.ptArriving;
+      root.classList.add('is-open', 'is-in');
       pre.remove();
       AMOHA.unlockScroll();
       if (arriving) window.scrollTo(0, 0);
@@ -823,20 +824,12 @@ window.AMOHA = window.AMOHA || {};
       });
       return;
     }
-    const set = pre.querySelector('[data-loader-set]'), panel = pre.querySelector('[data-loader-panel]');
-    const fill = pre.querySelector('[data-loader-fill]'), zoom = document.querySelector('[data-hero-zoom]');
-    root.classList.add('is-loading');
+    const q = s => pre.querySelector(s);
+    const open = q('[data-door-open]'), veil = q('[data-door-veil]'), spill = q('[data-door-spill]'), mark = q('[data-door-mark]'), scene = q('[data-door-scene]');
+    const fades = pre.querySelectorAll('[data-door-fade]'), zoom = document.querySelector('[data-hero-zoom]');
+    const masks = window.CSS && (CSS.supports('mask-composite', 'exclude') || CSS.supports('-webkit-mask-composite', 'xor'));
     AMOHA.lockScroll();
     window.scrollTo(0, 0);
-    let shown = 0;
-    const to = v => {
-      if (v > shown) {
-        shown = v;
-        fill.style.transform = 'scaleX(' + v.toFixed(3) + ')';
-      }
-    };
-    requestAnimationFrame(() => requestAnimationFrame(() => to(.3)));
-    const creep = setInterval(() => to(shown + (.85 - shown) * .2), 300);
     const wait = ms => new Promise(r => setTimeout(r, ms));
     const m = AMOHA.milestones || {};
     const left = ms => wait(Math.max(0, ms - performance.now()));
@@ -852,58 +845,97 @@ window.AMOHA = window.AMOHA || {};
     const leave = () => {
       if (gone) return;
       gone = true;
-      clearInterval(creep);
-      to(1);
-      if (AMOHA.reduced) {
-        root.classList.remove('is-loading');
+      if (AMOHA.reduced || !masks) {
+        root.classList.add('is-open', 'is-in');
         pre.animate([ {
           opacity: 1
         }, {
           opacity: 0
         } ], {
-          duration: 240,
+          duration: 280,
           easing: 'ease-out',
           fill: 'forwards'
         }).finished.then(done, done);
         return;
       }
-      const out = 'cubic-bezier(0.25, 1, 0.5, 1)', inOut = 'cubic-bezier(0.76, 0, 0.24, 1)';
-      set.animate([ {
-        opacity: 1,
-        transform: 'none'
+      const dive = 'cubic-bezier(0.6, 0, 0, 1)', out = 'cubic-bezier(0.25, 1, 0.5, 1)', inOut = 'cubic-bezier(0.75, 0, 0.25, 1)';
+      const v = veil.getBoundingClientRect(), r = v.width / 2, spring = v.top + r;
+      const W = pre.clientWidth, H = pre.clientHeight;
+      const scale = Math.hypot(W / 2, Math.max(spring, H - spring)) / r * 1.12;
+      fades.forEach(el => el.animate([ {
+        opacity: 1
       }, {
-        opacity: 0,
-        transform: 'translateY(-16px)'
+        opacity: 0
       } ], {
-        duration: 420,
-        delay: 260,
+        duration: 450,
         easing: out,
         fill: 'forwards'
-      });
-      const lift = panel.animate([ {
-        transform: 'translateY(0)'
+      }));
+      [ veil, spill ].forEach(el => el.animate([ {
+        opacity: getComputedStyle(el).opacity
       }, {
-        transform: 'translateY(calc(-100% - 16vh))'
+        opacity: 0
       } ], {
-        duration: 1050,
-        delay: 380,
+        duration: 500,
+        easing: out,
+        fill: 'forwards'
+      }));
+      const grow = open.animate([ {
+        transform: 'scale(1)'
+      }, {
+        transform: 'scale(' + scale.toFixed(3) + ')'
+      } ], {
+        duration: 1300,
+        easing: dive,
+        fill: 'forwards'
+      });
+      if (zoom) zoom.animate([ {
+        transform: getComputedStyle(zoom).transform,
+        transformOrigin: '50% 0'
+      }, {
+        transform: 'none',
+        transformOrigin: '50% 0'
+      } ], {
+        duration: 1500,
+        easing: inOut
+      });
+      if (scene) scene.animate([ {
+        opacity: 1
+      }, {
+        opacity: 0
+      } ], {
+        duration: 700,
+        delay: 450,
         easing: inOut,
         fill: 'forwards'
       });
-      zoom && zoom.animate([ {
-        transform: 'scale(1.06)'
-      }, {
-        transform: 'scale(1)'
-      } ], {
-        duration: 1600,
-        delay: 380,
-        easing: out,
-        fill: 'backwards'
-      });
-      setTimeout(() => root.classList.remove('is-loading'), 800);
-      lift.finished.then(done, done);
+      root.classList.add('is-open');
+      const badge = document.querySelector('.ui-logo__symbol');
+      if (badge && mark) {
+        const a = mark.getBoundingClientRect(), b = badge.getBoundingClientRect();
+        if (b.width) {
+          const to = 'translate(' + (b.left + b.width / 2 - (a.left + a.width / 2)).toFixed(1) + 'px, ' + (b.top + b.height / 2 - (a.top + a.height / 2)).toFixed(1) + 'px) scale(' + (b.height / a.height).toFixed(3) + ')';
+          mark.animate([ {
+            transform: 'none',
+            opacity: 1
+          }, {
+            transform: to,
+            opacity: 1,
+            offset: .82
+          }, {
+            transform: to,
+            opacity: 0
+          } ], {
+            duration: 1150,
+            easing: inOut,
+            fill: 'forwards'
+          });
+        }
+      }
+      setTimeout(() => root.classList.add('is-in'), 650);
+      grow.finished.then(done, done);
     };
-    Promise.all([ left(AMOHA.reduced ? 300 : 1800), picture, built ]).then(() => setTimeout(leave, 260));
+    Promise.all([ left(AMOHA.reduced ? 300 : 2100), picture, built ]).then(() => setTimeout(leave, 200));
     setTimeout(leave, 9e3);
   };
   /* ---------- cookie card ---------- */  AMOHA.initCookies = function() {

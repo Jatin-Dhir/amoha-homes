@@ -460,6 +460,23 @@
     const first = document.querySelector('.other-card [data-accordion="content"]') && document.querySelector('.other-card');
     if (first) first.querySelector('.other-card__name').click();
   };
+  AMOHA.initAboutWindow = function() {
+    const win = document.querySelector('[data-about-window]');
+    if (!win) return;
+    const views = arr(win.querySelectorAll('.about__view'));
+    let current = 0;
+    const show = n => {
+      if (n === current) return;
+      current = n;
+      views.forEach((v, i) => v.classList.toggle('is-on', i <= n));
+    };
+    const io = new IntersectionObserver(entries => {
+      for (const en of entries) if (en.isIntersecting) show(+en.target.dataset.aboutCh);
+    }, {
+      rootMargin: '-50% 0px -50% 0px'
+    });
+    arr('[data-about-ch]').forEach(ch => io.observe(ch));
+  };
   AMOHA.initLayers = function() {
     const stack = document.querySelector('[data-layers]');
     if (!stack) return;

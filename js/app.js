@@ -22,7 +22,7 @@
     const built = new Promise(r => {
       builtDone = r;
     });
-    const heroImg = document.querySelector('[data-hero-zoom] img, .hero__photo img');
+    const heroImg = document.querySelector('[data-hero-zoom] img, .hero__photo img, [data-door-scene] img');
     const hero = new Promise(res => {
       if (!heroImg) return res();
       if (heroImg.complete && heroImg.naturalWidth) {
@@ -65,6 +65,7 @@
       AMOHA.initSliders();
       AMOHA.initTabs();
       AMOHA.initLayers();
+      AMOHA.initAboutWindow();
       AMOHA.initAccordions();
       await rest();
       AMOHA.initMagnetic();
