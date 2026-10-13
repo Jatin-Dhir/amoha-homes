@@ -1,11 +1,14 @@
 /*!
- * Amoha Group website — interactive components: buttons, links, navigation, modals, enquiry form
+ * Amoha Group website
+ * Interactive components: buttons, links, navigation, modals, enquiry form
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 (function(AMOHA) {
   'use strict';
   const D = AMOHA.D, arr = AMOHA.arr;
-  /* ---------- hero ---------- */  AMOHA.initHeroTabs = function() {
+
+  /* ---------- hero ---------- */
+  AMOHA.initHeroTabs = function() {
     const root = document.querySelector('[data-hero-tabs]');
     if (!root) return;
     const triggers = arr(root.querySelectorAll('[data-tab-trigger]'));
@@ -41,7 +44,9 @@
       if (divider) divider.classList.toggle('is-night', i === 1);
     }));
   };
-  /* ---------- hotspot pins ---------- */  AMOHA.initPins = function() {
+
+  /* ---------- hotspot pins ---------- */
+  AMOHA.initPins = function() {
     arr('[data-pin]').forEach(pin => {
       const pulses = pin.querySelectorAll('[data-pin-pulse]'), w = pin.offsetWidth;
       if (!pulses.length || AMOHA.reduced) return;
@@ -60,7 +65,9 @@
       });
     });
   };
-  /* ---------- tip cards ---------- */  AMOHA.initTips = function() {
+
+  /* ---------- tip cards ---------- */
+  AMOHA.initTips = function() {
     if (AMOHA.isMobile()) return;
     const tips = new Map;
     arr('[data-tip]').forEach(t => tips.set(t.dataset.tip, t));
@@ -97,7 +104,9 @@
       });
     });
   };
-  /* ---------- slider ---------- */  function partsOf(slide) {
+
+  /* ---------- slider ---------- */
+  function partsOf(slide) {
     return {
       h: slide.querySelectorAll('[data-s="h"]'),
       p: slide.querySelectorAll('[data-s="p"]'),
@@ -214,6 +223,8 @@
       });
     });
   };
+
+  /* ---------- hero video ---------- */
   AMOHA.initNavBar = function() {
     const nav = document.querySelector('.ui-nav');
     if (!nav) return;
@@ -244,7 +255,8 @@
     if (AMOHA.reduced) return;
     if (AMOHA.lite) return;
     const c = navigator.connection;
-    if (c && (c.saveData || /(^|-)2g$/.test(c.effectiveType || ''))) return;
+    if (c && (c.saveData || /(^|-)[23]g$/.test(c.effectiveType || ''))) return;
+    const phone = AMOHA.isMobile();
     const load = v => {
       if (!v || v.dataset.heroLoaded) return;
       v.dataset.heroLoaded = '1';
@@ -266,13 +278,18 @@
       const p = v.closest('[data-tab-content]');
       return !p || getComputedStyle(p).display !== 'none';
     };
-    vids.filter(visible).forEach(load);
+    const start = () => vids.filter(visible).forEach(load);
+    if (!phone) start(); else if (document.readyState === 'complete') setTimeout(start, 1500); else window.addEventListener('load', () => setTimeout(start, 1500), {
+      once: true
+    });
     const idle = window.requestIdleCallback || (fn => setTimeout(fn, 2500));
     const warm = () => idle(() => vids.filter(v => !visible(v)).forEach(load));
     const first = vids.find(visible);
-    if (first) first.addEventListener('canplay', () => setTimeout(warm, 1200), {
-      once: true
-    }); else warm();
+    if (!phone) {
+      if (first) first.addEventListener('canplay', () => setTimeout(warm, 1200), {
+        once: true
+      }); else warm();
+    }
     const tabs = document.querySelector('.hero__tabs');
     if (tabs && !AMOHA.reduced) {
       let touched = false;
@@ -311,7 +328,9 @@
     }
     document.addEventListener('visibilitychange', sync);
   };
-  /* ---------- tabs ---------- */  AMOHA.initTabs = function() {
+
+  /* ---------- tabs ---------- */
+  AMOHA.initTabs = function() {
     arr('[data-tabs]').forEach(root => {
       const triggers = arr(root.querySelectorAll('[data-tab-trigger]'));
       const contents = arr(root.querySelectorAll('[data-tab-content]'));
@@ -394,7 +413,9 @@
       }));
     });
   };
-  /* ---------- accordion ---------- */  AMOHA.initAccordions = function() {
+
+  /* ---------- accordion ---------- */
+  AMOHA.initAccordions = function() {
     const cards = arr('.other-card');
     let open = null;
     arr('[data-accordion]:not([data-accordion="content"]):not([data-accordion="p"]):not([data-accordion="ctn"])').forEach(card => {
@@ -460,6 +481,8 @@
     const first = document.querySelector('.other-card [data-accordion="content"]') && document.querySelector('.other-card');
     if (first) first.querySelector('.other-card__name').click();
   };
+
+  /* ---------- about window ---------- */
   AMOHA.initAboutWindow = function() {
     const win = document.querySelector('[data-about-window]');
     if (!win) return;
@@ -477,6 +500,8 @@
     });
     arr('[data-about-ch]').forEach(ch => io.observe(ch));
   };
+
+  /* ---------- facts layers ---------- */
   AMOHA.initLayers = function() {
     const stack = document.querySelector('[data-layers]');
     if (!stack) return;
@@ -531,7 +556,9 @@
       current = n;
     };
   };
-  /* ---------- magnetic buttons ---------- */  AMOHA.initMagnetic = function() {
+
+  /* ---------- magnetic buttons ---------- */
+  AMOHA.initMagnetic = function() {
     if (AMOHA.isMobile() || AMOHA.reduced) return;
     arr('[data-magnetic]').forEach(el => {
       const inner = arr(el.querySelectorAll('[data-magnetic-inner]'));
@@ -575,7 +602,9 @@
       });
     });
   };
-  /* ---------- circle buttons ---------- */  AMOHA.initCircleButtons = function() {
+
+  /* ---------- circle buttons ---------- */
+  AMOHA.initCircleButtons = function() {
     arr('[data-circle-btn]').forEach(btn => {
       const arcs = btn.querySelectorAll('[data-arc]');
       if (!arcs.length) return;
@@ -594,7 +623,9 @@
       btn.addEventListener('mouseleave', () => tl.reverse());
     });
   };
-  /* ---------- display links ---------- */  AMOHA.initLinkHover = function() {
+
+  /* ---------- display links ---------- */
+  AMOHA.initLinkHover = function() {
     if (AMOHA.isMobile()) return;
     arr('[data-hover="link"]').forEach(link => {
       const texts = link.querySelectorAll('.link_label_text');
@@ -713,7 +744,9 @@
       link.addEventListener('mouseleave', leave);
     });
   };
-  /* ---------- nav items ---------- */  AMOHA.initNavHover = function() {
+
+  /* ---------- nav items ---------- */
+  AMOHA.initNavHover = function() {
     if (AMOHA.isMobile()) return;
     const byX = total => (i, target, list) => {
       const xs = list.map(t => t.getBoundingClientRect().left);
@@ -794,7 +827,9 @@
       });
     });
   };
-  /* ---------- modals ---------- */  AMOHA.initModals = function() {
+
+  /* ---------- modals ---------- */
+  AMOHA.initModals = function() {
     const uis = arr('[data-theme]');
     const modals = {};
     arr('[data-modal]').forEach(m => {
@@ -937,7 +972,9 @@
       if (e.key === 'Escape') Object.keys(state).forEach(n => state[n] && close(n));
     });
   };
-  /* ---------- enquiry form ---------- */  AMOHA.initForm = function() {
+
+  /* ---------- enquiry form ---------- */
+  AMOHA.initForm = function() {
     arr('[data-form]').forEach(form => form.addEventListener('submit', e => {
       e.preventDefault();
       const required = form.querySelectorAll('[required]');
@@ -961,7 +998,9 @@
       }
     }));
   };
-  /* ---------- fit text ---------- */  AMOHA.fitText = function(el) {
+
+  /* ---------- fit text ---------- */
+  AMOHA.fitText = function(el) {
     if (!el.offsetParent) return;
     const grow = el.dataset.fitText === 'grow';
     el.style.fontSize = '';
@@ -1015,7 +1054,9 @@
       if (el.parentElement) ro.observe(el.parentElement);
     });
   };
-  /* ---------- clouds ---------- */  AMOHA.initClouds = function() {
+
+  /* ---------- clouds ---------- */
+  AMOHA.initClouds = function() {
     const filter = document.getElementById('cloudf');
     if (!filter) return;
     const cache = {};
@@ -1054,7 +1095,9 @@
       });
     });
   };
-  /* ---------- flower breeze ---------- */  AMOHA.initFlowers = function() {
+
+  /* ---------- flower breeze ---------- */
+  AMOHA.initFlowers = function() {
     if (AMOHA.reduced || AMOHA.windActive || AMOHA.lite) return;
     const sway = (img, i) => {
       const r = gsap.utils.random, wrap = img.closest('.flower') || img;
@@ -1091,7 +1134,9 @@
       sway(img, i);
     });
   };
-  /* ---------- small utilities ---------- */  AMOHA.initRouteArt = function() {
+
+  /* ---------- small utilities ---------- */
+  AMOHA.initRouteArt = function() {
     const svg = document.querySelector('[data-route] svg');
     if (!svg || !window.fetch) return;
     const load = src => fetch(src).then(r => r.ok ? r.text() : Promise.reject(r.status)).then(txt => (new DOMParser).parseFromString(txt, 'image/svg+xml'));

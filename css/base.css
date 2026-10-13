@@ -1,8 +1,10 @@
 /*!
- * Amoha Group website — base styles: reset, typography, grid and shared components
+ * Amoha Group website
+ * Base styles: reset, typography, grid and shared components
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 
+/* ---------- smooth scroll ---------- */
 html.lenis,
 html.lenis body {
   height: auto;

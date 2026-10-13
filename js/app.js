@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — start-up: boots every part of the page
+ * Amoha Group website
+ * Start-up: boots every part of the page
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 (function(AMOHA) {
@@ -84,7 +85,7 @@
       }));
     });
   }
-  const faces = [ '1em Fraunces', 'italic 1em Fraunces', '1em Aboreto', '1em Manrope' ];
+  const faces = [ '1em Fraunces', 'italic 1em Fraunces', '1em Manrope' ];
   const fonts = document.fonts ? Promise.all(faces.map(f => document.fonts.load(f))).then(() => document.fonts.ready, () => {}) : Promise.resolve();
   const sized = () => new Promise(r => {
     if (window.innerWidth > 0) return r();

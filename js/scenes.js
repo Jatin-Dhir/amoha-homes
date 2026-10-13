@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — scroll-driven scenes
+ * Amoha Group website
+ * Scroll-driven scenes
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 (function(AMOHA) {
@@ -9,7 +10,9 @@
     const mob = AMOHA.isMobile();
     return !(mob && el.dataset.mob === 'off' || !mob && el.dataset.desk === 'off');
   };
-  /* ---------- parallax ---------- */  AMOHA.initParallax = function() {
+
+  /* ---------- parallax ---------- */
+  AMOHA.initParallax = function() {
     if (AMOHA.reduced) return;
     arr('[data-parallax="img"]').forEach(img => {
       const w = img.closest('[data-parallax="w"]');

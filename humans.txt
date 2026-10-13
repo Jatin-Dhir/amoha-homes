@@ -1,0 +1,9 @@
+/* TEAM */
+Design and development: Jatin Dhir
+Contact: jatindhir.dev [at] gmail.com
+
+/* SITE */
+Client: Amoha Group, Bathinda
+Standards: HTML, CSS, JavaScript
+Components: GSAP, Lenis
+Fonts: Fraunces, Manrope

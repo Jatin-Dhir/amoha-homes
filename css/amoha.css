@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — brand layer: faces, palette, type and section refinements
+ * Amoha Group website
+ * Brand layer: faces, palette, type and section refinements
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 
@@ -58,23 +59,35 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-@font-face {
-  font-family: "Aboreto";
-  src: url("../assets/fonts/aboreto.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-
-/* ---------- name lockup ---------- */
-.lk {
+/* ---------- wordmark ---------- */
+.wordmark {
   display: block;
-  white-space: nowrap;
-  line-height: 1.107;
+  width: 3.88em;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+  fill: currentColor;
 }
 
-.lk--2 {
-  font-size: .741em;
+.wordmark .ch {
+  transform-box: fill-box;
+}
+
+/* ---------- utilities ---------- */
+picture {
+  display: contents;
+}
+
+.u-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ---------- primitives ---------- */
@@ -89,7 +102,6 @@
   --c-gold: #c39a5e;
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-accent: "Fraunces", Georgia, serif;
-  --font-logo: "Aboreto", "Iowan Old Style", Georgia, serif;
   --font-body: "Manrope", "Helvetica Neue", Arial, sans-serif;
   --accent-scale: 0.82;
 }
@@ -429,12 +441,23 @@ html {
 }
 
 .hero__name.is-logo {
-  font-family: var(--font-logo);
-  font-weight: 400;
   font-size: calc(var(--fs-h1) * .68);
-  letter-spacing: 0;
   margin-bottom: .12em;
-  font-variation-settings: normal;
+}
+
+html.has-js:not(.is-in) .hero__name .ch {
+  opacity: 0;
+}
+
+html.is-in .hero__name .ch {
+  animation: loader-letter .85s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-in .hero__name .ch {
+    animation: loader-fade .3s ease both;
+  }
 }
 
 .hero__accent {
@@ -1046,6 +1069,7 @@ a.proj-card:hover .proj-card__img img {
   }
 }
 
+/* ---------- facts layers ---------- */
 @media (min-width: 992px) {
   .other__layers + .other__cms {
     grid-area: 1 / 1 / 2 / 7;
@@ -1103,6 +1127,7 @@ a.proj-card:hover .proj-card__img img {
   }
 }
 
+/* ---------- principles panels ---------- */
 @media (min-width: 992px) {
   .benefits .benefit__t {
     flex: none;
@@ -1156,6 +1181,7 @@ a.proj-card:hover .proj-card__img img {
   }
 }
 
+/* ---------- page transition ---------- */
 .pt {
   position: fixed;
   inset: 0;
@@ -1683,6 +1709,7 @@ html.is-arriving .pt__layer {
   }
 }
 
+/* ---------- hero photograph ---------- */
 .hero__photo {
   position: absolute;
   inset: 0;
@@ -1696,10 +1723,6 @@ html.is-arriving .pt__layer {
   width: 100%;
   height: 100%;
   overflow: clip;
-}
-
-.hero__photo picture {
-  display: contents;
 }
 
 .hero__photo img,
@@ -1817,10 +1840,6 @@ html.is-arriving .pt__layer {
 
 .hero__name {
   font-variation-settings: "opsz" 144, "SOFT" var(--nm-soft, 50), "wght" var(--nm-wght, 500);
-}
-
-.hero__name.is-logo {
-  font-variation-settings: normal;
 }
 
 .hero__themes .sensor-light {
@@ -2458,6 +2477,7 @@ html.is-sideways .ui-scroll {
   text-align: center;
 }
 
+/* ---------- project highlights ---------- */
 .benefit__plate {
   container-type: size;
 }
@@ -2610,6 +2630,7 @@ html.is-sideways .ui-scroll {
   background: radial-gradient(closest-side, rgba(16, 32, 26, .5) 40%, rgba(16, 32, 26, .26) 72%, transparent);
 }
 
+/* ---------- reduced motion ---------- */
 @media (min-width: 992px) {
   html.is-reduced .benefits__cms,
   html:not(.has-js) .benefits__cms {
@@ -2672,6 +2693,7 @@ html.is-sideways .ui-scroll {
   }
 }
 
+/* ---------- project overview ---------- */
 .project-overview .ov {
   grid-area: 1 / 2 / 2 / 10;
   display: flex;
@@ -2762,6 +2784,7 @@ html.is-sideways .ui-scroll {
   }
 }
 
+/* ---------- figure lines ---------- */
 .benefit__fig {
   margin: 0;
   font-family: var(--font-display);
@@ -2788,6 +2811,7 @@ html.is-sideways .ui-scroll {
   }
 }
 
+/* ---------- about page ---------- */
 .about {
   padding-block: calc(var(--u-120) + var(--u-40)) var(--u-64);
 }
@@ -2925,7 +2949,7 @@ html.is-sideways .ui-scroll {
   transition: transform 1.1s cubic-bezier(.75, 0, .25, 1);
 }
 
-.about__view:first-child,
+.about__view.is-base,
 .about__view.is-on {
   transform: none;
 }
@@ -3067,6 +3091,7 @@ html.is-sideways .ui-scroll {
   }
 }
 
+/* ---------- loader ---------- */
 .door {
   position: fixed;
   inset: 0;
@@ -3211,14 +3236,10 @@ html.is-arriving .door {
 }
 
 .door__name {
-  font-family: var(--font-logo);
-  font-weight: 400;
   color: var(--c-gold);
-  text-align: left;
 }
 
 .door__name .ch {
-  display: inline-block;
   animation: loader-letter .85s var(--ease-out) both;
   animation-delay: calc(.4s + var(--i, 0) * 45ms);
 }

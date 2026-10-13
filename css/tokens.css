@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — design tokens: colour, type scale, spacing, motion
+ * Amoha Group website
+ * Design tokens: colour, type scale, spacing, motion
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 
@@ -111,6 +112,7 @@
   --shadow-card: 0 224px 63px 0 rgba(0,0,0,0), 0 143px 57px 0 rgba(0,0,0,.01), 0 81px 48px 0 rgba(0,0,0,.04), 0 36px 36px 0 rgba(0,0,0,.07), 0 9px 20px 0 rgba(0,0,0,.08);
 }
 
+/* ---------- themes ---------- */
 :root,
 .t-light {
   --fg: var(--c-navy);
@@ -152,6 +154,7 @@
   --fg-tint: rgba(243, 243, 236, 0.05);
 }
 
+/* ---------- tablet and mobile scale ---------- */
 @media (max-width: 991px) {
   :root {
     --scale: 4.16;

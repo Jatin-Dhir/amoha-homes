@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="author" content="Jatin Dhir">
+<title>Page not found | Amoha Group</title>
+<script>
+  (function () {
+    var moved = {"amoha.html":"","amoha-about.html":"about.html","amoha-gardens.html":"gardens.html","amoha-leaf.html":"leaf.html","amoha-roots.html":"roots.html","amoha-next.html":"blooming-soon.html"};
+    var parts = location.pathname.match(/^(.*\/)([^\/]*)$/);
+    if (parts && Object.prototype.hasOwnProperty.call(moved, parts[2])) location.replace(parts[1] + moved[parts[2]] + location.search + location.hash);
+  })();
+</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; box-sizing: border-box;
+    background: #f4f1e8; color: #10201a; font: 18px/1.5 Georgia, "Times New Roman", serif; text-align: center; }
+  h1 { margin: 0 0 12px; font-size: 32px; font-weight: 400; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Page not found</h1>
+  <p><a href="./" id="home">Go to the Amoha Group home page</a></p>
+</main>
+<script>
+  (function () {
+    var base = /github\.io$/.test(location.hostname) ? '/' + location.pathname.split('/')[1] + '/' : '/';
+    document.getElementById('home').setAttribute('href', base);
+  })();
+</script>
+</body>
+</html>

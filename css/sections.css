@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — section layouts
+ * Amoha Group website
+ * Section layouts
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 
@@ -2307,6 +2308,7 @@
   left: calc(var(--u-96) * -1 - var(--offset));
 }
 
+/* ---------- flower sprays ---------- */
 .flower {
   height: auto;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
@@ -2448,6 +2450,7 @@
   font-size: 12px;
 }
 
+/* ---------- flower placements ---------- */
 .apart-info .flower {
   width: calc(var(--u-80) * 10);
   bottom: calc(var(--u-32) * -1);

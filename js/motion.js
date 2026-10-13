@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — scroll engine, loader, reveals and theme switching
+ * Amoha Group website
+ * Scroll engine, loader, reveals and theme switching
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 window.AMOHA = window.AMOHA || {};
@@ -33,7 +34,9 @@ window.AMOHA = window.AMOHA || {};
   CustomEase.create('amohaDive', '0.6,0,0,1');
   CustomEase.create('amohaHor', '0.25,0,0.75,1');
   CustomEase.create('eraLoader', 'M0,0 C0.08,0.3 0.2,0.38 0.34,0.46 0.46,0.52 0.5,0.54 0.58,0.6 0.66,0.66 0.72,0.84 0.82,0.92 0.9,0.98 1,1 1,1');
-  /* ---------- smooth scroll ---------- */  AMOHA.initLenis = function() {
+
+  /* ---------- smooth scroll ---------- */
+  AMOHA.initLenis = function() {
     if (AMOHA.reduced || matchMedia('(pointer: coarse)').matches) return null;
     const lenis = new Lenis({
       wrapper: AMOHA.wrapper || window,
@@ -75,7 +78,9 @@ window.AMOHA = window.AMOHA || {};
     document.documentElement.style.overflow = '';
     AMOHA.lenis && AMOHA.lenis.start();
   };
-  /* ---------- split text ---------- */  const WS = {
+
+  /* ---------- split text ---------- */
+  const WS = {
     reduceWhiteSpace: false,
     prepareText: t => t.replace(/[ \t\n\r\f]+/g, ' ')
   };
@@ -102,6 +107,8 @@ window.AMOHA = window.AMOHA || {};
   const show = els => gsap.set(els, {
     visibility: 'visible'
   });
+
+  /* ---------- animators ---------- */
   AMOHA.animA = function(els, mode, delay) {
     arr(els).forEach((el, i) => {
       if (!el.textContent.trim()) return;
@@ -284,7 +291,10 @@ window.AMOHA = window.AMOHA || {};
     const list = arr(els);
     if (!list.length) return;
     show(list);
-    const inner = list.map(e => e.firstElementChild).filter(Boolean);
+    const inner = list.map(e => {
+      const c = e.firstElementChild;
+      return c && c.tagName === 'PICTURE' ? c.querySelector('img') : c;
+    }).filter(Boolean);
     if (mode === 'reveal') {
       gsap.fromTo(list, {
         clipPath: 'polygon(100% 0%, 100% 0%, 101% 100%, 125% 100%)'
@@ -342,7 +352,9 @@ window.AMOHA = window.AMOHA || {};
     line: AMOHA.animLine,
     slide: AMOHA.animSlide
   };
-  /* ---------- scroll reveals ---------- */  const rowDelay = el => {
+
+  /* ---------- scroll reveals ---------- */
+  const rowDelay = el => {
     const grid = el.closest('[data-reveal-row]');
     if (!grid) return 0;
     const cell = [ ...grid.children ].find(c => c.contains(el));
@@ -383,7 +395,9 @@ window.AMOHA = window.AMOHA || {};
       });
     });
   };
-  /* ---------- theme sensors ---------- */  AMOHA.initThemes = function(only) {
+
+  /* ---------- theme sensors ---------- */
+  AMOHA.initThemes = function(only) {
     const uis = only ? arr(only) : arr('[data-theme]');
     if (!uis.length) return;
     const classes = [ 't-light', 't-brand', 't-color', 't-dark' ];
@@ -464,7 +478,9 @@ window.AMOHA = window.AMOHA || {};
       });
     });
   };
-  /* ---------- chapter snap ---------- */  AMOHA.initSnap = function() {
+
+  /* ---------- chapter snap ---------- */
+  AMOHA.initSnap = function() {
     if (AMOHA.isMobile() || AMOHA.reduced || !AMOHA.lenis) return;
     const els = arr('[data-snap]');
     if (!els.length) return;
@@ -491,7 +507,9 @@ window.AMOHA = window.AMOHA || {};
       }, 40);
     });
   };
-  /* ---------- scroll bar ---------- */  AMOHA.initScrollbar = function() {
+
+  /* ---------- scroll bar ---------- */
+  AMOHA.initScrollbar = function() {
     const bar = document.querySelector('[data-bar]');
     if (!bar || AMOHA.isMobile()) return;
     const thumb = bar.querySelector('[data-bar-thumb]'), label = bar.querySelector('[data-bar-label]');
@@ -528,7 +546,9 @@ window.AMOHA = window.AMOHA || {};
     thumb.addEventListener('pointerup', stop);
     thumb.addEventListener('pointercancel', stop);
   };
-  /* ---------- logo ring ---------- */  AMOHA.initLogoRing = function() {
+
+  /* ---------- logo ring ---------- */
+  AMOHA.initLogoRing = function() {
     const ring = document.querySelector('[data-logo-ring]');
     if (!ring || AMOHA.reduced) return;
     const state = {
@@ -580,7 +600,9 @@ window.AMOHA = window.AMOHA || {};
       });
     }
   };
-  /* ---------- preloader ---------- */  AMOHA.initPreloader = function(onReady) {
+
+  /* ---------- preloader ---------- */
+  AMOHA.initPreloader = function(onReady) {
     const pre = document.querySelector('[data-preloader]');
     if (pre && pre.hasAttribute('data-loader')) {
       AMOHA.initLoader(pre, onReady);
@@ -718,11 +740,9 @@ window.AMOHA = window.AMOHA || {};
       });
     }, '<').add(ready, '<20%');
   };
-  /* ---------- page transition: the layers wipe ----------
-     Adapted from "Layers Animation with Clip-path" (assets/library/components/awwwards-300/
-     Page Transitions/3), the same mechanic that drives the facts rows. Three panels wipe up to
-     cover the page you are leaving; the page you arrive on lifts them off the top instead of
-     playing the door intro a second time. */  AMOHA.initPageTransition = function() {
+
+  /* ---------- page transition: the layers wipe ---------- */
+  AMOHA.initPageTransition = function() {
     const pt = document.querySelector('[data-pt]');
     if (!pt) return;
     const layers = arr(pt.querySelectorAll('.pt__layer'));
@@ -794,6 +814,8 @@ window.AMOHA = window.AMOHA || {};
       setTimeout(go, 1500);
     });
   };
+
+  /* ---------- loader ---------- */
   let revealedDone;
   AMOHA.revealed = new Promise(r => {
     revealedDone = r;
@@ -938,7 +960,9 @@ window.AMOHA = window.AMOHA || {};
     Promise.all([ left(AMOHA.reduced ? 300 : 2100), picture, built ]).then(() => setTimeout(leave, 200));
     setTimeout(leave, 9e3);
   };
-  /* ---------- cookie card ---------- */  AMOHA.initCookies = function() {
+
+  /* ---------- cookie card ---------- */
+  AMOHA.initCookies = function() {
     const box = document.querySelector('[data-cookies]');
     if (!box) return;
     let saved = null;

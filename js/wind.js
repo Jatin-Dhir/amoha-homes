@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — bougainvillea sprays: video playback and breeze
+ * Amoha Group website
+ * Bougainvillea sprays: video playback and breeze
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 (function(AMOHA) {
@@ -45,16 +46,16 @@
       right: [ -1, 0 ]
     }[best];
   }
-  /* ---------- video sprays ---------- */  AMOHA.initFlowerVideos = function() {
+
+  /* ---------- video sprays ---------- */
+  AMOHA.initFlowerVideos = function() {
     const done = Promise.resolve();
-    if (AMOHA.reduced || AMOHA.lite) return done;
+    if (AMOHA.reduced || AMOHA.lite || AMOHA.isMobile()) return done;
     const clipFails = [];
     let judged = false;
-    const probe = document.createElement('video');
     const webkit = /apple/i.test(navigator.vendor || '');
-    const kind = webkit ? 'mov' : probe.canPlayType('video/webm; codecs="vp9"') ? 'webm' : null;
-    if (!kind) return done;
-    const srcOf = wrap => kind === 'mov' ? wrap.dataset.video.replace(/\.webm$/, '.mov') : wrap.dataset.video;
+    if (webkit || !document.createElement('video').canPlayType('video/webm; codecs="vp9"')) return done;
+    const srcOf = wrap => wrap.dataset.video;
     const wraps = arr('.flower[data-video]');
     if (!wraps.length) return done;
     wraps.forEach(wrap => wrap.classList.add('is-video'));
@@ -86,7 +87,7 @@
       v.disablePictureInPicture = true;
       const s = document.createElement('source');
       s.src = src;
-      s.type = kind === 'mov' ? 'video/mp4' : 'video/webm';
+      s.type = 'video/webm';
       v.appendChild(s);
       let failed = false;
       const fail = () => {

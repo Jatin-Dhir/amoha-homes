@@ -1,5 +1,6 @@
 /*!
- * Amoha Group website — falling petals
+ * Amoha Group website
+ * Falling petals
  * Designed and developed by Jatin Dhir <jatindhir.dev@gmail.com>
  */
 (function() {
@@ -73,7 +74,9 @@
   };
   let raf = 0, timer = 0, last = 0, lastScroll = window.scrollY, clock = 0;
   const rand = (a, b) => a + Math.random() * (b - a);
-  /* ---------- the pointer's trail ---------- */  const spawn = (x, y) => {
+
+  /* ---------- the pointer's trail ---------- */
+  const spawn = (x, y) => {
     const p = take();
     p.kind = 0;
     p.layer = 1;
@@ -92,7 +95,9 @@
     p.t = 0;
     p.life = rand(1.9, 3.1);
   };
-  /* ---------- the sprays ---------- */  const pinkOf = {};
+
+  /* ---------- the sprays ---------- */
+  const pinkOf = {};
   const sample = img => {
     const src = img.currentSrc || img.src;
     if (pinkOf[src] || !img.naturalWidth) return pinkOf[src] || null;
@@ -205,7 +210,9 @@
     }
     return soonest;
   };
-  /* ---------- one loop for both ---------- */  const frame = now => {
+
+  /* ---------- one loop for both ---------- */
+  const frame = now => {
     raf = 0;
     const dt = Math.min(1 / 30, (now - last) / 1e3 || 0);
     last = now;
