@@ -74,6 +74,10 @@
 }
 
 /* ---------- utilities ---------- */
+.img.is-top {
+  object-position: 50% 0;
+}
+
 picture {
   display: contents;
 }
